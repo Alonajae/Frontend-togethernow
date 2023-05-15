@@ -4,6 +4,8 @@ import {
   Platform,
   StyleSheet,
   Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { login } from '../reducers/user';
@@ -32,6 +34,17 @@ export default function HomeScreen() {
 
   return (
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.container}>
+            {step === 'landing' && (
+              <View style={styles.container}>
+                <Text style={styles.title}>Together Now</Text>
+                <TouchableOpacity style={styles.button} onPress={handlePressSignin}>
+                  <Text style={styles.textButton}>Sign in</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.button} onPress={handlePressSignup}>
+                  <Text style={styles.textButton}>Sign up</Text>
+                </TouchableOpacity>
+              </View>
+            )}
             {step === 'signup1' && <SignUp step={handlePressSignup2} signup2={state2} />}    {/* signup2={state2} is a prop step={handlePressSignup2} is a prop  --> nous permet */}
             {step === 'signup2' && <SignUp step={handlePressSignup2} signup2={state2}/>}  {/* signup2={state2} is a prop step={handlePressSignup2} is a prop */}
             {step === 'signin' && <Signin step={handlePressSignin} />}  {/* step={handlePressSignin} is a prop */}
