@@ -1,6 +1,5 @@
 import { useState } from "react";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
+import { TextField, Button } from "react-native-paper";
 import { useDispatch } from "react-redux";
 import { View, Text, TouchableOpacity, TextInput } from "react-native";
 import { register } from '../reducers/user';
