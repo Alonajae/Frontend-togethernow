@@ -5,9 +5,10 @@ import {
   StyleSheet,
   Text,
 } from 'react-native';
-// import { NavigationProp, ParamListBase } from '@react-navigation/native';
-import { useState } from 'react';
-// import { useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { login } from '../reducers/user';
+import Signin from '../components/accueil/Connexion';
+import SignUp from '../components/accueil/Inscription';
 
 
 
