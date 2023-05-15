@@ -8,7 +8,6 @@ import {
   View,
 } from 'react-native';
 import { useDispatch } from 'react-redux';
-import { login } from '../reducers/user';
 import Signin from '../components/accueil/Signin';
 import SignUp from  '../components/accueil/Register';
 
@@ -43,9 +42,9 @@ export default function HomeScreen() {
                 </TouchableOpacity>
               </View>
             )}
-            {step === 'signup1' && <SignUp step={handlePressSignup2} signup2={state2} />}    {/* signup2={state2} is a prop step={handlePressSignup2} is a prop  --> nous permet */}
-            {step === 'signup2' && <SignUp step={handlePressSignup2} signup2={state2}/>}  {/* signup2={state2} is a prop step={handlePressSignup2} is a prop */}
-            {step === 'signin' && <Signin step={handlePressSignin} />}  {/* step={handlePressSignin} is a prop */}
+            {step === 'signup1' && <SignUp step={handlePressSignup2} signup2={state2} />}
+            {step === 'signup2' && <SignUp step={handlePressSignup2} signup2={state2}/>}
+            {step === 'signin' && <Signin step={handlePressSignin} />}
       </KeyboardAvoidingView>
   );
 }

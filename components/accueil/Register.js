@@ -1,9 +1,7 @@
 import { useState } from "react";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
+import { TextField, Button } from "react-native-paper";
 import { useDispatch } from "react-redux";
 import { View, Text, TouchableOpacity, TextInput } from "react-native";
-import { register } from '../reducers/user';
 import { NavigationContainer } from '@react-navigation/native';
 // import { redirect } from 'react-router-dom';
 // import Accueil from './Accueil';
@@ -81,7 +79,7 @@ export default function Signup (props, { navigation }) {
           type="text"
           placeholder="firstname"
           id="signUpfirstname"
-          onChange={(e) => setFirstname(e.target.value)}
+          onChange={(e) => setFirstname(e)}
           value={firstname}
           color="secondary"
           sx={{ backgroundColor: "#FDF6D0", borderColor: "#ECC4D0" }}
@@ -91,7 +89,7 @@ export default function Signup (props, { navigation }) {
           type="text"
           placeholder="Lastname"
           id="lastname"
-          onChange={(e) => setLastname(e.target.value)}
+          onChange={(e) => setLastname(e)}
           value={lastname}
           color="secondary"
           sx={{ backgroundColor: "#FDF6D0", borderColor: "#ECC4D0" }}
@@ -100,7 +98,7 @@ export default function Signup (props, { navigation }) {
           type="text"
           placeholder="gender"
           id="gender"
-          onChange={(e) => setGender(e.target.value)}
+          onChange={(e) => setGender(e)}
           value={gender}
           color="secondary"
           sx={{ backgroundColor: "#FDF6D0", borderColor: "#ECC4D0" }}
@@ -109,7 +107,7 @@ export default function Signup (props, { navigation }) {
           type="text"
           placeholder="age"
           id="age"
-          onChange={(e) => setAge(e.target.value)}
+          onChange={(e) => setAge(e)}
           value={age}
           color="secondary"
           sx={{ backgroundColor: "#FDF6D0", borderColor: "#ECC4D0" }}
@@ -118,7 +116,7 @@ export default function Signup (props, { navigation }) {
           type="text"
           placeholder="emergencyContact"
           id="emergencyContact"
-          onChange={(e) => setEmergencyContact(e.target.value)}
+          onChange={(e) => setEmergencyContact(e)}
           value={emergencyContact}
           color="secondary"
           sx={{ backgroundColor: "#FDF6D0", borderColor: "#ECC4D0" }}
@@ -155,7 +153,7 @@ export default function Signup (props, { navigation }) {
           type="text"
           placeholder="email"
           id="signUpEmail"
-          onChange={(e) => setsignUpEmail(e.target.value)}
+          onChange={(e) => setsignUpEmail(e)}
           value={signUpEmail}
           color="secondary"
           sx={{ backgroundColor: "#FDF6D0", borderColor: "#ECC4D0" }}
@@ -165,7 +163,7 @@ export default function Signup (props, { navigation }) {
           type="password"
           placeholder="Password"
           id="signUpPassword"
-          onChange={(e) => setSignUpPassword(e.target.value)}
+          onChange={(e) => setSignUpPassword(e)}
           value={signUpPassword}
           color="secondary"
           sx={{ backgroundColor: "#FDF6D0", borderColor: "#ECC4D0" }}
@@ -174,7 +172,7 @@ export default function Signup (props, { navigation }) {
           type="confirmPassword"
           placeholder="Confirm Password"
           id="confirmPassword"
-          onChange={(e) => setConfirmPassword(e.target.value)}
+          onChange={(e) => setConfirmPassword(e)}
           value={confirmPassword}
           color="secondary"
           sx={{ backgroundColor: "#FDF6D0", borderColor: "#ECC4D0" }}
