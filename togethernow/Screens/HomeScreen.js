@@ -45,9 +45,9 @@ export default function HomeScreen() {
                 </TouchableOpacity>
               </View>
             )}
-            {step === 'signup1' && <SignUp step={handlePressSignup2} signup2={state2} />}    {/* signup2={state2} is a prop step={handlePressSignup2} is a prop  --> nous permet */}
-            {step === 'signup2' && <SignUp step={handlePressSignup2} signup2={state2}/>}  {/* signup2={state2} is a prop step={handlePressSignup2} is a prop */}
-            {step === 'signin' && <Signin step={handlePressSignin} />}  {/* step={handlePressSignin} is a prop */}
+            {step === 'signup1' && <SignUp step={handlePressSignup2} signup2={state2} />}    
+            {step === 'signup2' && <SignUp step={handlePressSignup2} signup2={state2}/>} 
+            {step === 'signin' && <Signin step={handlePressSignin} />}
       </KeyboardAvoidingView>
   );
 }
@@ -70,7 +70,6 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 40,
     fontWeight: '600',
-    fontFamily: 'Futura',
     marginBottom: 20
   },
   inputContainer: {
@@ -94,7 +93,6 @@ const styles = StyleSheet.create({
     borderRadius: 1,
   },
   textButton: {
-    fontFamily: 'Futura',
     height: 30,
     fontWeight: '600',
     fontSize: 16,
