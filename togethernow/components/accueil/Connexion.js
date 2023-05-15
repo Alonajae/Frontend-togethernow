@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { login } from '../reducers/user';
 
-export default function HomeScreen() {
+export default function Signin() {
 
 const dispatch = useDispatch();
 
