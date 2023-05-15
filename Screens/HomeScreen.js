@@ -5,6 +5,7 @@ import {
   StyleSheet,
   Text,
   View,
+  Image,
 } from 'react-native';
 // import { useDispatch } from 'react-redux';
 import Signin from '../components/accueil/Signin';
@@ -33,6 +34,7 @@ export default function HomeScreen() {
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.container}>
             {step === 'landing' && (
               <View style={styles.container}>
+                {/* <Image source={require('../assets/EllipseHome.png')} style={styles.imageEllipse} /> */}
                 <Text style={styles.title}>Together Now</Text>
                 <Button style={styles.button} onPress={handlePressSignin} mode="contained">
                   <Text style={styles.textButton}>Sign in</Text>
@@ -40,6 +42,7 @@ export default function HomeScreen() {
                 <Button style={styles.buttonUp} onPress={handlePressSignup} mode="outlined">
                   <Text style={styles.textButton}>Sign up</Text>
                 </Button>
+                <Image source={require('../assets/CityLogo.png')} style={styles.imageCity} />
               </View>
             )}
             {step === 'signup1' && <SignUp step={handlePressSignup2} signup2={state2} />}
@@ -66,9 +69,12 @@ const styles = StyleSheet.create({
   },
   title: {
     fontFamily: 'Jomhuria',
-    fontSize: 180,
+    fontSize: 150,
     fontWeight: '600',
-    marginBottom: 20
+    marginBottom: 20,
+    lineHeight: 110,
+    textAlign: 'center',
+    marginBottom: 50,
   },
   inputContainer: {
     width: '85%',
@@ -108,4 +114,15 @@ const styles = StyleSheet.create({
     marginTop: 10,
     color: 'red',
   },
+  imageCity: {  
+    position: "absolute",
+    bottom: 0,
+    width: 400,
+    height: 400,
+    margin: 0,
+    padding: 0,
+  },
+  // imageEllipse: {
+// backgroundColor: 'pink',
+  // },
 });
