@@ -1,6 +1,6 @@
 import { View } from "react-native";
 
-export default function MyprofileScreen() {
+export default function MyProfileScreen() {
     return <View></View>;
 }
 
