@@ -8,7 +8,7 @@ import { NavigationContainer } from '@react-navigation/native';
 // import { redirect } from 'react-router-dom';
 // import Accueil from './Accueil';
 
-function Signup(props, { navigation }) {
+export default function Signup (props, { navigation }) {
   const dispatch = useDispatch();
 
   const [signUpEmail, setsignUpEmail] = useState("");
@@ -214,7 +214,3 @@ function Signup(props, { navigation }) {
     </View>
   );
 }
-
-export default Signup;
-
-// test
