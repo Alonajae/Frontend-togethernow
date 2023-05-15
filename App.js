@@ -4,8 +4,8 @@ import HomeScreen from './Screens/HomeScreen';
 import IdentityScreen from './Screens/IdentityScreen';
 import MapScreen from './Screens/MapScreen';
 import TakePictureScreen from './Screens/TakePictureScreen';
+import MyProfileScreen from './Screens/MyProfileScreen';
 import { Provider } from 'react-redux';
-import { PersistConfig } from 'redux-persist';
 import { PersistGate } from 'redux-persist/integration/react';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
@@ -20,34 +20,33 @@ const persistConfig = {
 const persistedReducer = persistReducer(persistConfig, user);
 
 const reducers = combineReducers({
-  reducer: persistedReducer,
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false }),
+  user: persistedReducer,
 });
 
 const store = configureStore({
-  reducer: reducers,
+  reducer: persistReducer(persistConfig, reducers),
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false }),
 });
 
 const persistor = persistStore(store);
 
 const Stack = createNativeStackNavigator();
 
-
-
-
 export default function App() {
   return (
-    <View style={styles.container}>
-      <HomeScreen />
-    </View>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <NavigationContainer>
+          <Stack.Navigator screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="Home" component={HomeScreen} />
+            <Stack.Screen name="Map" component={MapScreen} />
+            <Stack.Screen name="TakePicture" component={TakePictureScreen} />
+            <Stack.Screen name="Identity" component={IdentityScreen} />
+            <Stack.Screen name="MyProfile" component={MyProfileScreen} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </PersistGate>
+    </Provider>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

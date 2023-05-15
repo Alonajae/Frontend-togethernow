@@ -2,12 +2,12 @@ import { View, Text } from 'react-native'
 import React from 'react'
 import { Camera, CameraType } from 'expo-camera'
 import { useState, useEffect, useRef } from 'react'
-import { TouchableOpacity } from 'react-native-gesture-handler'
+import { TouchableOpacity } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
 import { useDispatch } from 'react-redux'
 import { useIsFocused } from '@react-navigation/native'
 
-export default function TakePicture ({ navigation }) {
+export default function TakePictureScreen ({ navigation }) {
 
   // camera states
   const [hasPermission, setHasPermission] = useState(null)

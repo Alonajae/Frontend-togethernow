@@ -1,10 +1,5 @@
-import { View, Text } from 'react-native'
-import React from 'react'
+import { View } from "react-native";
 
-export default function MyprofileScreen() {
-  return (
-    <View>
-      <Text>MyprofileScreen</Text>
-    </View>
-  )
+export default function MyProfileScreen() {
+    return <View></View>;
 }
