@@ -32,9 +32,9 @@ export default function HomeScreen() {
 
   return (
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.container}>
-            {step === 'signup1' && <SignUp step={handlePressSignup2} signup2={state2} />}
-            {step === 'signup2' && <SignUp step={handlePressSignup2} signup2={state2}/>}
-            {step === 'signin' && <Signin step={handlePressSignin} />}
+            {step === 'signup1' && <SignUp step={handlePressSignup2} signup2={state2} />}    {/* signup2={state2} is a prop step={handlePressSignup2} is a prop  --> nous permet */}
+            {step === 'signup2' && <SignUp step={handlePressSignup2} signup2={state2}/>}  {/* signup2={state2} is a prop step={handlePressSignup2} is a prop */}
+            {step === 'signin' && <Signin step={handlePressSignin} />}  {/* step={handlePressSignin} is a prop */}
       </KeyboardAvoidingView>
   );
 }
