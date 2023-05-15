@@ -1,25 +1,20 @@
 import React, { useState } from 'react';
 import {
-  Image,
-  ImageBackground,
   KeyboardAvoidingView,
   Platform,
   StyleSheet,
   Text,
-  TextInput,
-  TouchableOpacity,
-  View,
 } from 'react-native';
-import { MapScreen} from './MapScreen';
 // import { NavigationProp, ParamListBase } from '@react-navigation/native';
 import { useState } from 'react';
-import { Signup } from './Signup';
+// import { useDispatch } from 'react-redux';
 
 
 
 export default function HomeScreen() {
 
   const [step, setStep] = useState('landing');
+  const [state2, setState2] = useState(false);
 
   const handlePressSignin = () => {
     setStep('signin');
@@ -31,14 +26,14 @@ export default function HomeScreen() {
 
   const handlePressSignup2 = () => {
     setStep('signup2');
+    setState2(true );
   };
 
   return (
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.container}>
-       {step === 'landing' &&  <Text style={styles.title}>Together Now</Text>}
-             {/* {step === 'signup1' && <SignUp step={handlePressSignup2}  />} */}
-            {/* {step === 'signup2' && <SignUp props signup2 />} */}
-            {/* {step === 'signin' && <Signin />} */}
+            {step === 'signup1' && <SignUp step={handlePressSignup2} signup2={state2} />}
+            {step === 'signup2' && <SignUp step={handlePressSignup2} signup2={state2}/>}
+            {step === 'signin' && <Signin step={handlePressSignin} />}
       </KeyboardAvoidingView>
   );
 }
