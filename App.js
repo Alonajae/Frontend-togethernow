@@ -6,7 +6,6 @@ import MapScreen from './Screens/MapScreen';
 import TakePictureScreen from './Screens/TakePictureScreen';
 import MyProfileScreen from './Screens/MyProfileScreen';
 import { Provider } from 'react-redux';
-import { PersistConfig } from 'redux-persist';
 import { PersistGate } from 'redux-persist/integration/react';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
@@ -21,12 +20,12 @@ const persistConfig = {
 const persistedReducer = persistReducer(persistConfig, user);
 
 const reducers = combineReducers({
-  reducer: persistedReducer,
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false }),
+  user: persistedReducer,
 });
 
 const store = configureStore({
-  reducer: reducers,
+  reducer: persistReducer(persistConfig, reducers),
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false }),
 });
 
 const persistor = persistStore(store);

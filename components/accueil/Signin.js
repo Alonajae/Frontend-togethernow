@@ -1,7 +1,6 @@
 import { View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView, ImageBackground } from 'react-native';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { login } from '../reducers/user';
 
 export default function Signin() {
 
