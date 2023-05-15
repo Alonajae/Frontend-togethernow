@@ -6,10 +6,11 @@ import {
   Text,
   View,
   Image,
+  ImageBackground
 } from 'react-native';
 // import { useDispatch } from 'react-redux';
 import Signin from '../components/accueil/Signin';
-import SignUp from  '../components/accueil/Register';
+import SignUp from '../components/accueil/Register';
 import { Button } from 'react-native-paper';
 
 export default function HomeScreen() {
@@ -27,28 +28,29 @@ export default function HomeScreen() {
 
   const handlePressSignup2 = () => {
     setStep('signup2');
-    setState2(true );
+    setState2(true);
   };
 
   return (
-      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.container}>
-            {step === 'landing' && (
-              <View style={styles.container}>
-                {/* <Image source={require('../assets/EllipseHome.png')} style={styles.imageEllipse} /> */}
-                <Text style={styles.title}>Together Now</Text>
-                <Button style={styles.button} onPress={handlePressSignin} mode="contained">
-                  <Text style={styles.textButton}>Sign in</Text>
-                </Button>
-                <Button style={styles.buttonUp} onPress={handlePressSignup} mode="outlined">
-                  <Text style={styles.textButton}>Sign up</Text>
-                </Button>
-                <Image source={require('../assets/CityLogo.png')} style={styles.imageCity} />
-              </View>
-            )}
-            {step === 'signup1' && <SignUp step={handlePressSignup2} signup2={state2} />}
-            {step === 'signup2' && <SignUp step={handlePressSignup2} signup2={state2}/>}
-            {step === 'signin' && <Signin step={handlePressSignin} />}
-      </KeyboardAvoidingView>
+    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.container}>
+      <ImageBackground source={require('../assets/CityLogo.png')} style={styles.imageCity}>
+        {step === 'landing' && (
+          <View style={styles.container}>
+            {/* <Image source={require('../assets/EllipseHome.png')} style={styles.imageEllipse} /> */}
+            <Text style={styles.title}>Together Now</Text>
+            <Button style={styles.button} onPress={handlePressSignin} mode="contained">
+              <Text style={styles.textButton}>Sign in</Text>
+            </Button>
+            <Button style={styles.buttonUp} onPress={handlePressSignup} mode="outlined">
+              <Text style={styles.textButton}>Sign up</Text>
+            </Button>
+          </View>
+        )}
+        {step === 'signup1' && <SignUp step={handlePressSignup2} signup2={state2} />}
+        {step === 'signup2' && <SignUp step={handlePressSignup2} signup2={state2} />}
+        {step === 'signin' && <Signin step={handlePressSignin} />}
+      </ImageBackground>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -114,7 +116,8 @@ const styles = StyleSheet.create({
     marginTop: 10,
     color: 'red',
   },
-  imageCity: {  
+  imageCity: {
+    flex: 1,
     position: "absolute",
     bottom: 0,
     width: 400,
@@ -123,6 +126,6 @@ const styles = StyleSheet.create({
     padding: 0,
   },
   // imageEllipse: {
-// backgroundColor: 'pink',
+  // backgroundColor: 'pink',
   // },
 });
