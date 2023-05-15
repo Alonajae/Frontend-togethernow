@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { TextField, Button } from "react-native-paper";
 import { useDispatch } from "react-redux";
-import { View, Text, TouchableOpacity, TextInput } from "react-native";
+import { View, Text, TouchableOpacity, TextInput, StyleSheet } from "react-native";
 import { NavigationContainer } from '@react-navigation/native';
 // import { redirect } from 'react-router-dom';
 // import Accueil from './Accueil';
@@ -212,3 +212,34 @@ export default function Signup (props, { navigation }) {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  registerContainer: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    height: "100vh",
+    backgroundColor: "#FDF6D0",
+  },
+  registerSection: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#FDF6D0",
+    width: 400,
+    height: 500,
+    borderRadius: 10,
+    boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.75)",
+  },
+  signupBtn: {
+    backgroundColor: "#F561E1",
+    color: "#ffffff",
+    fontSize: 18,
+    width: 200,
+    "&:hover": {
+      backgroundColor: "#B086AA",
+      cursor: "pointer",
+    },
+  },
+});

@@ -17,10 +17,9 @@ const persistConfig = {
   storage,
 };
 
-const persistedReducer = persistReducer(persistConfig, user);
 
 const reducers = combineReducers({
-  user: persistedReducer,
+  user,
 });
 
 const store = configureStore({
@@ -32,7 +31,22 @@ const persistor = persistStore(store);
 
 const Stack = createNativeStackNavigator();
 
+import { useCallback, useEffect, useState } from "react";
+import { useFonts } from "expo-font"; // import des polices
+import * as SplashScreen from "expo-splash-screen"; // import SplashScreen pour utiliser les polices avant le chargement de l'application
+
 export default function App() {
+
+  const [fontsLoaded] = useFonts({
+    Jomhuria: require("./assets/fonts/Jomhuria-Regular.ttf"), // Jomhuria
+    Inter: require("./assets/fonts/Inter-Regular.ttf"), // Inter
+  });
+
+  useEffect(() => {
+    async function prepare() {
+      await SplashScreen.preventAutoHideAsync();
+    }})
+
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
@@ -49,5 +63,3 @@ export default function App() {
     </Provider>
   );
 }
-
-//com 
