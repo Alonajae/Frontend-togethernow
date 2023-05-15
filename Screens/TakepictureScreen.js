@@ -7,7 +7,7 @@ import { Ionicons } from '@expo/vector-icons'
 import { useDispatch } from 'react-redux'
 import { useIsFocused } from '@react-navigation/native'
 
-export default function TakePicture ({ navigation }) {
+export default function TakePictureScreen ({ navigation }) {
 
   // camera states
   const [hasPermission, setHasPermission] = useState(null)
