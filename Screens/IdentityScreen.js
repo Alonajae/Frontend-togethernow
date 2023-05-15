@@ -7,7 +7,7 @@ import { Ionicons } from '@expo/vector-icons'
 import { useDispatch } from 'react-redux'
 import { useIsFocused } from '@react-navigation/native'
 
-export default function IdentityScan ({ navigation }) {
+export default function IdentityScreen ({ navigation }) {
 
   // camera states
   const [hasPermission, setHasPermission] = useState(null)
