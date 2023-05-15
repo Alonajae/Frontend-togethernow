@@ -54,18 +54,6 @@ function Signup(props, { navigation }) {
 
   const handleRegister2 = () => {
     // Store the user data in the redux store
-    fetch("http://localhost:3000/signup", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        // email: signUpEmail,
-      }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        // Handle the response data here
-        console.log("Response data:", data);
-        if (data.result) {
           // If the email is available for registration, store the user data in the redux store
           dispatch(
             register({
@@ -79,12 +67,6 @@ function Signup(props, { navigation }) {
           // redirect to the next step of the registration;
         //   props.step();
          navigation.navigate('IdentityScan');
-
-        } else {
-          // If the registration failed, show an error message
-          alert(data.message);
-        }
-      });
   };
 
   let button;
