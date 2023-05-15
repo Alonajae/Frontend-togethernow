@@ -4,6 +4,7 @@ import HomeScreen from './Screens/HomeScreen';
 import IdentityScreen from './Screens/IdentityScreen';
 import MapScreen from './Screens/MapScreen';
 import TakePictureScreen from './Screens/TakePictureScreen';
+import MyProfileScreen from './Screens/MyProfileScreen';
 import { Provider } from 'react-redux';
 import { PersistConfig } from 'redux-persist';
 import { PersistGate } from 'redux-persist/integration/react';
@@ -42,6 +43,7 @@ export default function App() {
             <Stack.Screen name="Map" component={MapScreen} />
             <Stack.Screen name="TakePicture" component={TakePictureScreen} />
             <Stack.Screen name="Identity" component={IdentityScreen} />
+            <Stack.Screen name="MyProfile" component={MyProfileScreen} />
           </Stack.Navigator>
         </NavigationContainer>
       </PersistGate>
