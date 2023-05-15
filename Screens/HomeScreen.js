@@ -37,7 +37,7 @@ export default function HomeScreen() {
                 <TouchableOpacity style={styles.button} onPress={handlePressSignin}>
                   <Text style={styles.textButton}>Sign in</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.button} onPress={handlePressSignup}>
+                <TouchableOpacity style={styles.buttonUp} onPress={handlePressSignup}>
                   <Text style={styles.textButton}>Sign up</Text>
                 </TouchableOpacity>
               </View>
@@ -65,9 +65,9 @@ const styles = StyleSheet.create({
     height: '50%',
   },
   title: {
-    fontSize: 40,
+    fontFamily: 'Jomhuria',
+    fontSize: 120,
     fontWeight: '600',
-    fontFamily: 'Futura',
     marginBottom: 20
   },
   inputContainer: {
@@ -87,7 +87,15 @@ const styles = StyleSheet.create({
     paddingTop: 8,
     width: '100%',
     marginTop: 30,
-    backgroundColor: '#fbe29c',
+    backgroundColor: '#9E15B8',
+    // borderRadius: 1,
+  },
+  buttonUp: {
+    alignItems: 'center',
+    paddingTop: 8,
+    width: '100%',
+    marginTop: 30,
+    borderColor: '#9E15B8',
     borderRadius: 1,
   },
   textButton: {
