@@ -4,12 +4,12 @@ import {
   Platform,
   StyleSheet,
   Text,
-  TouchableOpacity,
   View,
 } from 'react-native';
-import { useDispatch } from 'react-redux';
+// import { useDispatch } from 'react-redux';
 import Signin from '../components/accueil/Signin';
 import SignUp from  '../components/accueil/Register';
+import { Button } from 'react-native-paper';
 
 export default function HomeScreen() {
 
@@ -34,12 +34,12 @@ export default function HomeScreen() {
             {step === 'landing' && (
               <View style={styles.container}>
                 <Text style={styles.title}>Together Now</Text>
-                <TouchableOpacity style={styles.button} onPress={handlePressSignin}>
+                <Button style={styles.button} onPress={handlePressSignin} mode="contained">
                   <Text style={styles.textButton}>Sign in</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.buttonUp} onPress={handlePressSignup}>
+                </Button>
+                <Button style={styles.buttonUp} onPress={handlePressSignup} mode="outlined">
                   <Text style={styles.textButton}>Sign up</Text>
-                </TouchableOpacity>
+                </Button>
               </View>
             )}
             {step === 'signup1' && <SignUp step={handlePressSignup2} signup2={state2} />}
@@ -84,25 +84,25 @@ const styles = StyleSheet.create({
   },
   button: {
     alignItems: 'center',
-    paddingTop: 8,
-    width: '100%',
-    marginTop: 30,
     backgroundColor: '#9E15B8',
+    width: 227,
+    height: 44,
     // borderRadius: 1,
   },
   buttonUp: {
     alignItems: 'center',
-    paddingTop: 8,
-    width: '100%',
-    marginTop: 30,
+    borderWidth: 1,
     borderColor: '#9E15B8',
-    borderRadius: 1,
+    width: 227,
+    height: 44,
+    marginTop: 30,
+
   },
   textButton: {
-    fontFamily: 'Futura',
-    height: 30,
+    fontFamily: 'Inter',
+
     fontWeight: '600',
-    fontSize: 16,
+
   },
   error: {
     marginTop: 10,
