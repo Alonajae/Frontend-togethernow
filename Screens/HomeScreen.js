@@ -50,6 +50,7 @@ export default function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
+
   background: {
     width: '100%',
     height: '100%',
@@ -58,7 +59,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'rgba(	255, 190, 11, 0.4)'
   },
   image: {
     width: '100%',
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontFamily: 'Jomhuria',
-    fontSize: 120,
+    fontSize: 180,
     fontWeight: '600',
     marginBottom: 20
   },
