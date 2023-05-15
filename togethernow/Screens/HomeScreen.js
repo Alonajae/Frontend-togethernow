@@ -7,8 +7,8 @@ import {
 } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { login } from '../reducers/user';
-import Signin from '../components/accueil/Connexion';
-import SignUp from '../components/accueil/Inscription';
+import Signin from '../components/accueil/Signin';
+import SignUp from  '../components/accueil/Register';
 
 
 
