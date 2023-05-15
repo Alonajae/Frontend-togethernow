@@ -1,4 +1,4 @@
-import { View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView, ImageBackground } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView, ImageBackground, StyleSheet } from 'react-native';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 
@@ -81,4 +81,30 @@ const handleSubmit = () => {
   </KeyboardAvoidingView>
   )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+  },
+  registerContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  connectionSection: {
+    width: '80%',
+  },
+  button: {
+    backgroundColor: '#FFD700',
+    padding: 10,
+    borderRadius: 10,
+    marginTop: 10,
+    alignItems: 'center',
+  },
+  textButton: {
+    color: '#fff',
+    fontSize: 20,
+  },
+});
 
