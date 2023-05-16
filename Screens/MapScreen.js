@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import { View, TextInput, Button, StyleSheet, SafeAreaView } from 'react-native';
+import { View, TextInput, Button, StyleSheet, SafeAreaView, TouchableOpacity } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import user from '../reducers/user';
+import { pink100 } from 'react-native-paper/lib/typescript/src/styles/themes/v2/colors';
 
 export default function MapScreen() {
 
@@ -92,14 +94,25 @@ export default function MapScreen() {
   return (
     <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <SafeAreaView >
-      <MapView>
-         {buddiesIsSelected ? buddiesMarkers : null}
+      <MapView mapType="hybrid" style={styles.map} >
+        
+          {buddiesIsSelected ? buddiesMarkers : null}
           {safePlacesIsSelected ? safePlacesMarkers : null}
           {alertsIsSelected ? alertsMarkers : null}
+          
           <View style={styles.buttonsContainer}>
-            <Button title="Buddies" onPress={()=> !buddiesIsSelected} />
-            <Button title="Safe Places" onPress={()=>!safePlacesIsSelected} />
-            <Button title="Alerts" onPress={()=>!alertsIsSelected } />
+            <TouchableOpacity title="Buddies" onPress={()=> !buddiesIsSelected} />
+            <FontAwesome name={user} size={25} color={pink100} /> 
+            </TouchableOpacity>
+           
+            <TouchableOpacity title="Safe Places" onPress={()=> !safePlacesIsSelected} />
+            <FontAwesome name={house-circle-check} size={25} color={pink100} />
+            </TouchableOpacity>
+
+            <TouchableOpacity title="Alerts" onPress={()=> !alertsIsSelected} /> 
+            <FontAwesome name={triangle-exclamation} size={25} color={pink100} />
+            </TouchableOpacity>
+
           </View>
                
       </MapView>
