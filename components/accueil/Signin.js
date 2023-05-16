@@ -36,7 +36,7 @@ export default function Signin() {
     if (signInEmail === '' || signInPassword === '') {
       setError("Please enter your email and password.");
       return;
-    } else if (!EMAIL_REGEX.test(email)) {
+    } else if (!EMAIL_REGEX.test(signInEmail)) {
       // Check if the email is valid
 
       setError("Please enter a valid email address.");
