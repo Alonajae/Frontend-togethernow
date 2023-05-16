@@ -11,6 +11,10 @@ import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import user from './reducers/user';
+import { useCallback, useEffect, useState } from "react";
+import { useFonts } from "expo-font"; // import des polices
+import * as SplashScreen from "expo-splash-screen"; // import SplashScreen pour utiliser les polices avant le chargement de l'application
+import { Provider as PaperProvider } from 'react-native-paper';
 
 const persistConfig = {
   key: 'TogetherNow',
@@ -30,10 +34,6 @@ const store = configureStore({
 const persistor = persistStore(store);
 
 const Stack = createNativeStackNavigator();
-
-import { useCallback, useEffect, useState } from "react";
-import { useFonts } from "expo-font"; // import des polices
-import * as SplashScreen from "expo-splash-screen"; // import SplashScreen pour utiliser les polices avant le chargement de l'application
 
 export default function App() {
 
@@ -56,18 +56,21 @@ export default function App() {
   }
 
   return (
+
     <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <NavigationContainer>
-          <Stack.Navigator screenOptions={{ headerShown: false }}>
-            <Stack.Screen name="Home" component={HomeScreen} />
-            <Stack.Screen name="Map" component={MapScreen} />
-            <Stack.Screen name="TakePicture" component={TakePictureScreen} />
-            <Stack.Screen name="Identity" component={IdentityScreen} />
-            <Stack.Screen name="MyProfile" component={MyProfileScreen} />
-          </Stack.Navigator>
-        </NavigationContainer>
-      </PersistGate>
-    </Provider>
+      <PaperProvider>
+        <PersistGate loading={null} persistor={persistor}>
+          <NavigationContainer>
+            <Stack.Navigator screenOptions={{ headerShown: false }}>
+              <Stack.Screen name="Home" component={HomeScreen} />
+              <Stack.Screen name="Map" component={MapScreen} />
+              <Stack.Screen name="TakePicture" component={TakePictureScreen} />
+              <Stack.Screen name="Identity" component={IdentityScreen} />
+              <Stack.Screen name="MyProfile" component={MyProfileScreen} />
+            </Stack.Navigator>
+          </NavigationContainer>
+        </PersistGate>
+      </PaperProvider >
+    </Provider >
   );
 }

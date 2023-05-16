@@ -14,48 +14,52 @@ import Signin from '../components/accueil/Signin';
 import Signup from '../components/accueil/SignUp';
 import { Button } from 'react-native-paper';
 
-export default function HomeScreen({navigation}) {
+export default function HomeScreen({ navigation }) {
 
   const [step, setStep] = useState('landing');
   const [state2, setState2] = useState(false);
 
+  // Get to the connection step
   const handlePressSignin = () => {
     setStep('signin');
   };
 
+  // Get to the first step of the registration
   const handlePressSignup = () => {
     setStep('signup1');
   };
 
+  // Get to the second step of the registration
   const handlePressSignup2 = () => {
     setStep('signup2');
     setState2(true);
   };
 
+  // Get to the camera screen
   const handleNavigation = () => {
     navigation.navigate('TakePicture');
   };
 
   return (
-      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.container}>
-      <Image source={require('../assets/EllipseHome.png')} style={styles.ellipse} />
-        {step === 'landing' && (
-            <View style={styles.landingpage}>
+    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.container}>
+      {step === 'landing' && (
+        <View style={styles.landingpage}>
+          <Image source={require('../assets/EllipseHome.png')} style={styles.ellipse} />
 
-            <Text style={styles.title}>Together Now</Text>
-            <Button style={styles.button} onPress={handlePressSignin} mode="contained">
-              <Text style={styles.textButton}>Sign in</Text>
-            </Button>
-            <Button style={styles.buttonUp} onPress={handlePressSignup} mode="outlined">
-              <Text style={styles.textButton}>Sign up</Text>
-            </Button>
-          </View>
-        )}
-        {step === 'signup1' && <Signup step={handlePressSignup2} signup2={state2} />}
-        {step === 'signup2' && <Signup step={handleNavigation} signup2={state2} />}
-        {step === 'signin' && <Signin step={handlePressSignin} />}
-        <Image source={require('../assets/CityLogo.png')} style={styles.background} />
-      </KeyboardAvoidingView>
+          <Text style={styles.title}>Together Now</Text>
+          <Button style={styles.button} onPress={handlePressSignin} mode="contained">
+            <Text style={styles.textButton}>Sign in</Text>
+          </Button>
+          <Button style={styles.buttonUp} onPress={handlePressSignup} mode="outlined">
+            <Text style={styles.textButtonUp}>Sign up</Text>
+          </Button>
+        </View>
+      )}
+      {step === 'signup1' && <Signup step={handlePressSignup2} signup2={state2} navigate={handleNavigation} />}
+      {step === 'signup2' && <Signup step={handlePressSignup2} signup2={state2} navigate={handleNavigation} />}
+      {step === 'signin' && <Signin step={handlePressSignin} />}
+      <Image source={require('../assets/CityLogo.png')} style={styles.background} />
+    </KeyboardAvoidingView>
 
   );
 }
@@ -71,26 +75,19 @@ const styles = StyleSheet.create({
   landingpage: {
     height: Dimensions.get('window').height,
     width: Dimensions.get('window').width,
-    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    borderWidth: 1,
-    borderColor: 'red',
-  }
-  ,
+  },
   container: {
-    height: Dimensions.get('window').height,
-    width: Dimensions.get('window').width,
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: '#ffffff',
   },
-  image: {
-    width: '100%',
-    height: '50%',
-  },
+
   title: {
     fontFamily: 'Jomhuria',
+    color: '#350040',
     fontSize: 150,
     fontWeight: '600',
     marginBottom: 20,
@@ -129,6 +126,12 @@ const styles = StyleSheet.create({
     fontFamily: 'Inter',
     fontWeight: '600',
   },
+
+  textButtonUp: {
+    fontFamily: 'Inter',
+    fontWeight: '600',
+    color: '#350040',
+  },
   error: {
     marginTop: 10,
     color: 'red',
@@ -137,9 +140,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     right: 0,
-    marginLeft: '40%',
-    height: '50%',
-    resizeMode: 'cover',
-
+    height: '65%',
+    width: '100%',
   },
 });

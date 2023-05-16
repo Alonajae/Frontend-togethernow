@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { TextInput, Button } from "react-native-paper";
+import { TextInput, Button, ProgressBar } from "react-native-paper";
 import { useDispatch } from "react-redux";
 import { View, Text, Dimensions, StyleSheet } from "react-native";
 // import { redirect } from 'react-router-dom';
@@ -79,103 +79,93 @@ export default function Signup(props) {
     // //   props.step();
 
     // navigation.navigate('IdentityScan');
-    props.step();
+    props.navigate();
   };
 
-  let button;
   let formulaire;
 
   if (props.signup2) {
     formulaire = (
-      <View>
-        <Text style={styles.title}>Create an account</Text>
+      <View style={styles.formulaire}>
         <TextInput
           style={styles.input}
           mode='outlined'
           type="text"
           activeOutlineColor="pink"
+          outlineColor="#9E15B8"
           label="Firstname"
           onChangeText={(e) => setFirstname(e)}
           value={firstname}
-          color="secondary"
+          // color="secondary"
         />
         <TextInput
           style={styles.input}
           mode='outlined'
           type="text"
           activeOutlineColor="pink"
+          outlineColor="#9E15B8"
           label="Lastname"
           onChangeText={(e) => setLastname(e)}
           value={lastname}
-          color="secondary"
+          // color="secondary"
         />
         <TextInput
           style={styles.input}
           mode='outlined'
           type="text"
           activeOutlineColor="pink"
+          outlineColor="#9E15B8"
           label="Gender"
           onChangeText={(e) => setGender(e)}
           value={gender}
-          color="secondary"
+          // color="secondary"
         />
         <TextInput
           style={styles.input}
           mode='outlined'
           type="number"
           activeOutlineColor="pink"
+          outlineColor="#9E15B8"
           label="Age"
           onChangeText={(e) => setAge(e)}
           value={age}
-          color="secondary"
+          // color="secondary"
         />
         <TextInput
           style={styles.input}
           mode='outlined'
           type="text"
           activeOutlineColor="pink"
+          outlineColor="#9E15B8"
           label="Emergency Contact"
           onChangeText={(e) => setEmergencyContact(e)}
           value={emergencyContact}
-          color="secondary"
+          // color="secondary"
         />
-      </View>
-    );
-    button = (
-      <Button
-        className={styles.signupBtn}
-        variant="contained"
-        sx={{
-          backgroundColor: "#F561E1",
-          color: "#ffffff",
-          fontSize: 18,
-          width: 200,
-          "&:hover": {
-            backgroundColor: "#B086AA",
-            cursor: "pointer",
-          },
-        }}
+              <Button
+        style={styles.signupBtn}
+        mode="outlined"
         onPress={() => {
           handleRegister2();
         }}
       >
-        Next
+        <Text style={styles.signupBtnText}> Next </Text>
       </Button>
+      <ProgressBar progress={0.3} color="green" style={styles.progressBar}/>
+      </View>
     );
   } else {
     formulaire = (
       <View style={styles.formulaire}>
-        <Text style={styles.title}>Create an account</Text>
         <TextInput
           style={styles.input}
           mode='outlined'
-          type="email"
           activeOutlineColor="pink"
+          outlineColor="#9E15B8"
           label="Email"
+          labelColor="yellow"
           onChangeText={(e) => setsignUpEmail(e)}
-          value={signUpEmail}
-          color="secondary"
-          sx={{ backgroundColor: "#FDF6D0", borderColor: "#ECC4D0" }}
+          value={signUpEmail}       
         />
 
         <TextInput
@@ -184,10 +174,11 @@ export default function Signup(props) {
           secureTextEntry={!passwordShown}
           right={<TextInput.Icon icon="eye" onPress={() => { setPasswordShown(!passwordShown) }} />}
           activeOutlineColor="pink"
+          outlineColor="#9E15B8"
           label="Password"
           onChangeText={(e) => setSignUpPassword(e)}
           value={signUpPassword}
-          color="secondary"
+          // color="secondary"
         />
         <TextInput
           style={styles.input}
@@ -195,97 +186,82 @@ export default function Signup(props) {
           secureTextEntry={!passwordShown2}
           right={<TextInput.Icon icon="eye" onPress={() => { setPasswordShown2(!passwordShown2) }} />}
           activeOutlineColor="pink"
+          outlineColor="#9E15B8"
           label="Confirm Password"
           onChangeText={(e) => setConfirmPassword(e)}
           value={confirmPassword}
-          color="secondary"
+          // color="secondary"
         />
-      </View>
-    );
-    button = (
-      <Button
-        className={styles.signupBtn}
-        variant="contained"
-        sx={{
-          backgroundColor: "#F561E1",
-          color: "#ffffff",
-          fontSize: 18,
-          width: 200,
-          "&:hover": {
-            backgroundColor: "#B086AA",
-            cursor: "pointer",
-          },
-        }}
+          <Button
+        style={styles.signupBtn}
+        mode="outlined"
         onPress={() => {
           handleRegister();
         }}
       >
-        Next
+        <Text style={styles.signupBtnText}> Next </Text>
       </Button>
+      <ProgressBar progress={0.3} color="green" style={styles.progressBar} />
+      </View>
     );
   }
 
   return (
     <View className={styles.registerContainer}>
-      <View className={styles.registerSection}>
+        <Text style={styles.title}>Create an account</Text>
         {formulaire}
-        {button}
-      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  registerContainer: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    height: "100vh",
-    backgroundColor: "#FDF6D0",
-  },
-  registerSection: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#FDF6D0",
-    width: 400,
-    height: 500,
-    borderRadius: 10,
-    boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.75)",
-  },
+
   signupBtn: {
-    backgroundColor: "#F561E1",
-    color: "#ffffff",
-    fontSize: 18,
-    width: 200,
-    "&:hover": {
-      backgroundColor: "#B086AA",
-      cursor: "pointer",
-    },
-  },
-  formulaire: {
-    display: "flex",
-    flexDirection: "column",
+    borderColor: "#9E15B8",
+    width: '80%',
     justifyContent: "center",
     alignItems: "center",
-    width: Dimensions.get("window").width * 0.8,
-    height: Dimensions.get("window").height * 0.6,
+    marginTop: '15%',
+  },
+  signupBtnText: {
+    color: "#9E15B8",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  registerContainer: {  
+    display: "flex",
+    flex: 1,
+  },
+  formulaire: { 
+    height: '100%',
+    alignItems: "center",
+    justifyContent: "center",
+    width: Dimensions.get("window").width * 1,
+    // height: Dimensions.get("window").height * 0.5,
     borderRadius: 10,
-    boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.75)",
+    borderWidth: 1,
   },
   input: {
-    width: 300,
-    height: 50,
+    width: '80%',
+    height: '8%',
     margin: 10,
-    borderRadius: 14,
-    fontSize: 18,
-    borderColor: "#ECC4D0",
+    fontSize: 16,
+    backgroundColor: "#ffffff",
   },
   title: {
-    fontSize: 30,
+    position: 'absolute',
+    alignSelf: 'center',
+    marginTop: '25%',
+    top: 0,
+    fontSize: 22,
     fontWeight: "bold",
-    color: "#F561E1",
-    margin: 10,
+    color: "#9E15B8",
+    // marginBottom: '50%',
   },
+  progressBar: {
+    width: '80%',
+    marginTop: 10,
+  }
+
+
 });
