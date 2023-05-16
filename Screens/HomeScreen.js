@@ -47,7 +47,7 @@ export default function HomeScreen({navigation}) {
               <Text style={styles.textButton}>Sign in</Text>
             </Button>
             <Button style={styles.buttonUp} onPress={handlePressSignup} mode="outlined">
-              <Text style={styles.textButton}>Sign up</Text>
+              <Text style={styles.textButtonUp}>Sign up</Text>
             </Button>
           </View>
         )}
@@ -74,8 +74,8 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    borderWidth: 1,
-    borderColor: 'red',
+    // borderWidth: 1,
+    // borderColor: 'red',
   }
   ,
   container: {
@@ -85,12 +85,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  image: {
-    width: '100%',
-    height: '50%',
-  },
+
   title: {
     fontFamily: 'Jomhuria',
+    color: '#350040',
     fontSize: 150,
     fontWeight: '600',
     marginBottom: 20,
@@ -129,6 +127,12 @@ const styles = StyleSheet.create({
     fontFamily: 'Inter',
     fontWeight: '600',
   },
+
+  textButtonUp: { 
+    fontFamily: 'Inter',
+    fontWeight: '600',
+    color: '#350040',
+  },
   error: {
     marginTop: 10,
     color: 'red',
@@ -137,9 +141,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     right: 0,
-    marginLeft: '40%',
-    height: '50%',
-    resizeMode: 'cover',
-
+    height: '65%',
+    width: '100%',
   },
 });
