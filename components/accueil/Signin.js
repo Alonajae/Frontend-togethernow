@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, KeyboardAvoidingView, ImageBackground, StyleSheet } from 'react-native';
+import { View, Text, KeyboardAvoidingView, StyleSheet, Dimensions } from 'react-native';
 import { Button, TextInput } from 'react-native-paper';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -54,7 +54,7 @@ export default function Signin() {
         if (data.result) {
 
           // If the registration was successful, update the user's infos in the Redux store
-          
+
           const infos = {
             email: signInEmail,
             token: data.user.token,
@@ -71,7 +71,7 @@ export default function Signin() {
           setSignInPassword('');
         }
         else {
-          
+
           // If the registration failed, show an error message
 
           setError(data.error);
@@ -83,8 +83,8 @@ export default function Signin() {
   return (
     <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <View style={styles.registerContainer}>
+        <Text style={styles.title}>Welcome Back</Text>
         <View style={styles.connectionSection}>
-          <Text>Sign-in</Text>
           <TextInput
             style={styles.input}
             label="Email"
@@ -101,13 +101,11 @@ export default function Signin() {
             onChangeText={(value) => setSignInPassword(value)}
             value={signInPassword}
           />
-          <TouchableOpacity title="Sign in" onPress={handleConnection} >
-          </TouchableOpacity>
-          <Button style={styles.button} onPress={handleConnection} mode="outlined">
-              <Text style={styles.textButton}>Sign up</Text>
-            </Button>
-          <Text>{error}</Text>
+          <Text style={styles.error}>{error}</Text>
         </View>
+        <Button style={styles.button} onPress={handleConnection} mode="outlined">
+          <Text style={styles.textButton}>Go</Text>
+        </Button>
       </View>
     </KeyboardAvoidingView>
   )
@@ -124,16 +122,37 @@ const styles = StyleSheet.create({
   },
   connectionSection: {
     width: '80%',
-  },
-  button: {
-    backgroundColor: '#FFD700',
-    padding: 10,
-    borderRadius: 10,
-    marginTop: 10,
+    height: '50%',
+    justifyContent: 'center',
     alignItems: 'center',
   },
+  button: {
+    backgroundColor: 'transparent',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 127,
+    height: 44,
+  },
   textButton: {
-    color: '#fff',
+    color: 'black',
+    fontSize: 20,
+  },
+  input: {
+    width: 300,
+    height: 50,
+    margin: 10,
+    borderRadius: 14,
+    fontSize: 18,
+    borderColor: "#ECC4D0",
+  },
+  title: {
+    fontSize: 30,
+    fontWeight: "bold",
+    color: "#F561E1",
+    margin: 10,
+  },
+  error: {
+    color: 'red',
     fontSize: 20,
   },
 });

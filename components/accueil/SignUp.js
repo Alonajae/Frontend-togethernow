@@ -97,7 +97,6 @@ export default function Signup(props, { navigation }) {
           onChangeText={(e) => setFirstname(e)}
           value={firstname}
           color="secondary"
-          sx={{ backgroundColor: "#FDF6D0", borderColor: "#ECC4D0" }}
         />
         <TextInput
           style={styles.input}
@@ -108,7 +107,6 @@ export default function Signup(props, { navigation }) {
           onChangeText={(e) => setLastname(e)}
           value={lastname}
           color="secondary"
-          sx={{ backgroundColor: "#FDF6D0", borderColor: "#ECC4D0" }}
         />
         <TextInput
           style={styles.input}
@@ -119,7 +117,6 @@ export default function Signup(props, { navigation }) {
           onChangeText={(e) => setGender(e)}
           value={gender}
           color="secondary"
-          sx={{ backgroundColor: "#FDF6D0", borderColor: "#ECC4D0" }}
         />
         <TextInput
           style={styles.input}
@@ -130,7 +127,6 @@ export default function Signup(props, { navigation }) {
           onChangeText={(e) => setAge(e)}
           value={age}
           color="secondary"
-          sx={{ backgroundColor: "#FDF6D0", borderColor: "#ECC4D0" }}
         />
         <TextInput
           style={styles.input}
@@ -141,7 +137,6 @@ export default function Signup(props, { navigation }) {
           onChangeText={(e) => setEmergencyContact(e)}
           value={emergencyContact}
           color="secondary"
-          sx={{ backgroundColor: "#FDF6D0", borderColor: "#ECC4D0" }}
         />
       </View>
     );
@@ -192,7 +187,6 @@ export default function Signup(props, { navigation }) {
           onChangeText={(e) => setSignUpPassword(e)}
           value={signUpPassword}
           color="secondary"
-          sx={{ backgroundColor: "#FDF6D0", borderColor: "#ECC4D0" }}
         />
         <TextInput
           style={styles.input}
@@ -204,7 +198,6 @@ export default function Signup(props, { navigation }) {
           onChangeText={(e) => setConfirmPassword(e)}
           value={confirmPassword}
           color="secondary"
-          sx={{ backgroundColor: "#FDF6D0", borderColor: "#ECC4D0" }}
         />
       </View>
     );
