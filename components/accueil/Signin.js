@@ -1,4 +1,4 @@
-import { View, Text, KeyboardAvoidingView, ImageBackground, StyleSheet, Dimensions } from 'react-native';
+import { View, Text, KeyboardAvoidingView, StyleSheet, Dimensions } from 'react-native';
 import { Button, TextInput } from 'react-native-paper';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
