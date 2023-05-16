@@ -2,6 +2,8 @@ import { View, Text, TouchableOpacity, KeyboardAvoidingView, ImageBackground, St
 import { Button, TextInput } from 'react-native-paper';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import {login} from '../../reducers/user'
+import { sign } from 'crypto';
 
 export default function Signin() {
 
@@ -9,14 +11,12 @@ export default function Signin() {
 
   //sign in = connexion & sign up = inscription
 
-
   const [signInEmail, setSignInEmail] = useState('');
   const [signInPassword, setSignInPassword] = useState('');
   const [passwordShown, setPasswordShown] = useState(false);
+  const [error, setError] = useState(null);
 
-
-  // const [email, setEmail] = useState('');
-  const [emailError, setEmailError] = useState(false);
+  const backendAdress = 'localhost:3000';
 
   const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
@@ -28,15 +28,25 @@ export default function Signin() {
     }
   };
 
-
   const handleConnection = () => {
-    fetch('http://localhost:3000/signin', {
+    // Check if the email and password are not empty
+    if (signInEmail === '' || signInPassword === '') {
+      setError("Please enter your email and password.");
+      return;
+    } else if (!EMAIL_REGEX.test(email)) {
+      // Check if the email is valid
+      setError("Please enter a valid email address.");
+      return;
+    }
+    // Send the connection data to the server
+    fetch(`http://${backendAdress}/signin`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email: signInEmail, password: signInPassword }),
     }).then(response => response.json())
       .then((data) => {
         if (data.result) {
+          // If the registration was successful, update the user's infos in the Redux store
           dispatch(login({ email: signInEmail, token: data.token }));
           setSignInEmail('');
           setSignInPassword('');
