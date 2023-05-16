@@ -6,7 +6,7 @@ import { NavigationContainer } from '@react-navigation/native';
 // import { redirect } from 'react-router-dom';
 // import Accueil from './Accueil';
 
-export default function Signup (props, { navigation }) {
+function Signup(props, { navigation }) {
   const dispatch = useDispatch();
 
   const [signUpEmail, setsignUpEmail] = useState("");
@@ -52,19 +52,19 @@ export default function Signup (props, { navigation }) {
 
   const handleRegister2 = () => {
     // Store the user data in the redux store
-          // If the email is available for registration, store the user data in the redux store
-          dispatch(
-            register({
-                gender: setGender,
-                age: setAge,
-                emergencyContact: setEmergencyContact,
-                firstname: setFirstname,
-                lastname: setLastname,
-            })
-          );
-          // redirect to the next step of the registration;
-        //   props.step();
-         navigation.navigate('IdentityScan');
+    // If the email is available for registration, store the user data in the redux store
+    dispatch(
+      register({
+        gender: setGender,
+        age: setAge,
+        emergencyContact: setEmergencyContact,
+        firstname: setFirstname,
+        lastname: setLastname,
+      })
+    );
+    // redirect to the next step of the registration;
+    //   props.step();
+    navigation.navigate('IdentityScan');
   };
 
   let button;
@@ -74,8 +74,8 @@ export default function Signup (props, { navigation }) {
     formulaire = (
       <View>
         <Text>Sign-up</Text>
-        <br></br>
         <TextField
+          type="text"
           activeOutlineColor="pink"
           label="Firstname"
           onChangeText={(e) => setFirstname(e)}
@@ -83,8 +83,8 @@ export default function Signup (props, { navigation }) {
           color="secondary"
           sx={{ backgroundColor: "#FDF6D0", borderColor: "#ECC4D0" }}
         />
-        <br></br>
         <TextField
+          type="text"
           activeOutlineColor="pink"
           label="Lastname"
           onChangeText={(e) => setLastname(e)}
@@ -93,6 +93,7 @@ export default function Signup (props, { navigation }) {
           sx={{ backgroundColor: "#FDF6D0", borderColor: "#ECC4D0" }}
         />
         <TextField
+          type="text"
           activeOutlineColor="pink"
           label="Gender"
           onChangeText={(e) => setGender(e)}
@@ -101,6 +102,7 @@ export default function Signup (props, { navigation }) {
           sx={{ backgroundColor: "#FDF6D0", borderColor: "#ECC4D0" }}
         />
         <TextField
+          type="number"
           activeOutlineColor="pink"
           label="Age"
           onChangeText={(e) => setAge(e)}
@@ -108,7 +110,8 @@ export default function Signup (props, { navigation }) {
           color="secondary"
           sx={{ backgroundColor: "#FDF6D0", borderColor: "#ECC4D0" }}
         />
-         <TextField
+        <TextField
+          type="text"
           activeOutlineColor="pink"
           label="Emergency Contact"
           onChangeText={(e) => setEmergencyContact(e)}
@@ -136,15 +139,14 @@ export default function Signup (props, { navigation }) {
           handleRegister();
         }}
       >
-        Next
       </Button>
     );
   } else {
     formulaire = (
       <View>
         <Text>Sign-up</Text>
-        <br></br>
         <TextField
+          type="text"
           activeOutlineColor="pink"
           label="Email"
           onChangeText={(e) => setsignUpEmail(e)}
@@ -152,8 +154,9 @@ export default function Signup (props, { navigation }) {
           color="secondary"
           sx={{ backgroundColor: "#FDF6D0", borderColor: "#ECC4D0" }}
         />
-        <br></br>
+
         <TextField
+          type="password"
           activeOutlineColor="pink"
           label="Password"
           onChangeText={(e) => setSignUpPassword(e)}
@@ -162,6 +165,7 @@ export default function Signup (props, { navigation }) {
           sx={{ backgroundColor: "#FDF6D0", borderColor: "#ECC4D0" }}
         />
         <TextField
+          type="password"
           activeOutlineColor="pink"
           label="Confirm Password"
           onChangeText={(e) => setConfirmPassword(e)}
@@ -189,7 +193,6 @@ export default function Signup (props, { navigation }) {
           handleRegister2();
         }}
       >
-        Next
       </Button>
     );
   }
@@ -198,7 +201,7 @@ export default function Signup (props, { navigation }) {
     <View className={styles.registerContainer}>
       <View className={styles.registerSection}>
         {formulaire}
-        <br></br>
+
         {button}
       </View>
     </View>
@@ -235,3 +238,5 @@ const styles = StyleSheet.create({
     },
   },
 });
+
+export default Signup;
