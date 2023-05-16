@@ -3,13 +3,14 @@ import React from 'react';
 import { Camera, CameraType } from 'expo-camera';
 import { useState, useEffect, useRef } from 'react';
 import { TouchableOpacity } from 'react-native';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useIsFocused } from '@react-navigation/native';
 import { registerStep5 } from '../reducers/user';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 export default function TakePictureScreen ({ navigation }) {
 
+  const user = useSelector((state) => state.user.value);
   // camera states
   const [hasPermission, setHasPermission] = useState(null)
   const [type, setType] = useState(CameraType.back);
@@ -43,7 +44,11 @@ export default function TakePictureScreen ({ navigation }) {
       body: formData,
     }).then((response) => response.json())
       .then((data) => {
-        data.result && dispatch(registerStep5(data.url));
+        if(user.photoId || user.profilePicture) {
+          dispatch(registerStep5({profilePicture: data.url }));
+        } else {
+          dispatch(registerStep3({photoId: data.url }));
+        }
       });
   }
 
