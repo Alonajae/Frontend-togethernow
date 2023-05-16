@@ -21,51 +21,64 @@ export default function Signup(props, { navigation }) {
 
   const handleRegister = () => {
     // Send the registration data to verify if the email is not already in use
-    fetch("http://localhost:3000/verify", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        email: signUpEmail,
-      }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        // Handle the response data here
-        console.log("Response data:", data);
-        if (data.result) {
-          // If the email is available for registration, store the user data in the redux store
-          dispatch(
-            register({
-              email: signUpEmail,
-              password: signUpPassword,
-              confirmPassword: confirmPassword,
-              token: data.token,
-            })
-          );
-          // redirect to the next step of the registration;
-          props.step();
-        } else {
-          // If the registration failed, show an error message
-          alert(data.message);
-        }
-      });
+
+    // fetch("http://localhost:3000/verify", {
+    //   method: "POST",
+    //   headers: { "Content-Type": "application/json" },
+    //   body: JSON.stringify({
+    //     email: signUpEmail,
+    //   }),
+    // })
+    //   .then((response) => response.json())
+    //   .then((data) => {
+
+    // Handle the response data here
+
+    // console.log("Response data:", data);
+    // if (data.result) {
+    // If the email is available for registration, store the user data in the redux store
+    // dispatch(
+    //   register({
+    //     email: signUpEmail,
+    //     password: signUpPassword,
+    //     confirmPassword: confirmPassword,
+    //     token: data.token,
+    //   })
+    // );
+
+    // redirect to the next step of the registration;
+
+    props.step();
+
+    // } else {
+
+    // If the registration failed, show an error message
+
+    //     alert(data.message);
+    //   }
+    // });
   };
 
   const handleRegister2 = () => {
     // Store the user data in the redux store
+
     // If the email is available for registration, store the user data in the redux store
-    dispatch(
-      register({
-        gender: setGender,
-        age: setAge,
-        emergencyContact: setEmergencyContact,
-        firstname: setFirstname,
-        lastname: setLastname,
-      })
-    );
-    // redirect to the next step of the registration;
-    //   props.step();
-    navigation.navigate('IdentityScan');
+
+    // dispatch(
+    //   register({
+    //     gender: setGender,
+    //     age: setAge,
+    //     emergencyContact: setEmergencyContact,
+    //     firstname: setFirstname,
+    //     lastname: setLastname,
+    //   })
+    // );
+
+    // // redirect to the next step of the registration;
+
+    // //   props.step();
+    
+    // navigation.navigate('IdentityScan');
   };
 
   let button;
@@ -74,8 +87,9 @@ export default function Signup(props, { navigation }) {
   if (props.signup2) {
     formulaire = (
       <View>
-        <Text>Sign-up</Text>
+        <Text style={styles.title}>Create an account</Text>
         <TextInput
+          style={styles.input}
           mode='outlined'
           type="text"
           activeOutlineColor="pink"
@@ -86,6 +100,7 @@ export default function Signup(props, { navigation }) {
           sx={{ backgroundColor: "#FDF6D0", borderColor: "#ECC4D0" }}
         />
         <TextInput
+          style={styles.input}
           mode='outlined'
           type="text"
           activeOutlineColor="pink"
@@ -96,6 +111,7 @@ export default function Signup(props, { navigation }) {
           sx={{ backgroundColor: "#FDF6D0", borderColor: "#ECC4D0" }}
         />
         <TextInput
+          style={styles.input}
           mode='outlined'
           type="text"
           activeOutlineColor="pink"
@@ -106,6 +122,7 @@ export default function Signup(props, { navigation }) {
           sx={{ backgroundColor: "#FDF6D0", borderColor: "#ECC4D0" }}
         />
         <TextInput
+          style={styles.input}
           mode='outlined'
           type="number"
           activeOutlineColor="pink"
@@ -116,6 +133,7 @@ export default function Signup(props, { navigation }) {
           sx={{ backgroundColor: "#FDF6D0", borderColor: "#ECC4D0" }}
         />
         <TextInput
+          style={styles.input}
           mode='outlined'
           type="text"
           activeOutlineColor="pink"
@@ -142,7 +160,7 @@ export default function Signup(props, { navigation }) {
           },
         }}
         onPress={() => {
-          handleRegister();
+          handleRegister2();
         }}
       >
         Next
@@ -150,9 +168,10 @@ export default function Signup(props, { navigation }) {
     );
   } else {
     formulaire = (
-      <View>
-        <Text>Sign-up</Text>
+      <View style={styles.formulaire}>
+        <Text style={styles.title}>Create an account</Text>
         <TextInput
+          style={styles.input}
           mode='outlined'
           type="email"
           activeOutlineColor="pink"
@@ -164,6 +183,7 @@ export default function Signup(props, { navigation }) {
         />
 
         <TextInput
+          style={styles.input}
           mode='outlined'
           secureTextEntry={passwordShown}
           right={<TextInput.Icon icon="eye" onPress={() => { setPasswordShown(!passwordShown) }} />}
@@ -175,6 +195,7 @@ export default function Signup(props, { navigation }) {
           sx={{ backgroundColor: "#FDF6D0", borderColor: "#ECC4D0" }}
         />
         <TextInput
+          style={styles.input}
           mode='outlined'
           secureTextEntry={passwordShown2}
           right={<TextInput.Icon icon="eye" onPress={() => { setPasswordShown2(!passwordShown2) }} />}
@@ -202,7 +223,7 @@ export default function Signup(props, { navigation }) {
           },
         }}
         onPress={() => {
-          handleRegister2();
+          handleRegister();
         }}
       >
         Next
@@ -248,5 +269,29 @@ const styles = StyleSheet.create({
       backgroundColor: "#B086AA",
       cursor: "pointer",
     },
+  },
+  formulaire: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    width: Dimensions.get("window").width * 0.8,
+    height: Dimensions.get("window").height * 0.6,
+    borderRadius: 10,
+    boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.75)",
+  },
+  input: {
+    width: 300,
+    height: 50,
+    margin: 10,
+    borderRadius: 14,
+    fontSize: 18,
+    borderColor: "#ECC4D0",
+  },
+  title: {
+    fontSize: 30,
+    fontWeight: "bold",
+    color: "#F561E1",
+    margin: 10,
   },
 });
