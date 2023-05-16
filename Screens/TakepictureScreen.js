@@ -1,4 +1,4 @@
-import { View, Text } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import React from 'react';
 import { Camera, CameraType } from 'expo-camera';
 import { useState, useEffect, useRef } from 'react';
@@ -38,7 +38,7 @@ export default function TakePictureScreen ({ navigation }) {
       type: 'image/jpeg',
     });
 
-    fetch('http://localhost:3000//upload', {
+    fetch('http://localhost:3000/upload', {
       method: 'POST',
       body: formData,
     }).then((response) => response.json())
@@ -55,7 +55,7 @@ export default function TakePictureScreen ({ navigation }) {
   return (
     <Camera type={type} flashMode={flashMode} ref={(ref) => cameraRef = ref} style={styles.camera}>
       
-      <View style={styles.buttonsContainer}>
+      <View style={styles.buttons}>
         <TouchableOpacity
           onPress={() => setType(type === CameraType.back ? CameraType.front : CameraType.back)}
           style={styles.button}>
@@ -69,7 +69,7 @@ export default function TakePictureScreen ({ navigation }) {
          </TouchableOpacity>
       </View>
 
-      <View style={styles.snapContainer}>
+      <View style={styles.snapButton}>
         <TouchableOpacity onPress={() => cameraRef && takePicture()}>
         <FontAwesome name='circle-thin' size={95} color='#ffffff' />
         </TouchableOpacity>
@@ -79,6 +79,34 @@ export default function TakePictureScreen ({ navigation }) {
   )
 }
 
+const styles = StyleSheet.create({
+  camera: {
+    flex: 1,
+  },
+  buttons: {
+    flex: 0.1,
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    justifyContent: 'space-between',
+    paddingTop: 20,
+    paddingLeft: 20,
+    paddingRight: 20,
+  },
+  button: {
+    width: 44,
+    height: 44,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.2)',
+    borderRadius: 50,
+  },
+  snapButton: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    paddingBottom: 25,
+  },
+});
 
   // // take the picture
   // const takePicture = async () => {
