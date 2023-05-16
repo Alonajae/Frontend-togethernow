@@ -19,19 +19,23 @@ export default function HomeScreen({navigation}) {
   const [step, setStep] = useState('landing');
   const [state2, setState2] = useState(false);
 
+  // Get to the connection step
   const handlePressSignin = () => {
     setStep('signin');
   };
 
+  // Get to the first step of the registration
   const handlePressSignup = () => {
     setStep('signup1');
   };
 
+  // Get to the second step of the registration
   const handlePressSignup2 = () => {
     setStep('signup2');
     setState2(true);
   };
 
+  // Get to the camera screen
   const handleNavigation = () => {
     navigation.navigate('TakePicture');
   };
