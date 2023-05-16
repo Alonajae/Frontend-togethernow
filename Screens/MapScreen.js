@@ -102,15 +102,15 @@ export default function MapScreen() {
           
           <View style={styles.buttonsContainer}>
             <TouchableOpacity title="Buddies" onPress={()=> !buddiesIsSelected} />
-            <FontAwesome name={user} size={25} color={pink100} /> 
+            <FontAwesome name='user' size={25} color={pink100} /> 
             </TouchableOpacity>
            
             <TouchableOpacity title="Safe Places" onPress={()=> !safePlacesIsSelected} />
-            <FontAwesome name={house-circle-check} size={25} color={pink100} />
+            <FontAwesome name='house-circle-check' size={25} color={pink100} />
             </TouchableOpacity>
 
             <TouchableOpacity title="Alerts" onPress={()=> !alertsIsSelected} /> 
-            <FontAwesome name={triangle-exclamation} size={25} color={pink100} />
+            <FontAwesome name='triangle-exclamation' size={25} color={pink100} />
             </TouchableOpacity>
 
           </View>
