@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { View, TextInput, Button, StyleSheet } from 'react-native';
+import { View, TextInput, Button, StyleSheet, SafeAreaView } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 export default function MapScreen() {
 
@@ -23,7 +24,6 @@ export default function MapScreen() {
       }
     })();
   })
-
 
   const handleSearch = () => {
     setSearch(!search);
@@ -51,13 +51,17 @@ export default function MapScreen() {
 
   return (
     <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-   
-    <View style={styles.buttonsContainer}>
-      <Button title="Buddies" onPress={handleBuddies} />
-      <Button title="Safe Places" onPress={handleSafePlaces} />
-      <Button title="Alerts" onPress={handleAlerts} />
-    </View>
-    
+      <SafeAreaView >
+      <MapView>
+         
+          <View style={styles.buttonsContainer}>
+            <Button title="Buddies" onPress={handleBuddies} />
+            <Button title="Safe Places" onPress={handleSafePlaces} />
+            <Button title="Alerts" onPress={handleAlerts} />
+          </View>
+               
+      </MapView>
+      </SafeAreaView>
     </KeyboardAvoidingView>
   );
 }}
