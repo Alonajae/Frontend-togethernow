@@ -1,7 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeScreen from './Screens/HomeScreen';
-import IdentityScreen from './Screens/IdentityScreen';
+import SpeechRecognitionScreen from './Screens/IdentityScreen';
 import MapScreen from './Screens/MapScreen';
 import TakePictureScreen from './Screens/TakePictureScreen';
 import MyProfileScreen from './Screens/MyProfileScreen';
@@ -63,7 +63,7 @@ export default function App() {
               <Stack.Screen name="Home" component={HomeScreen} />
               <Stack.Screen name="Map" component={MapScreen} />
               <Stack.Screen name="TakePicture" component={TakePictureScreen} />
-              <Stack.Screen name="Identity" component={IdentityScreen} />
+              <Stack.Screen name="Identity" component={SpeechRecognitionScreen} />
               <Stack.Screen name="MyProfile" component={MyProfileScreen} />
             </Stack.Navigator>
           </NavigationContainer>
