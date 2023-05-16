@@ -11,6 +11,9 @@ import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import user from './reducers/user';
+import { useCallback, useEffect, useState } from "react";
+import { useFonts } from "expo-font"; // import des polices
+import * as SplashScreen from "expo-splash-screen"; // import SplashScreen pour utiliser les polices avant le chargement de l'application
 
 const persistConfig = {
   key: 'TogetherNow',
@@ -30,10 +33,6 @@ const store = configureStore({
 const persistor = persistStore(store);
 
 const Stack = createNativeStackNavigator();
-
-import { useCallback, useEffect, useState } from "react";
-import { useFonts } from "expo-font"; // import des polices
-import * as SplashScreen from "expo-splash-screen"; // import SplashScreen pour utiliser les polices avant le chargement de l'application
 
 export default function App() {
 
