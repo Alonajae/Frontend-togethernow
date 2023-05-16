@@ -14,7 +14,7 @@ import Signin from '../components/accueil/Signin';
 import Signup from '../components/accueil/SignUp';
 import { Button } from 'react-native-paper';
 
-export default function HomeScreen({navigation}) {
+export default function HomeScreen({ navigation }) {
 
   const [step, setStep] = useState('landing');
   const [state2, setState2] = useState(false);
@@ -41,25 +41,25 @@ export default function HomeScreen({navigation}) {
   };
 
   return (
-      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.container}>
-      <Image source={require('../assets/EllipseHome.png')} style={styles.ellipse} />
-        {step === 'landing' && (
-            <View style={styles.landingpage}>
+    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.container}>
+      {step === 'landing' && (
+        <View style={styles.landingpage}>
+          <Image source={require('../assets/EllipseHome.png')} style={styles.ellipse} />
 
-            <Text style={styles.title}>Together Now</Text>
-            <Button style={styles.button} onPress={handlePressSignin} mode="contained">
-              <Text style={styles.textButton}>Sign in</Text>
-            </Button>
-            <Button style={styles.buttonUp} onPress={handlePressSignup} mode="outlined">
-              <Text style={styles.textButtonUp}>Sign up</Text>
-            </Button>
-          </View>
-        )}
-        {step === 'signup1' && <Signup step={handlePressSignup2} signup2={state2} navigate={handleNavigation} />}
-        {step === 'signup2' && <Signup step={handlePressSignup2} signup2={state2} navigate={handleNavigation} />}
-        {step === 'signin' && <Signin step={handlePressSignin} />}
-        <Image source={require('../assets/CityLogo.png')} style={styles.background} />
-      </KeyboardAvoidingView>
+          <Text style={styles.title}>Together Now</Text>
+          <Button style={styles.button} onPress={handlePressSignin} mode="contained">
+            <Text style={styles.textButton}>Sign in</Text>
+          </Button>
+          <Button style={styles.buttonUp} onPress={handlePressSignup} mode="outlined">
+            <Text style={styles.textButtonUp}>Sign up</Text>
+          </Button>
+        </View>
+      )}
+      {step === 'signup1' && <Signup step={handlePressSignup2} signup2={state2} navigate={handleNavigation} />}
+      {step === 'signup2' && <Signup step={handlePressSignup2} signup2={state2} navigate={handleNavigation} />}
+      {step === 'signin' && <Signin step={handlePressSignin} />}
+      <Image source={require('../assets/CityLogo.png')} style={styles.background} />
+    </KeyboardAvoidingView>
 
   );
 }
@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
 
-  textButtonUp: { 
+  textButtonUp: {
     fontFamily: 'Inter',
     fontWeight: '600',
     color: '#350040',
