@@ -10,6 +10,8 @@ export default function Signup(props, { navigation }) {
 
   const [signUpEmail, setsignUpEmail] = useState("");
   const [signUpPassword, setSignUpPassword] = useState("");
+  const [passwordShown, setPasswordShown] = useState(true);
+  const [passwordShown2, setPasswordShown2] = useState(true);
   const [confirmPassword, setConfirmPassword] = useState("");
   const [age, setAge] = useState("");
   const [gender, setGender] = useState("");
@@ -163,7 +165,8 @@ export default function Signup(props, { navigation }) {
 
         <TextInput
           mode='outlined'
-          type="password"
+          secureTextEntry={passwordShown}
+          right={<TextInput.Icon icon="eye" onPress={() => { setPasswordShown(!passwordShown) }} />}
           activeOutlineColor="pink"
           label="Password"
           onChangeText={(e) => setSignUpPassword(e)}
@@ -173,7 +176,8 @@ export default function Signup(props, { navigation }) {
         />
         <TextInput
           mode='outlined'
-          type="password"
+          secureTextEntry={passwordShown2}
+          right={<TextInput.Icon icon="eye" onPress={() => { setPasswordShown2(!passwordShown2) }} />}
           activeOutlineColor="pink"
           label="Confirm Password"
           onChangeText={(e) => setConfirmPassword(e)}
