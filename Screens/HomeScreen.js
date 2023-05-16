@@ -75,16 +75,10 @@ const styles = StyleSheet.create({
   landingpage: {
     height: Dimensions.get('window').height,
     width: Dimensions.get('window').width,
-    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    // borderWidth: 1,
-    // borderColor: 'red',
-  }
-  ,
+  },
   container: {
-    height: Dimensions.get('window').height,
-    width: Dimensions.get('window').width,
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',

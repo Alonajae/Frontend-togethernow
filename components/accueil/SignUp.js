@@ -87,12 +87,13 @@ export default function Signup(props) {
 
   if (props.signup2) {
     formulaire = (
-      <View style={styles.formulaire2}>
+      <View style={styles.formulaire}>
         <TextInput
           style={styles.input}
           mode='outlined'
           type="text"
           activeOutlineColor="pink"
+          outlineColor="#9E15B8"
           label="Firstname"
           onChangeText={(e) => setFirstname(e)}
           value={firstname}
@@ -103,6 +104,7 @@ export default function Signup(props) {
           mode='outlined'
           type="text"
           activeOutlineColor="pink"
+          outlineColor="#9E15B8"
           label="Lastname"
           onChangeText={(e) => setLastname(e)}
           value={lastname}
@@ -113,6 +115,7 @@ export default function Signup(props) {
           mode='outlined'
           type="text"
           activeOutlineColor="pink"
+          outlineColor="#9E15B8"
           label="Gender"
           onChangeText={(e) => setGender(e)}
           value={gender}
@@ -123,6 +126,7 @@ export default function Signup(props) {
           mode='outlined'
           type="number"
           activeOutlineColor="pink"
+          outlineColor="#9E15B8"
           label="Age"
           onChangeText={(e) => setAge(e)}
           value={age}
@@ -133,6 +137,7 @@ export default function Signup(props) {
           mode='outlined'
           type="text"
           activeOutlineColor="pink"
+          outlineColor="#9E15B8"
           label="Emergency Contact"
           onChangeText={(e) => setEmergencyContact(e)}
           value={emergencyContact}
@@ -156,15 +161,11 @@ export default function Signup(props) {
           style={styles.input}
           mode='outlined'
           activeOutlineColor="pink"
+          outlineColor="#9E15B8"
           label="Email"
+          labelColor="yellow"
           onChangeText={(e) => setsignUpEmail(e)}
-          value={signUpEmail}
-          theme={{
-
-              borderColor: "#9E15B8", // Change border color here
-          }}
-
-          // color="#9E15B8"
+          value={signUpEmail}       
         />
 
         <TextInput
@@ -173,18 +174,10 @@ export default function Signup(props) {
           secureTextEntry={!passwordShown}
           right={<TextInput.Icon icon="eye" onPress={() => { setPasswordShown(!passwordShown) }} />}
           activeOutlineColor="pink"
+          outlineColor="#9E15B8"
           label="Password"
           onChangeText={(e) => setSignUpPassword(e)}
           value={signUpPassword}
-          theme={{
-            colors: {
-              placeholder: "#9E15B8", // Change placeholder color here
-              text: "black", // Change text color here
-              borderColor: "red", // Change border color here
-              selectionColor: "red", // Change selection color here
-            },
-          }}
-
           // color="secondary"
         />
         <TextInput
@@ -193,6 +186,7 @@ export default function Signup(props) {
           secureTextEntry={!passwordShown2}
           right={<TextInput.Icon icon="eye" onPress={() => { setPasswordShown2(!passwordShown2) }} />}
           activeOutlineColor="pink"
+          outlineColor="#9E15B8"
           label="Confirm Password"
           onChangeText={(e) => setConfirmPassword(e)}
           value={confirmPassword}
@@ -215,20 +209,13 @@ export default function Signup(props) {
   return (
     <View className={styles.registerContainer}>
         <Text style={styles.title}>Create an account</Text>
-      <View className={styles.registerSection}>
         {formulaire}
-      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  registerContainer: {
-    display: "flex",
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
+
   signupBtn: {
     borderColor: "#9E15B8",
     width: '80%',
@@ -241,31 +228,35 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
   },
-  formulaire: {
-    alignItems: "center",
-    width: Dimensions.get("window").width * 1,
-    height: Dimensions.get("window").height * 0.5,
-    borderRadius: 10,
+  registerContainer: {  
+    display: "flex",
+    flex: 1,
   },
-  formulaire2: {
+  formulaire: { 
+    height: '100%',
     alignItems: "center",
+    justifyContent: "center",
     width: Dimensions.get("window").width * 1,
-    height: Dimensions.get("window").height * 0.5,
+    // height: Dimensions.get("window").height * 0.5,
+    borderRadius: 10,
+    borderWidth: 1,
   },
   input: {
     width: '80%',
-    height: '15%',
+    height: '8%',
     margin: 10,
-    borderRadius: 14,
-    fontSize: 18,
-    borderColor: "#9E15B8",
+    fontSize: 16,
+    backgroundColor: "#ffffff",
   },
   title: {
+    position: 'absolute',
+    alignSelf: 'center',
+    marginTop: '25%',
+    top: 0,
     fontSize: 22,
     fontWeight: "bold",
     color: "#9E15B8",
-    marginTop: 10,
-    alignSelf: "center",
+    // marginBottom: '50%',
   },
 
 });
