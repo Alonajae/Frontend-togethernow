@@ -79,7 +79,7 @@ export default function Signup(props) {
     // //   props.step();
 
     // navigation.navigate('IdentityScan');
-    props.step();
+    props.navigate();
   };
 
   let button;
@@ -88,7 +88,6 @@ export default function Signup(props) {
   if (props.signup2) {
     formulaire = (
       <View>
-        <Text style={styles.title}>Create an account</Text>
         <TextInput
           style={styles.input}
           mode='outlined'
@@ -144,38 +143,25 @@ export default function Signup(props) {
     button = (
       <Button
         className={styles.signupBtn}
-        variant="contained"
-        sx={{
-          backgroundColor: "#F561E1",
-          color: "#ffffff",
-          fontSize: 18,
-          width: 200,
-          "&:hover": {
-            backgroundColor: "#B086AA",
-            cursor: "pointer",
-          },
-        }}
+        mode="contained"
         onPress={() => {
           handleRegister2();
         }}
       >
-        Next
+        <Text style={styles.signupBtnText}> Next </Text>
       </Button>
     );
   } else {
     formulaire = (
       <View style={styles.formulaire}>
-        <Text style={styles.title}>Create an account</Text>
         <TextInput
           style={styles.input}
           mode='outlined'
-          type="email"
           activeOutlineColor="pink"
           label="Email"
           onChangeText={(e) => setsignUpEmail(e)}
           value={signUpEmail}
           color="secondary"
-          sx={{ backgroundColor: "#FDF6D0", borderColor: "#ECC4D0" }}
         />
 
         <TextInput
@@ -205,28 +191,21 @@ export default function Signup(props) {
     button = (
       <Button
         className={styles.signupBtn}
-        variant="contained"
-        sx={{
-          backgroundColor: "#F561E1",
-          color: "#ffffff",
-          fontSize: 18,
-          width: 200,
-          "&:hover": {
-            backgroundColor: "#B086AA",
-            cursor: "pointer",
-          },
-        }}
+        mode="outlined"
         onPress={() => {
           handleRegister();
         }}
       >
-        Next
+        <Text style={styles.signupBtnText}> Next </Text>
       </Button>
     );
   }
 
   return (
     <View className={styles.registerContainer}>
+      <View className={styles.header}>
+        <Text style={styles.title}>Create an account</Text>
+      </View>
       <View className={styles.registerSection}>
         {formulaire}
         {button}
@@ -240,7 +219,8 @@ const styles = StyleSheet.create({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    height: "100vh",
+    height: Dimensions.get("window").height * 1,
+    width: Dimensions.get("window").width * 1,
     backgroundColor: "#FDF6D0",
   },
   registerSection: {
@@ -249,34 +229,38 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#FDF6D0",
-    width: 400,
-    height: 500,
+    width: Dimensions.get("window").width * 0.8,
+    height: Dimensions.get("window").height * 0.4,
     borderRadius: 10,
     boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.75)",
   },
   signupBtn: {
-    backgroundColor: "#F561E1",
-    color: "#ffffff",
-    fontSize: 18,
+    border: "black",
     width: 200,
-    "&:hover": {
-      backgroundColor: "#B086AA",
-      cursor: "pointer",
-    },
+    height: 50,
+    borderRadius: 10,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  signupBtnText: {
+    color: "black",
+    fontSize: 20,
+    fontWeight: "bold",
   },
   formulaire: {
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-    width: Dimensions.get("window").width * 0.8,
-    height: Dimensions.get("window").height * 0.6,
+    width: Dimensions.get("window").width * 1,
+    height: Dimensions.get("window").height * 0.5,
     borderRadius: 10,
     boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.75)",
   },
   input: {
-    width: 300,
-    height: 50,
+    width: Dimensions.get("window").width * 0.8,
+    height: Dimensions.get("window").height * 0.05,
     margin: 10,
     borderRadius: 14,
     fontSize: 18,
@@ -287,5 +271,14 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#F561E1",
     margin: 10,
+  },
+  header: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    width: Dimensions.get("window").width * 1,
+    height: Dimensions.get("window").height * 0.1,
+    borderRadius: 10,
+    boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.75)",
   },
 });
