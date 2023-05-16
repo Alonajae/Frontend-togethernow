@@ -18,7 +18,7 @@ export default function Signup(props) {
   const [emergencyContact, setEmergencyContact] = useState("");
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
-  const [progress, setProgress] = useState(0.5);
+  const [progress, setProgress] = useState(0.33);
 
   const handleRegister = () => {
     // Send the registration data to verify if the email is not already in use
