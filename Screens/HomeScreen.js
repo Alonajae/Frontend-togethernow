@@ -14,7 +14,7 @@ import Signin from '../components/accueil/Signin';
 import Signup from '../components/accueil/SignUp';
 import { Button } from 'react-native-paper';
 
-export default function HomeScreen() {
+export default function HomeScreen({navigation}) {
 
   const [step, setStep] = useState('landing');
   const [state2, setState2] = useState(false);
@@ -30,6 +30,10 @@ export default function HomeScreen() {
   const handlePressSignup2 = () => {
     setStep('signup2');
     setState2(true);
+  };
+
+  const handleNavigation = () => {
+    navigation.navigate('TakePicture');
   };
 
   return (
@@ -48,7 +52,7 @@ export default function HomeScreen() {
           </View>
         )}
         {step === 'signup1' && <Signup step={handlePressSignup2} signup2={state2} />}
-        {step === 'signup2' && <Signup step={handlePressSignup2} signup2={state2} />}
+        {step === 'signup2' && <Signup step={handleNavigation} signup2={state2} />}
         {step === 'signin' && <Signin step={handlePressSignin} />}
       </KeyboardAvoidingView>
     </ImageBackground>

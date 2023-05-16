@@ -5,7 +5,7 @@ import { View, Text, Dimensions, StyleSheet } from "react-native";
 // import { redirect } from 'react-router-dom';
 // import Accueil from './Accueil';
 
-export default function Signup(props, { navigation }) {
+export default function Signup(props) {
   const dispatch = useDispatch();
 
   const [signUpEmail, setsignUpEmail] = useState("");
@@ -79,6 +79,7 @@ export default function Signup(props, { navigation }) {
     // //   props.step();
 
     // navigation.navigate('IdentityScan');
+    props.step();
   };
 
   let button;
