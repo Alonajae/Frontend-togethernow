@@ -76,47 +76,42 @@ export default function Signup (props, { navigation }) {
         <Text>Sign-up</Text>
         <br></br>
         <TextField
-          type="text"
-          placeholder="firstname"
-          id="signUpfirstname"
-          onChange={(e) => setFirstname(e)}
+          activeOutlineColor="pink"
+          label="Firstname"
+          onChangeText={(e) => setFirstname(e)}
           value={firstname}
           color="secondary"
           sx={{ backgroundColor: "#FDF6D0", borderColor: "#ECC4D0" }}
         />
         <br></br>
         <TextField
-          type="text"
-          placeholder="Lastname"
-          id="lastname"
-          onChange={(e) => setLastname(e)}
+          activeOutlineColor="pink"
+          label="Lastname"
+          onChangeText={(e) => setLastname(e)}
           value={lastname}
           color="secondary"
           sx={{ backgroundColor: "#FDF6D0", borderColor: "#ECC4D0" }}
         />
         <TextField
-          type="text"
-          placeholder="gender"
-          id="gender"
-          onChange={(e) => setGender(e)}
+          activeOutlineColor="pink"
+          label="Gender"
+          onChangeText={(e) => setGender(e)}
           value={gender}
           color="secondary"
           sx={{ backgroundColor: "#FDF6D0", borderColor: "#ECC4D0" }}
         />
         <TextField
-          type="text"
-          placeholder="age"
-          id="age"
-          onChange={(e) => setAge(e)}
+          activeOutlineColor="pink"
+          label="Age"
+          onChangeText={(e) => setAge(e)}
           value={age}
           color="secondary"
           sx={{ backgroundColor: "#FDF6D0", borderColor: "#ECC4D0" }}
         />
          <TextField
-          type="text"
-          placeholder="emergencyContact"
-          id="emergencyContact"
-          onChange={(e) => setEmergencyContact(e)}
+          activeOutlineColor="pink"
+          label="Emergency Contact"
+          onChangeText={(e) => setEmergencyContact(e)}
           value={emergencyContact}
           color="secondary"
           sx={{ backgroundColor: "#FDF6D0", borderColor: "#ECC4D0" }}
@@ -150,29 +145,26 @@ export default function Signup (props, { navigation }) {
         <Text>Sign-up</Text>
         <br></br>
         <TextField
-          type="text"
-          placeholder="email"
-          id="signUpEmail"
-          onChange={(e) => setsignUpEmail(e)}
+          activeOutlineColor="pink"
+          label="Email"
+          onChangeText={(e) => setsignUpEmail(e)}
           value={signUpEmail}
           color="secondary"
           sx={{ backgroundColor: "#FDF6D0", borderColor: "#ECC4D0" }}
         />
         <br></br>
         <TextField
-          type="password"
-          placeholder="Password"
-          id="signUpPassword"
-          onChange={(e) => setSignUpPassword(e)}
+          activeOutlineColor="pink"
+          label="Password"
+          onChangeText={(e) => setSignUpPassword(e)}
           value={signUpPassword}
           color="secondary"
           sx={{ backgroundColor: "#FDF6D0", borderColor: "#ECC4D0" }}
         />
         <TextField
-          type="confirmPassword"
-          placeholder="Confirm Password"
-          id="confirmPassword"
-          onChange={(e) => setConfirmPassword(e)}
+          activeOutlineColor="pink"
+          label="Confirm Password"
+          onChangeText={(e) => setConfirmPassword(e)}
           value={confirmPassword}
           color="secondary"
           sx={{ backgroundColor: "#FDF6D0", borderColor: "#ECC4D0" }}
