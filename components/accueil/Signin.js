@@ -2,7 +2,7 @@ import { View, Text, TouchableOpacity, KeyboardAvoidingView, ImageBackground, St
 import { Button, TextInput } from 'react-native-paper';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import {login} from '../../reducers/user'
+import { login } from '../../reducers/user'
 import { sign } from 'crypto';
 
 export default function Signin() {
@@ -28,6 +28,7 @@ export default function Signin() {
     }
   };
 
+  // Function to handle the connection
   const handleConnection = () => {
     // Check if the email and password are not empty
     if (signInEmail === '' || signInPassword === '') {
@@ -47,21 +48,26 @@ export default function Signin() {
       .then((data) => {
         if (data.result) {
           // If the registration was successful, update the user's infos in the Redux store
-          dispatch(login({ email: signInEmail, token: data.token }));
+          const infos = {
+            email: signInEmail,
+            token: data.user.token,
+            firstname: data.user.firstname,
+            lastname: data.user.lastname,
+            age: data.user.age,
+            genre: data.user.genre,
+            emergencyContact: data.user.emergencyContact,
+            inscriptionDate: data.user.inscriptionDate,
+            profilePicture: data.user.profilePicture,
+          };
+          dispatch(login(infos));
           setSignInEmail('');
           setSignInPassword('');
         }
         else {
           // If the registration failed, show an error message
-          alert(data.message);
+          setError(data.error);
         }
       })
-      .catch((error) => {
-        // Handle any errors that occurred during the fetch request
-        console.error("Error occurred:", error);
-        // Show an error message to the user
-        alert("An error occurred while trying to register. Please try again later.");
-      });
   };
 
 
