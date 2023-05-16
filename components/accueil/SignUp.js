@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { TextInput, Button } from "react-native-paper";
+import { TextInput, Button, ProgressBar, MD3Colors } from "react-native-paper";
 import { useDispatch } from "react-redux";
 import { View, Text, Dimensions, StyleSheet } from "react-native";
 // import { redirect } from 'react-router-dom';
@@ -18,6 +18,7 @@ export default function Signup(props) {
   const [emergencyContact, setEmergencyContact] = useState("");
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
+  const [progress, setProgress] = useState(0.5);
 
   const handleRegister = () => {
     // Send the registration data to verify if the email is not already in use
@@ -84,6 +85,7 @@ export default function Signup(props) {
 
   let button;
   let formulaire;
+  let progressbar;
 
   if (props.signup2) {
     formulaire = (
