@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, KeyboardAvoidingView, ImageBackground, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, KeyboardAvoidingView, ImageBackground, StyleSheet, Dimensions } from 'react-native';
 import { Button, TextInput } from 'react-native-paper';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -84,7 +84,7 @@ export default function Signin() {
     <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <View style={styles.registerContainer}>
         <View style={styles.connectionSection}>
-          <Text>Sign-in</Text>
+          <Text style={styles.title}>Welcome Back</Text>
           <TextInput
             style={styles.input}
             label="Email"
@@ -126,15 +126,29 @@ const styles = StyleSheet.create({
     width: '80%',
   },
   button: {
-    backgroundColor: '#FFD700',
+    backgroundColor: 'transparent',
     padding: 10,
     borderRadius: 10,
     marginTop: 10,
     alignItems: 'center',
   },
   textButton: {
-    color: '#fff',
+    color: '#F561E1',
     fontSize: 20,
+  },
+  input: {
+    width: 300,
+    height: 50,
+    margin: 10,
+    borderRadius: 14,
+    fontSize: 18,
+    borderColor: "#ECC4D0",
+  },
+  title: {
+    fontSize: 30,
+    fontWeight: "bold",
+    color: "#F561E1",
+    margin: 10,
   },
 });
 
