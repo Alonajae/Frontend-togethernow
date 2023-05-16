@@ -87,7 +87,7 @@ export default function Signup(props) {
 
   if (props.signup2) {
     formulaire = (
-      <View>
+      <View style={styles.formulaire2}>
         <TextInput
           style={styles.input}
           mode='outlined'
@@ -96,7 +96,7 @@ export default function Signup(props) {
           label="Firstname"
           onChangeText={(e) => setFirstname(e)}
           value={firstname}
-          color="secondary"
+          // color="secondary"
         />
         <TextInput
           style={styles.input}
@@ -106,7 +106,7 @@ export default function Signup(props) {
           label="Lastname"
           onChangeText={(e) => setLastname(e)}
           value={lastname}
-          color="secondary"
+          // color="secondary"
         />
         <TextInput
           style={styles.input}
@@ -116,7 +116,7 @@ export default function Signup(props) {
           label="Gender"
           onChangeText={(e) => setGender(e)}
           value={gender}
-          color="secondary"
+          // color="secondary"
         />
         <TextInput
           style={styles.input}
@@ -126,7 +126,7 @@ export default function Signup(props) {
           label="Age"
           onChangeText={(e) => setAge(e)}
           value={age}
-          color="secondary"
+          // color="secondary"
         />
         <TextInput
           style={styles.input}
@@ -136,20 +136,18 @@ export default function Signup(props) {
           label="Emergency Contact"
           onChangeText={(e) => setEmergencyContact(e)}
           value={emergencyContact}
-          color="secondary"
+          // color="secondary"
         />
-      </View>
-    );
-    button = (
-      <Button
-        className={styles.signupBtn}
-        mode="contained"
+              <Button
+        style={styles.signupBtn}
+        mode="outlined"
         onPress={() => {
           handleRegister2();
         }}
       >
         <Text style={styles.signupBtnText}> Next </Text>
       </Button>
+      </View>
     );
   } else {
     formulaire = (
@@ -161,7 +159,12 @@ export default function Signup(props) {
           label="Email"
           onChangeText={(e) => setsignUpEmail(e)}
           value={signUpEmail}
-          color="secondary"
+          theme={{
+
+              borderColor: "#9E15B8", // Change border color here
+          }}
+
+          // color="#9E15B8"
         />
 
         <TextInput
@@ -173,7 +176,16 @@ export default function Signup(props) {
           label="Password"
           onChangeText={(e) => setSignUpPassword(e)}
           value={signUpPassword}
-          color="secondary"
+          theme={{
+            colors: {
+              placeholder: "#9E15B8", // Change placeholder color here
+              text: "black", // Change text color here
+              borderColor: "red", // Change border color here
+              selectionColor: "red", // Change selection color here
+            },
+          }}
+
+          // color="secondary"
         />
         <TextInput
           style={styles.input}
@@ -184,13 +196,10 @@ export default function Signup(props) {
           label="Confirm Password"
           onChangeText={(e) => setConfirmPassword(e)}
           value={confirmPassword}
-          color="secondary"
+          // color="secondary"
         />
-      </View>
-    );
-    button = (
-      <Button
-        className={styles.signupBtn}
+          <Button
+        style={styles.signupBtn}
         mode="outlined"
         onPress={() => {
           handleRegister();
@@ -198,17 +207,16 @@ export default function Signup(props) {
       >
         <Text style={styles.signupBtnText}> Next </Text>
       </Button>
+
+      </View>
     );
   }
 
   return (
     <View className={styles.registerContainer}>
-      <View className={styles.header}>
         <Text style={styles.title}>Create an account</Text>
-      </View>
       <View className={styles.registerSection}>
         {formulaire}
-        {button}
       </View>
     </View>
   );
@@ -217,68 +225,47 @@ export default function Signup(props) {
 const styles = StyleSheet.create({
   registerContainer: {
     display: "flex",
+    flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    height: Dimensions.get("window").height * 1,
-    width: Dimensions.get("window").width * 1,
-    backgroundColor: "#FDF6D0",
-  },
-  registerSection: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#FDF6D0",
-    width: Dimensions.get("window").width * 0.8,
-    height: Dimensions.get("window").height * 0.4,
-    borderRadius: 10,
-    boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.75)",
   },
   signupBtn: {
-    border: "black",
-    width: 200,
-    height: 50,
-    borderRadius: 10,
-    display: "flex",
+    borderColor: "#9E15B8",
+    width: '80%',
     justifyContent: "center",
     alignItems: "center",
+    marginTop: '15%',
   },
   signupBtnText: {
-    color: "black",
-    fontSize: 20,
+    color: "#9E15B8",
+    fontSize: 16,
     fontWeight: "bold",
   },
   formulaire: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
     alignItems: "center",
     width: Dimensions.get("window").width * 1,
     height: Dimensions.get("window").height * 0.5,
     borderRadius: 10,
-    boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.75)",
+  },
+  formulaire2: {
+    alignItems: "center",
+    width: Dimensions.get("window").width * 1,
+    height: Dimensions.get("window").height * 0.5,
   },
   input: {
-    width: Dimensions.get("window").width * 0.8,
-    height: Dimensions.get("window").height * 0.05,
+    width: '80%',
+    height: '15%',
     margin: 10,
     borderRadius: 14,
     fontSize: 18,
-    borderColor: "#ECC4D0",
+    borderColor: "#9E15B8",
   },
   title: {
-    fontSize: 30,
+    fontSize: 22,
     fontWeight: "bold",
-    color: "#F561E1",
-    margin: 10,
+    color: "#9E15B8",
+    marginTop: 10,
+    alignSelf: "center",
   },
-  header: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    width: Dimensions.get("window").width * 1,
-    height: Dimensions.get("window").height * 0.1,
-    borderRadius: 10,
-    boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.75)",
-  },
+
 });
