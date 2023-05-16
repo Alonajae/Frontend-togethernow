@@ -1,30 +1,75 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  value: { token: null, email: null, password: null, confirmPassword: null },
+  value: {
+    token: null,
+    firstname: null,
+    lastname: null,
+    inscriptionDate: null,
+    email: null,
+    password: null,
+    emergencyContact: null,
+    age: null,
+    gender: null,
+    visibleOnMap: null,
+    photoId: null,
+    profilePicture: null,
+    validationVideo: null,
+  },
 };
 
 export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    login: (state, action) => {
-      state.value.token = action.payload.token;
+    registerStep1: (state, action) => {
       state.value.email = action.payload.email;
       state.value.password = action.payload.password;
     },
-    register: (state, action) => {
+    registerStep2: (state, action) => {
+      state.value.firstname = action.payload.firstname;
+      state.value.lastname = action.payload.lastname;
+      state.value.emergencyContact = action.payload.emergencyContact;
+      state.value.age = action.payload.age;
+    },
+    registerStep3: (state, action) => {
+      state.value.photoId = action.payload.photoId;
+    },
+    registerStep4: (state, action) => {
+      state.value.validationVideo = action.payload.validationVideo;
+    },
+    registerStep5: (state, action) => {
+      state.value.profilePicture = action.payload.profilePicture;
+    },
+    login: (state, action) => {
       state.value.token = action.payload.token;
       state.value.email = action.payload.email;
-      state.value.password = action.payload.password;
-      state.value.confirmPassword = action.payload.confirmPassword;
-    }
-    // logout: (state.action) => {
-    //   state.value.token = null;
-    //   state.value.email = null;
-    // },
+      state.value.firstname = action.payload.firstname;
+      state.value.lastname = action.payload.lastname;
+      state.value.inscriptionDate = action.payload.inscriptionDate;
+      state.value.emergencyContact = action.payload.emergencyContact;
+      state.value.age = action.payload.age;
+      state.value.gender = action.payload.gender;
+      state.value.visibleOnMap = action.payload.visibleOnMap;
+      state.value.profilePicture = action.payload.profilePicture;
+    },
+    logout: (state) => {
+      state.value.token = null;
+      state.value.email = null;
+      state.value.firstname = null;
+      state.value.lastname = null;
+      state.value.inscriptionDate = null;
+      state.value.emergencyContact = null;
+      state.value.age = null;
+      state.value.gender = null;
+      state.value.photoId = null;
+      state.value.validationVideo = null;
+      state.value.profilePicture = null;
+      state.value.visibleOnMap = null;
+      state.value.password = null;
+    },
   },
 });
 
-export const { login, register, logout } = userSlice.actions;
+export const { login, registerStep1, registerStep2, registerStep3, registerStep4, registerStep5, logout } = userSlice.actions;
 export default userSlice.reducer;
