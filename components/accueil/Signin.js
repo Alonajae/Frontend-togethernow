@@ -29,17 +29,23 @@ export default function Signin() {
   };
 
   // Function to handle the connection
+
   const handleConnection = () => {
+
     // Check if the email and password are not empty
+
     if (signInEmail === '' || signInPassword === '') {
       setError("Please enter your email and password.");
       return;
     } else if (!EMAIL_REGEX.test(email)) {
       // Check if the email is valid
+
       setError("Please enter a valid email address.");
       return;
     }
+
     // Send the connection data to the server
+
     fetch(`http://${backendAdress}/signin`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -47,7 +53,9 @@ export default function Signin() {
     }).then(response => response.json())
       .then((data) => {
         if (data.result) {
+
           // If the registration was successful, update the user's infos in the Redux store
+          
           const infos = {
             email: signInEmail,
             token: data.user.token,
@@ -64,7 +72,9 @@ export default function Signin() {
           setSignInPassword('');
         }
         else {
+          
           // If the registration failed, show an error message
+
           setError(data.error);
         }
       })
@@ -73,7 +83,6 @@ export default function Signin() {
 
   return (
     <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-
       <View style={styles.registerContainer}>
         <View style={styles.connectionSection}>
           <Text>Sign-in</Text>
@@ -95,13 +104,12 @@ export default function Signin() {
           />
           <TouchableOpacity title="Sign in" onPress={handleConnection} >
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => handleSubmit()} style={styles.button} activeOpacity={0.8}>
-            <Text style={styles.textButton}>Go to Map</Text>
-          </TouchableOpacity>
-
+          <Button style={styles.button} onPress={handleConnection} mode="outlined">
+              <Text style={styles.textButton}>Sign up</Text>
+            </Button>
+          <Text>{error}</Text>
         </View>
       </View>
-
     </KeyboardAvoidingView>
   )
 }
@@ -109,7 +117,6 @@ export default function Signin() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
   },
   registerContainer: {
     flex: 1,
