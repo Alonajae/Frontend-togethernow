@@ -24,7 +24,6 @@ export default function MapScreen() {
     })();
   })
 
-
   const handleSearch = () => {
     setSearch(!search);
   };
