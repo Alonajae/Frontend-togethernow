@@ -6,7 +6,8 @@ import {
   Text,
   View,
   Image,
-  ImageBackground
+  ImageBackground,
+  Dimensions,
 } from 'react-native';
 // import { useDispatch } from 'react-redux';
 import Signin from '../components/accueil/Signin';
@@ -32,11 +33,11 @@ export default function HomeScreen() {
   };
 
   return (
-    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.container}>
-      <ImageBackground source={require('../assets/CityLogo.png')} style={styles.imageCity}>
+    <ImageBackground source={require('../assets/CityLogo.png')} style={styles.background}>
+      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.container}>
         {step === 'landing' && (
-          <View style={styles.container}>
-            
+          <View style={styles.landingpage}>
+
             <Text style={styles.title}>Together Now</Text>
             <Button style={styles.button} onPress={handlePressSignin} mode="contained">
               <Text style={styles.textButton}>Sign in</Text>
@@ -49,18 +50,31 @@ export default function HomeScreen() {
         {step === 'signup1' && <Signup step={handlePressSignup2} signup2={state2} />}
         {step === 'signup2' && <Signup step={handlePressSignup2} signup2={state2} />}
         {step === 'signin' && <Signin step={handlePressSignin} />}
-      </ImageBackground>
-    </KeyboardAvoidingView>
+      </KeyboardAvoidingView>
+    </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
 
   background: {
-    width: '100%',
-    height: '100%',
+    position: 'absolute',
+    height: Dimensions.get('window').height,
+    width: Dimensions.get('window').width,
+    flex: 1,
+    resizeMode: 'cover',
   },
+  landingpage: {
+    height: Dimensions.get('window').height,
+    width: Dimensions.get('window').width,
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  }
+  ,
   container: {
+    height: Dimensions.get('window').height,
+    width: Dimensions.get('window').width,
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
@@ -95,7 +109,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#9E15B8',
     width: 227,
     height: 44,
-    // borderRadius: 1,
   },
   buttonUp: {
     alignItems: 'center',
@@ -108,22 +121,11 @@ const styles = StyleSheet.create({
   },
   textButton: {
     fontFamily: 'Inter',
-
     fontWeight: '600',
-
   },
   error: {
     marginTop: 10,
     color: 'red',
-  },
-  imageCity: {
-    flex: 1,
-    position: "absolute",
-    bottom: 0,
-    width: 400,
-    height: 400,
-    margin: 0,
-    padding: 0,
   },
   // imageEllipse: {
   // backgroundColor: 'pink',
