@@ -14,7 +14,6 @@ import user from './reducers/user';
 import { useCallback, useEffect, useState } from "react";
 import { useFonts } from "expo-font"; // import des polices
 import * as SplashScreen from "expo-splash-screen"; // import SplashScreen pour utiliser les polices avant le chargement de l'application
-import { Provider as PaperProvider } from 'react-native-paper';
 
 const persistConfig = {
   key: 'TogetherNow',
@@ -58,7 +57,6 @@ export default function App() {
   return (
 
     <Provider store={store}>
-      <PaperProvider>
         <PersistGate loading={null} persistor={persistor}>
           <NavigationContainer>
             <Stack.Navigator screenOptions={{ headerShown: false }}>
@@ -70,7 +68,6 @@ export default function App() {
             </Stack.Navigator>
           </NavigationContainer>
         </PersistGate>
-      </PaperProvider >
     </Provider >
   );
 }

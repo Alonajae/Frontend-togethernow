@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { TextInput, Button, ProgressBar } from "react-native-paper";
+import { TextInput, Button, ProgressBar, PaperProvider } from "react-native-paper";
 import { useDispatch } from "react-redux";
 import { View, Text, Dimensions, StyleSheet } from "react-native";
 // import { redirect } from 'react-router-dom';
@@ -96,7 +96,7 @@ export default function Signup(props) {
           label="Firstname"
           onChangeText={(e) => setFirstname(e)}
           value={firstname}
-          // color="secondary"
+        // color="secondary"
         />
         <TextInput
           style={styles.input}
@@ -107,7 +107,7 @@ export default function Signup(props) {
           label="Lastname"
           onChangeText={(e) => setLastname(e)}
           value={lastname}
-          // color="secondary"
+        // color="secondary"
         />
         <TextInput
           style={styles.input}
@@ -118,7 +118,7 @@ export default function Signup(props) {
           label="Gender"
           onChangeText={(e) => setGender(e)}
           value={gender}
-          // color="secondary"
+        // color="secondary"
         />
         <TextInput
           style={styles.input}
@@ -129,7 +129,7 @@ export default function Signup(props) {
           label="Age"
           onChangeText={(e) => setAge(e)}
           value={age}
-          // color="secondary"
+        // color="secondary"
         />
         <TextInput
           style={styles.input}
@@ -140,18 +140,18 @@ export default function Signup(props) {
           label="Emergency Contact"
           onChangeText={(e) => setEmergencyContact(e)}
           value={emergencyContact}
-          // color="secondary"
+        // color="secondary"
         />
-              <Button
-        style={styles.signupBtn}
-        mode="outlined"
-        onPress={() => {
-          handleRegister2();
-        }}
-      >
-        <Text style={styles.signupBtnText}> Next </Text>
-      </Button>
-      <ProgressBar progress={0.3} color="green" style={styles.progressBar}/>
+        <Button
+          style={styles.signupBtn}
+          mode="outlined"
+          onPress={() => {
+            handleRegister2();
+          }}
+        >
+          <Text style={styles.signupBtnText}> Next </Text>
+        </Button>
+        <ProgressBar progress={0.3} color="green" style={styles.progressBar} />
       </View>
     );
   } else {
@@ -165,7 +165,7 @@ export default function Signup(props) {
           label="Email"
           labelColor="yellow"
           onChangeText={(e) => setsignUpEmail(e)}
-          value={signUpEmail}       
+          value={signUpEmail}
         />
 
         <TextInput
@@ -178,7 +178,7 @@ export default function Signup(props) {
           label="Password"
           onChangeText={(e) => setSignUpPassword(e)}
           value={signUpPassword}
-          // color="secondary"
+        // color="secondary"
         />
         <TextInput
           style={styles.input}
@@ -190,27 +190,29 @@ export default function Signup(props) {
           label="Confirm Password"
           onChangeText={(e) => setConfirmPassword(e)}
           value={confirmPassword}
-          // color="secondary"
+        // color="secondary"
         />
-          <Button
-        style={styles.signupBtn}
-        mode="outlined"
-        onPress={() => {
-          handleRegister();
-        }}
-      >
-        <Text style={styles.signupBtnText}> Next </Text>
-      </Button>
-      <ProgressBar progress={0.3} color="green" style={styles.progressBar} />
+        <Button
+          style={styles.signupBtn}
+          mode="outlined"
+          onPress={() => {
+            handleRegister();
+          }}
+        >
+          <Text style={styles.signupBtnText}> Next </Text>
+        </Button>
+        <ProgressBar progress={0.3} color="green" style={styles.progressBar} />
       </View>
     );
   }
 
   return (
-    <View className={styles.registerContainer}>
+    <PaperProvider >
+      <View className={styles.registerContainer}>
         <Text style={styles.title}>Create an account</Text>
         {formulaire}
-    </View>
+      </View>
+    </PaperProvider >
   );
 }
 
@@ -228,11 +230,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
   },
-  registerContainer: {  
+  registerContainer: {
     display: "flex",
     flex: 1,
   },
-  formulaire: { 
+  formulaire: {
     height: '100%',
     alignItems: "center",
     justifyContent: "center",
