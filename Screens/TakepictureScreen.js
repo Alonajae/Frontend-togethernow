@@ -114,8 +114,9 @@ const handleValidate = () => {
           <Image source={{uri: user.profilePicture}} style={{width: 200, height: 200}} />
           <Button onPress={handleValidate}>Validate</Button>
           <Button onPress={handleBack}>Back</Button>
+          <Button onPress={() => navigation.navigate('Identity')}>Next</Button>
         </Modal>
-    )
+    ) // test button next to go to the next screen
   } else {
     // if the user has not taken a profile picture and the id, show the modal to validate the id
     modal = (
