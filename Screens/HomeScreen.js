@@ -58,12 +58,12 @@ export default function HomeScreen({ navigation }) {
       {step === 'signup1' && <Signup step={handlePressSignup2} signup2={state2} navigate={handleNavigation} />}
       {step === 'signup2' && <Signup step={handlePressSignup2} signup2={state2} navigate={handleNavigation} />}
       {step === 'signin' && <Signin step={handlePressSignin} />}
-      <View style={styles.footer}>
-      </View>
+      <Image source={require('../assets/CityLogo.png')} style={styles.city} /> 
     </KeyboardAvoidingView>
-
   );
+  //merci de ne pas supprimer la ligne 61 ni de la modifier, cela a tout fait sauter
 }
+
 
 const styles = StyleSheet.create({
 
@@ -144,11 +144,10 @@ const styles = StyleSheet.create({
     height: '65%',
     width: '100%',
   },
-  footer: {
+  city: {
     position: 'absolute',
     bottom: 0,
-    height: '15%',
+    height: '25%',
     width: '100%',
-    backgroundImage: '../assets/CityLogo.png',
   },
 });
