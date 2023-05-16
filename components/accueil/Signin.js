@@ -19,14 +19,6 @@ export default function Signin() {
 
   const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-  const handleSubmit = () => {
-    if (EMAIL_REGEX.test(email)) {
-      navigation.navigate('TabNavigator', { screen: 'MapScreen' });
-    } else {
-      setEmailError(true);
-    }
-  };
-
   // Function to handle the connection
 
   const handleConnection = () => {
