@@ -1,4 +1,4 @@
-import { View, Text, KeyboardAvoidingView, StyleSheet, Dimensions } from 'react-native';
+import { View, Text, SafeAreaView, StyleSheet, Dimensions } from 'react-native';
 import { Button, TextInput } from 'react-native-paper';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -18,14 +18,6 @@ export default function Signin() {
   const backendAdress = '192.168.10.137:3000';
 
   const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
-  const handleSubmit = () => {
-    if (EMAIL_REGEX.test(email)) {
-      navigation.navigate('TabNavigator', { screen: 'MapScreen' });
-    } else {
-      setEmailError(true);
-    }
-  };
 
   // Function to handle the connection
 
@@ -81,7 +73,7 @@ export default function Signin() {
 
 
   return (
-    <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+    <SafeAreaView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <View style={styles.registerContainer}>
         <Text style={styles.title}>Welcome Back</Text>
         <View style={styles.connectionSection}>
@@ -89,6 +81,7 @@ export default function Signin() {
             style={styles.input}
             label="Email"
             mode='outlined'
+            outlineColor="#9E15B8"
             onChangeText={(value) => setSignInEmail(value)}
             value={signInEmail}
           />
@@ -96,64 +89,96 @@ export default function Signin() {
             style={styles.input}
             label="Password"
             mode='outlined'
+            outlineColor="#9E15B8"
             secureTextEntry={!passwordShown}
             right={<TextInput.Icon icon="eye" onPress={() => { setPasswordShown(!passwordShown) }} />}
             onChangeText={(value) => setSignInPassword(value)}
             value={signInPassword}
           />
           <Text style={styles.error}>{error}</Text>
-        </View>
-        <Button style={styles.button} onPress={handleConnection} mode="outlined">
+          <Button style={styles.button} onPress={handleConnection} mode="outlined">
           <Text style={styles.textButton}>Go</Text>
         </Button>
+        </View>
       </View>
-    </KeyboardAvoidingView>
+    </SafeAreaView>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
+    display: 'flex',
     flex: 1,
   },
   registerContainer: {
-    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
   connectionSection: {
-    width: '80%',
-    height: '50%',
-    justifyContent: 'center',
-    alignItems: 'center',
+      height: Dimensions.get('window').height * 1,
+  alignItems: "center",
+  justifyContent: "center",
+  width: Dimensions.get("window").width * 1,
   },
   button: {
-    backgroundColor: 'transparent',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: 127,
-    height: 44,
+      borderColor: "#9E15B8",
+  width: '80%',
+  justifyContent: "center",
+  alignItems: "center",
+  marginTop: '15%',
   },
   textButton: {
-    color: 'black',
-    fontSize: 20,
+     color: "#9E15B8",
+  fontSize: 16,
+  fontWeight: "bold",
   },
   input: {
-    width: 300,
-    height: 50,
-    margin: 10,
-    borderRadius: 14,
-    fontSize: 18,
-    borderColor: "#ECC4D0",
+  width: '80%',
+  height: 56,
+  margin: 10,
+  fontSize: 16,
+  backgroundColor: "#ffffff",
+
   },
   title: {
-    fontSize: 30,
-    fontWeight: "bold",
-    color: "#F561E1",
-    margin: 10,
-  },
+  position: 'absolute',
+  alignSelf: 'center',
+  marginTop: Dimensions.get('window').height * 0.15,
+  top: 0,
+  fontSize: 22,
+  fontWeight: "bold",
+  color: "#9E15B8",
+},
   error: {
     color: 'red',
     fontSize: 20,
   },
 });
 
+// signupBtnText: {
+//   color: "#9E15B8",
+//   fontSize: 16,
+//   fontWeight: "bold",
+// },
+// registerContainer: {  
+//   display: "flex",
+//   flex: 1,
+// },
+// formulaire: { 
+//   height: '100%',
+//   alignItems: "center",
+//   justifyContent: "center",
+//   width: Dimensions.get("window").width * 1,
+// },
+// input: {
+//   width: '80%',
+//   height: 56,
+//   margin: 10,
+//   fontSize: 16,
+//   backgroundColor: "#ffffff",
+// },
+
+// progressBar: {
+//   width: '80%',
+//   marginTop: 10,
+// }
