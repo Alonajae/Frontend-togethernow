@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { TextInput, Button } from "react-native-paper";
+import { TextInput, Button, ProgressBar } from "react-native-paper";
 import { useDispatch } from "react-redux";
 import { View, Text, Dimensions, StyleSheet } from "react-native";
 // import { redirect } from 'react-router-dom';
@@ -82,7 +82,6 @@ export default function Signup(props) {
     props.navigate();
   };
 
-  let button;
   let formulaire;
 
   if (props.signup2) {
@@ -152,6 +151,7 @@ export default function Signup(props) {
       >
         <Text style={styles.signupBtnText}> Next </Text>
       </Button>
+      <ProgressBar progress={0.3} color="green" style={styles.progressBar}/>
       </View>
     );
   } else {
@@ -201,7 +201,7 @@ export default function Signup(props) {
       >
         <Text style={styles.signupBtnText}> Next </Text>
       </Button>
-
+      <ProgressBar progress={0.3} color="green" style={styles.progressBar} />
       </View>
     );
   }
@@ -258,5 +258,10 @@ const styles = StyleSheet.create({
     color: "#9E15B8",
     // marginBottom: '50%',
   },
+  progressBar: {
+    width: '80%',
+    marginTop: 10,
+  }
+
 
 });
