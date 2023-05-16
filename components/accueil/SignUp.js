@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { TextInput, Button, ProgressBar, MD3Colors } from "react-native-paper";
+import { TextInput, Button, ProgressBar } from "react-native-paper";
 import { useDispatch } from "react-redux";
 import { View, Text, Dimensions, StyleSheet } from "react-native";
 // import { redirect } from 'react-router-dom';
@@ -18,7 +18,7 @@ export default function Signup(props) {
   const [emergencyContact, setEmergencyContact] = useState("");
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
-  
+
   const handleRegister = () => {
     // Send the registration data to verify if the email is not already in use
 
@@ -82,9 +82,7 @@ export default function Signup(props) {
     props.navigate();
   };
 
-  let button;
   let formulaire;
-  let progressbar;
 
   if (props.signup2) {
     formulaire = (
@@ -148,7 +146,7 @@ export default function Signup(props) {
       >
         <Text style={styles.signupBtnText}> Next </Text>
       </Button>
-      <ProgressBar progress={0.66} color={MD3Colors.error50} />
+      <ProgressBar progress={0.3} color="green" style={styles.progressBar}/>
       </View>
     );
   } else {
@@ -209,7 +207,7 @@ export default function Signup(props) {
       >
         <Text style={styles.signupBtnText}> Next </Text>
       </Button>
-      <ProgressBar progress={0.33} color={MD3Colors.error50} />
+      <ProgressBar progress={0.3} color="green" style={styles.progressBar} />
       </View>
     );
   }
@@ -269,5 +267,10 @@ const styles = StyleSheet.create({
     marginTop: 10,
     alignSelf: "center",
   },
+  progressBar: {
+    width: '80%',
+    marginTop: 10,
+  }
+
 
 });
