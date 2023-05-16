@@ -38,7 +38,7 @@ export default function TakePictureScreen ({ navigation }) {
       type: 'image/jpeg',
     });
 
-    fetch('http://localhost:3000/upload', {
+    fetch('http://localhost:3000/users/upload', {
       method: 'POST',
       body: formData,
     }).then((response) => response.json())
