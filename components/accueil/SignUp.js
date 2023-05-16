@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { TextInput, Button, ProgressBar } from "react-native-paper";
+import { TextInput, Button, ProgressBar, List } from "react-native-paper";
 import { useDispatch } from "react-redux";
-import { View, Text, Dimensions, StyleSheet } from "react-native";
+import { View, Text, Dimensions, StyleSheet, SafeAreaView } from "react-native";
 // import { redirect } from 'react-router-dom';
 // import Accueil from './Accueil';
 
@@ -82,6 +82,13 @@ export default function Signup(props) {
     props.navigate();
   };
 
+
+    const [expandedId, setExpandedId] = useState('');
+  
+    const handleAccordionPress = (id) => {
+      setExpandedId(expandedId === id ? '' : id);
+    };
+
   let formulaire;
 
   if (props.signup2) {
@@ -109,17 +116,22 @@ export default function Signup(props) {
           value={lastname}
           // color="secondary"
         />
-        <TextInput
-          style={styles.input}
-          mode='outlined'
-          type="text"
-          activeOutlineColor="pink"
-          outlineColor="#9E15B8"
-          label="Gender"
-          onChangeText={(e) => setGender(e)}
-          value={gender}
-          // color="secondary"
-        />
+        <List.AccordionGroup style={styles.input}>
+        <List.Accordion
+          title="Why are you downloading the app?"
+          id="reasons"
+          expanded={expandedId === 'reasons'}
+          onPress={() => handleAccordionPress('reasons')}
+          contentContainerStyle={styles.accordionContent}
+          style={styles.accordion}
+        >       
+          
+            <List.Item title="Safety Concerns" style={styles.listItem} />
+            <List.Item title="Community Support" style={styles.listItem} />
+            <List.Item title="Reporting Incidents" style={styles.listItem} />
+            <List.Item title="Allies and Supportive Individuals" style={styles.listItem} />
+     </List.Accordion>
+      </List.AccordionGroup>
         <TextInput
           style={styles.input}
           mode='outlined'
@@ -140,7 +152,6 @@ export default function Signup(props) {
           label="Emergency Contact"
           onChangeText={(e) => setEmergencyContact(e)}
           value={emergencyContact}
-          // color="secondary"
         />
               <Button
         style={styles.signupBtn}
@@ -163,7 +174,6 @@ export default function Signup(props) {
           activeOutlineColor="pink"
           outlineColor="#9E15B8"
           label="Email"
-          labelColor="yellow"
           onChangeText={(e) => setsignUpEmail(e)}
           value={signUpEmail}       
         />
@@ -207,10 +217,12 @@ export default function Signup(props) {
   }
 
   return (
-    <View className={styles.registerContainer}>
+    <SafeAreaView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+    {/* <View className={styles.registerContainer}> */}
         <Text style={styles.title}>Create an account</Text>
         {formulaire}
-    </View>
+    {/* </View> */}
+    </SafeAreaView>
   );
 }
 
@@ -228,22 +240,21 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
   },
-  registerContainer: {  
+  container: {  
     display: "flex",
     flex: 1,
+    // height: Dimensions.get('window').height * 1,
+
   },
   formulaire: { 
     height: '100%',
     alignItems: "center",
     justifyContent: "center",
     width: Dimensions.get("window").width * 1,
-    // height: Dimensions.get("window").height * 0.5,
-    borderRadius: 10,
-    borderWidth: 1,
   },
   input: {
     width: '80%',
-    height: '8%',
+    height: 56,
     margin: 10,
     fontSize: 16,
     backgroundColor: "#ffffff",
@@ -251,17 +262,26 @@ const styles = StyleSheet.create({
   title: {
     position: 'absolute',
     alignSelf: 'center',
-    marginTop: '25%',
+    marginTop: Dimensions.get('window').height * 0.15,
     top: 0,
     fontSize: 22,
     fontWeight: "bold",
     color: "#9E15B8",
-    // marginBottom: '50%',
   },
   progressBar: {
     width: '80%',
     marginTop: 10,
-  }
-
-
+  },
+  accordion: {
+    marginBottom: 8,
+  },
+  accordionContent: {
+    paddingHorizontal: 16,
+  },
+  listItemsContainer: {
+    width: '100%', // Adjust the width as needed
+  },
+  listItem: {
+    width: '100%', // Adjust the width as needed
+  },
 });
