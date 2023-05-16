@@ -1,4 +1,5 @@
-import { View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView, ImageBackground, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, KeyboardAvoidingView, ImageBackground, StyleSheet } from 'react-native';
+import { Button, TextInput } from 'react-native-paper';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 
@@ -60,12 +61,12 @@ const handleSubmit = () => {
     <View style={styles.connectionSection}>
       <Text>Sign-in</Text>
       <TextInput
-        placeholder="Email"
+        label="Email"
         onChangeText={(value) => setSignInEmail(value)}
         value={signInEmail}
       />
       <TextInput
-        placeholder="Password"
+        label="Password"
         onChangeText={(value) => setSignInPassword(value)}
         value={signInPassword}
       />

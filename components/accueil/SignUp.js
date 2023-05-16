@@ -1,12 +1,11 @@
 import { useState } from "react";
-import { TextField, Button } from "react-native-paper";
+import { TextInput, Button } from "react-native-paper";
 import { useDispatch } from "react-redux";
-import { View, Text, TouchableOpacity, TextInput, StyleSheet } from "react-native";
-import { NavigationContainer } from '@react-navigation/native';
+import { View, Text, Dimensions, StyleSheet } from "react-native";
 // import { redirect } from 'react-router-dom';
 // import Accueil from './Accueil';
 
-function Signup(props, { navigation }) {
+export default function Signup(props, { navigation }) {
   const dispatch = useDispatch();
 
   const [signUpEmail, setsignUpEmail] = useState("");
@@ -74,7 +73,8 @@ function Signup(props, { navigation }) {
     formulaire = (
       <View>
         <Text>Sign-up</Text>
-        <TextField
+        <TextInput
+          mode='outlined'
           type="text"
           activeOutlineColor="pink"
           label="Firstname"
@@ -83,7 +83,8 @@ function Signup(props, { navigation }) {
           color="secondary"
           sx={{ backgroundColor: "#FDF6D0", borderColor: "#ECC4D0" }}
         />
-        <TextField
+        <TextInput
+          mode='outlined'
           type="text"
           activeOutlineColor="pink"
           label="Lastname"
@@ -92,7 +93,8 @@ function Signup(props, { navigation }) {
           color="secondary"
           sx={{ backgroundColor: "#FDF6D0", borderColor: "#ECC4D0" }}
         />
-        <TextField
+        <TextInput
+          mode='outlined'
           type="text"
           activeOutlineColor="pink"
           label="Gender"
@@ -101,7 +103,8 @@ function Signup(props, { navigation }) {
           color="secondary"
           sx={{ backgroundColor: "#FDF6D0", borderColor: "#ECC4D0" }}
         />
-        <TextField
+        <TextInput
+          mode='outlined'
           type="number"
           activeOutlineColor="pink"
           label="Age"
@@ -110,7 +113,8 @@ function Signup(props, { navigation }) {
           color="secondary"
           sx={{ backgroundColor: "#FDF6D0", borderColor: "#ECC4D0" }}
         />
-        <TextField
+        <TextInput
+          mode='outlined'
           type="text"
           activeOutlineColor="pink"
           label="Emergency Contact"
@@ -139,14 +143,16 @@ function Signup(props, { navigation }) {
           handleRegister();
         }}
       >
+        Next
       </Button>
     );
   } else {
     formulaire = (
       <View>
         <Text>Sign-up</Text>
-        <TextField
-          type="text"
+        <TextInput
+          mode='outlined'
+          type="email"
           activeOutlineColor="pink"
           label="Email"
           onChangeText={(e) => setsignUpEmail(e)}
@@ -155,7 +161,8 @@ function Signup(props, { navigation }) {
           sx={{ backgroundColor: "#FDF6D0", borderColor: "#ECC4D0" }}
         />
 
-        <TextField
+        <TextInput
+          mode='outlined'
           type="password"
           activeOutlineColor="pink"
           label="Password"
@@ -164,7 +171,8 @@ function Signup(props, { navigation }) {
           color="secondary"
           sx={{ backgroundColor: "#FDF6D0", borderColor: "#ECC4D0" }}
         />
-        <TextField
+        <TextInput
+          mode='outlined'
           type="password"
           activeOutlineColor="pink"
           label="Confirm Password"
@@ -193,6 +201,7 @@ function Signup(props, { navigation }) {
           handleRegister2();
         }}
       >
+        Next
       </Button>
     );
   }
@@ -201,7 +210,6 @@ function Signup(props, { navigation }) {
     <View className={styles.registerContainer}>
       <View className={styles.registerSection}>
         {formulaire}
-
         {button}
       </View>
     </View>
@@ -238,5 +246,3 @@ const styles = StyleSheet.create({
     },
   },
 });
-
-export default Signup;
