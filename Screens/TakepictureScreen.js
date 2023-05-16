@@ -71,7 +71,7 @@ export default function TakePictureScreen ({ navigation }) {
 
       <View style={styles.snapButton}>
         <TouchableOpacity onPress={() => cameraRef && takePicture()}>
-        <FontAwesome name='circle-thin' size={95} color='#ffffff' />
+        <FontAwesome name='circle-thin' size={95} color='pink' />
         </TouchableOpacity>
       </View>
 

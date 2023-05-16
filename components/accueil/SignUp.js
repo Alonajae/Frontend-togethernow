@@ -18,8 +18,7 @@ export default function Signup(props) {
   const [emergencyContact, setEmergencyContact] = useState("");
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
-  const [progress, setProgress] = useState(0.33);
-
+  
   const handleRegister = () => {
     // Send the registration data to verify if the email is not already in use
 
@@ -149,6 +148,7 @@ export default function Signup(props) {
       >
         <Text style={styles.signupBtnText}> Next </Text>
       </Button>
+      <ProgressBar progress={0.66} color={MD3Colors.error50} />
       </View>
     );
   } else {
@@ -209,7 +209,7 @@ export default function Signup(props) {
       >
         <Text style={styles.signupBtnText}> Next </Text>
       </Button>
-
+      <ProgressBar progress={0.33} color={MD3Colors.error50} />
       </View>
     );
   }
