@@ -1,31 +1,49 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Button, StyleSheet, Text, View } from "react-native";
-import Voice from "@react-native-voice/voice";
-import { RNCamera } from "react-native-camera";
+import * as Speech from "expo-speech";
+import { Camera } from "expo-camera";
 
 export default function SpeechRecognitionScreen() {
-  const [results, setResults] = useState([]); // State for storing speech recognition results
-  const [isListening, setIsListening] = useState(false); // State for tracking if speech recognition is active
-  const [randomNumbers, setRandomNumbers] = useState([]); // State for storing random numbers
-  const cameraRef = useRef(null); // Reference to the RNCamera component
+  const [results, setResults] = useState([]);
+  const [isListening, setIsListening] = useState(false);
+  const [randomNumbers, setRandomNumbers] = useState([]);
+  const cameraRef = useRef(null);
 
   useEffect(() => {
-    generateRandomNumbers(); // Generate random numbers when component mounts
+    generateRandomNumbers();
   }, []);
 
   useEffect(() => {
-    const onSpeechResults = (e) => {
-      setResults(e.value ?? []); // Update the speech recognition results state
-      compareResults(e.value ?? []); // Compare the spoken results with random numbers
+    const onSpeechResults = ({ value }) => {
+      setResults(value ?? []);
+      compareResults(value ?? []);
     };
-    const onSpeechError = (e) => {
-      console.error(e); // Log any speech recognition errors
-    };
-    Voice.onSpeechError = onSpeechError; // Set the error event handler for speech recognition
-    Voice.onSpeechResults = onSpeechResults; // Set the results event handler for speech recognition
 
-    return function cleanup() {
-      Voice.destroy().then(Voice.removeAllListeners); // Clean up speech recognition when the component unmounts
+    const startSpeechRecognition = async () => {
+      try {
+        Speech.stop();
+        setResults([]);
+        await Speech.startListeningAsync();
+        setIsListening(true);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    const stopSpeechRecognition = async () => {
+      try {
+        await Speech.stopListeningAsync();
+        setIsListening(false);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    Speech.addListener(onSpeechResults);
+
+    return () => {
+      Speech.stop();
+      Speech.removeAllListeners();
     };
   }, []);
 
@@ -35,38 +53,30 @@ export default function SpeechRecognitionScreen() {
       const randomNum = Math.floor(Math.random() * 100);
       numbers.push(randomNum);
     }
-    setRandomNumbers(numbers); // Set the random numbers state
+    setRandomNumbers(numbers);
   };
 
   const compareResults = (spokenResults) => {
     spokenResults.forEach((spokenResult) => {
       randomNumbers.forEach((randomNumber, index) => {
         if (spokenResult.includes(randomNumber.toString())) {
-          // Do something when a spoken number matches a random number
           console.log(`Spoken result ${spokenResult} matches random number ${randomNumber}`);
         }
       });
     });
   };
 
-  const toggleListening = async () => {
-    try {
-      if (isListening) {
-        await Voice.stop(); // Stop speech recognition
-        setIsListening(false); // Update the isListening state
-      } else {
-        setResults([]); // Clear the speech recognition results
-        await Voice.start("en-US"); // Start speech recognition with the specified locale
-        setIsListening(true); // Update the isListening state
-      }
-    } catch (e) {
-      console.error(e); // Log any errors that occur during speech recognition
+  const toggleListening = () => {
+    if (isListening) {
+      stopSpeechRecognition();
+    } else {
+      startSpeechRecognition();
     }
   };
 
   return (
     <View style={styles.container}>
-      <RNCamera ref={cameraRef} style={styles.camera} />
+      <Camera style={styles.camera} ref={cameraRef} />
 
       <View style={styles.overlay}>
         <Text style={styles.overlayText}>Press the button and start speaking.</Text>
@@ -108,6 +118,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
 });
+
 
 
 // import { View, Text } from 'react-native'
