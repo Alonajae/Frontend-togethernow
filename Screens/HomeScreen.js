@@ -37,10 +37,10 @@ export default function HomeScreen({navigation}) {
   };
 
   return (
-    <ImageBackground source={require('../assets/CityLogo.png')} style={styles.background}>
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.container}>
+      <Image source={require('../assets/EllipseHome.png')} style={styles.ellipse} />
         {step === 'landing' && (
-          <View style={styles.landingpage}>
+            <View style={styles.landingpage}>
 
             <Text style={styles.title}>Together Now</Text>
             <Button style={styles.button} onPress={handlePressSignin} mode="contained">
@@ -54,8 +54,9 @@ export default function HomeScreen({navigation}) {
         {step === 'signup1' && <Signup step={handlePressSignup2} signup2={state2} />}
         {step === 'signup2' && <Signup step={handleNavigation} signup2={state2} />}
         {step === 'signin' && <Signin step={handlePressSignin} />}
+        <Image source={require('../assets/CityLogo.png')} style={styles.background} />
       </KeyboardAvoidingView>
-    </ImageBackground>
+
   );
 }
 
@@ -63,10 +64,9 @@ const styles = StyleSheet.create({
 
   background: {
     position: 'absolute',
-    height: Dimensions.get('window').height,
-    width: Dimensions.get('window').width,
-    flex: 1,
-    resizeMode: 'cover',
+    bottom: 0,
+    height: '25%',
+    width: '100%',
   },
   landingpage: {
     height: Dimensions.get('window').height,
@@ -74,6 +74,8 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    borderWidth: 1,
+    borderColor: 'red',
   }
   ,
   container: {
@@ -131,7 +133,13 @@ const styles = StyleSheet.create({
     marginTop: 10,
     color: 'red',
   },
-  // imageEllipse: {
-  // backgroundColor: 'pink',
-  // },
+  ellipse: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    marginLeft: '40%',
+    height: '50%',
+    resizeMode: 'cover',
+
+  },
 });
