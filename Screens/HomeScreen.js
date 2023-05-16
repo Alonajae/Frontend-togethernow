@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 // import { useDispatch } from 'react-redux';
 import Signin from '../components/accueil/Signin';
-import SignUp from '../components/accueil/Register';
+import Signup from '../components/accueil/SignUp';
 import { Button } from 'react-native-paper';
 
 export default function HomeScreen() {
@@ -36,7 +36,7 @@ export default function HomeScreen() {
       <ImageBackground source={require('../assets/CityLogo.png')} style={styles.imageCity}>
         {step === 'landing' && (
           <View style={styles.container}>
-            {/* <Image source={require('../assets/EllipseHome.png')} style={styles.imageEllipse} /> */}
+            
             <Text style={styles.title}>Together Now</Text>
             <Button style={styles.button} onPress={handlePressSignin} mode="contained">
               <Text style={styles.textButton}>Sign in</Text>
@@ -46,8 +46,8 @@ export default function HomeScreen() {
             </Button>
           </View>
         )}
-        {step === 'signup1' && <SignUp step={handlePressSignup2} signup2={state2} />}
-        {step === 'signup2' && <SignUp step={handlePressSignup2} signup2={state2} />}
+        {step === 'signup1' && <Signup step={handlePressSignup2} signup2={state2} />}
+        {step === 'signup2' && <Signup step={handlePressSignup2} signup2={state2} />}
         {step === 'signin' && <Signin step={handlePressSignin} />}
       </ImageBackground>
     </KeyboardAvoidingView>

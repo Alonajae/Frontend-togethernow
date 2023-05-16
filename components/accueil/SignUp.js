@@ -1,16 +1,17 @@
 import { useState } from "react";
-import { TextField, Button } from "react-native-paper";
+import { TextInput, Button } from "react-native-paper";
 import { useDispatch } from "react-redux";
-import { View, Text, TouchableOpacity, TextInput, StyleSheet } from "react-native";
-import { NavigationContainer } from '@react-navigation/native';
+import { View, Text, Dimensions, StyleSheet } from "react-native";
 // import { redirect } from 'react-router-dom';
 // import Accueil from './Accueil';
 
-export default function Signup (props, { navigation }) {
+export default function Signup(props, { navigation }) {
   const dispatch = useDispatch();
 
   const [signUpEmail, setsignUpEmail] = useState("");
   const [signUpPassword, setSignUpPassword] = useState("");
+  const [passwordShown, setPasswordShown] = useState(true);
+  const [passwordShown2, setPasswordShown2] = useState(true);
   const [confirmPassword, setConfirmPassword] = useState("");
   const [age, setAge] = useState("");
   const [gender, setGender] = useState("");
@@ -52,19 +53,19 @@ export default function Signup (props, { navigation }) {
 
   const handleRegister2 = () => {
     // Store the user data in the redux store
-          // If the email is available for registration, store the user data in the redux store
-          dispatch(
-            register({
-                gender: setGender,
-                age: setAge,
-                emergencyContact: setEmergencyContact,
-                firstname: setFirstname,
-                lastname: setLastname,
-            })
-          );
-          // redirect to the next step of the registration;
-        //   props.step();
-         navigation.navigate('IdentityScan');
+    // If the email is available for registration, store the user data in the redux store
+    dispatch(
+      register({
+        gender: setGender,
+        age: setAge,
+        emergencyContact: setEmergencyContact,
+        firstname: setFirstname,
+        lastname: setLastname,
+      })
+    );
+    // redirect to the next step of the registration;
+    //   props.step();
+    navigation.navigate('IdentityScan');
   };
 
   let button;
@@ -74,49 +75,52 @@ export default function Signup (props, { navigation }) {
     formulaire = (
       <View>
         <Text>Sign-up</Text>
-        <br></br>
-        <TextField
+        <TextInput
+          mode='outlined'
           type="text"
-          placeholder="firstname"
-          id="signUpfirstname"
-          onChange={(e) => setFirstname(e)}
+          activeOutlineColor="pink"
+          label="Firstname"
+          onChangeText={(e) => setFirstname(e)}
           value={firstname}
           color="secondary"
           sx={{ backgroundColor: "#FDF6D0", borderColor: "#ECC4D0" }}
         />
-        <br></br>
-        <TextField
+        <TextInput
+          mode='outlined'
           type="text"
-          placeholder="Lastname"
-          id="lastname"
-          onChange={(e) => setLastname(e)}
+          activeOutlineColor="pink"
+          label="Lastname"
+          onChangeText={(e) => setLastname(e)}
           value={lastname}
           color="secondary"
           sx={{ backgroundColor: "#FDF6D0", borderColor: "#ECC4D0" }}
         />
-        <TextField
+        <TextInput
+          mode='outlined'
           type="text"
-          placeholder="gender"
-          id="gender"
-          onChange={(e) => setGender(e)}
+          activeOutlineColor="pink"
+          label="Gender"
+          onChangeText={(e) => setGender(e)}
           value={gender}
           color="secondary"
           sx={{ backgroundColor: "#FDF6D0", borderColor: "#ECC4D0" }}
         />
-        <TextField
-          type="text"
-          placeholder="age"
-          id="age"
-          onChange={(e) => setAge(e)}
+        <TextInput
+          mode='outlined'
+          type="number"
+          activeOutlineColor="pink"
+          label="Age"
+          onChangeText={(e) => setAge(e)}
           value={age}
           color="secondary"
           sx={{ backgroundColor: "#FDF6D0", borderColor: "#ECC4D0" }}
         />
-         <TextField
+        <TextInput
+          mode='outlined'
           type="text"
-          placeholder="emergencyContact"
-          id="emergencyContact"
-          onChange={(e) => setEmergencyContact(e)}
+          activeOutlineColor="pink"
+          label="Emergency Contact"
+          onChangeText={(e) => setEmergencyContact(e)}
           value={emergencyContact}
           color="secondary"
           sx={{ backgroundColor: "#FDF6D0", borderColor: "#ECC4D0" }}
@@ -148,31 +152,35 @@ export default function Signup (props, { navigation }) {
     formulaire = (
       <View>
         <Text>Sign-up</Text>
-        <br></br>
-        <TextField
-          type="text"
-          placeholder="email"
-          id="signUpEmail"
-          onChange={(e) => setsignUpEmail(e)}
+        <TextInput
+          mode='outlined'
+          type="email"
+          activeOutlineColor="pink"
+          label="Email"
+          onChangeText={(e) => setsignUpEmail(e)}
           value={signUpEmail}
           color="secondary"
           sx={{ backgroundColor: "#FDF6D0", borderColor: "#ECC4D0" }}
         />
-        <br></br>
-        <TextField
-          type="password"
-          placeholder="Password"
-          id="signUpPassword"
-          onChange={(e) => setSignUpPassword(e)}
+
+        <TextInput
+          mode='outlined'
+          secureTextEntry={passwordShown}
+          right={<TextInput.Icon icon="eye" onPress={() => { setPasswordShown(!passwordShown) }} />}
+          activeOutlineColor="pink"
+          label="Password"
+          onChangeText={(e) => setSignUpPassword(e)}
           value={signUpPassword}
           color="secondary"
           sx={{ backgroundColor: "#FDF6D0", borderColor: "#ECC4D0" }}
         />
-        <TextField
-          type="confirmPassword"
-          placeholder="Confirm Password"
-          id="confirmPassword"
-          onChange={(e) => setConfirmPassword(e)}
+        <TextInput
+          mode='outlined'
+          secureTextEntry={passwordShown2}
+          right={<TextInput.Icon icon="eye" onPress={() => { setPasswordShown2(!passwordShown2) }} />}
+          activeOutlineColor="pink"
+          label="Confirm Password"
+          onChangeText={(e) => setConfirmPassword(e)}
           value={confirmPassword}
           color="secondary"
           sx={{ backgroundColor: "#FDF6D0", borderColor: "#ECC4D0" }}
@@ -206,7 +214,6 @@ export default function Signup (props, { navigation }) {
     <View className={styles.registerContainer}>
       <View className={styles.registerSection}>
         {formulaire}
-        <br></br>
         {button}
       </View>
     </View>
