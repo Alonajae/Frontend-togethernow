@@ -1,12 +1,13 @@
-import { View, Text, StyleSheet } from 'react-native';
+import { View, StyleSheet, Image } from 'react-native';
 import React from 'react';
 import { Camera, CameraType } from 'expo-camera';
 import { useState, useEffect, useRef } from 'react';
 import { TouchableOpacity } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
 import { useIsFocused } from '@react-navigation/native';
-import { registerStep5 } from '../reducers/user';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import { registerStep3, registerStep5, logout, login } from '../reducers/user';
+import { useDispatch, useSelector } from 'react-redux';
+import { Modal, PaperProvider, Button, Text, Portal } from 'react-native-paper';
 
 export default function TakePictureScreen ({ navigation }) {
 
@@ -14,10 +15,12 @@ export default function TakePictureScreen ({ navigation }) {
   // camera states
   const [hasPermission, setHasPermission] = useState(null)
   const [type, setType] = useState(CameraType.back);
-  const [flashMode, setFlashMode] = useState(flashMode.off);
   const [camera, setCamera] = useState(null)
+  const [visible, setVisible] = useState(false);
+
   const isFocused = useIsFocused();
   const dispatch = useDispatch();
+  const containerStyle = {backgroundColor: 'white', padding: 20};
 
   let cameraRef = useRef(null);
 
@@ -29,27 +32,18 @@ export default function TakePictureScreen ({ navigation }) {
     })()
   }, [])
 
+  // take picture
+  
   const takePicture = async () => {
     const photo = await cameraRef.takePictureAsync({ quality: 0.3 });
-    const formData = new FormData();
-
-    formData.append('photoFromFront', {
-      uri: photo.uri,
-      name: 'photo.jpg',
-      type: 'image/jpeg',
-    });
-
-    fetch('http://localhost:3000/users/upload', {
-      method: 'POST',
-      body: formData,
-    }).then((response) => response.json())
-      .then((data) => {
-        if(user.photoId || user.profilePicture) {
-          dispatch(registerStep5({profilePicture: data.url }));
-        } else {
-          dispatch(registerStep3({photoId: data.url }));
-        }
-      });
+    if (user.token) {
+      dispatch(registerStep5({profilePicture: photo.uri}));
+    } else if (user.photoId) {
+      dispatch(registerStep5({profilePicture: photo.uri}));
+    } else {
+      dispatch(registerStep3({photoId: photo.uri}));
+    }
+    setVisible(true);
   }
 
   // if no permission, return empty view
@@ -57,8 +51,87 @@ export default function TakePictureScreen ({ navigation }) {
     return <View></View>;
   }
 
+  // handle validation of the register
+
+  const handlePictures = (photo) => {
+    const formData = new FormData();
+
+    formData.append(`picture`, {
+      uri: photo,
+      name: `${photo}.jpg`,
+      type: 'image/jpeg',
+    });
+
+    // send picture to server
+    fetch('http://192.168.10.137:3000/users/upload', {
+      method: 'POST',
+      body: formData,
+    }).then((response) => response.json())
+      .then((data) => {
+        if(user.photoId) {
+          dispatch(registerStep5({profilePicture: data.url }));
+        } else if (user.token) {
+          dispatch(registerStep5({photoId: data.url }));
+        } else {
+          dispatch(registerStep3({photoId: data.url }));
+        }
+      });
+  }
+
+const handleValidate = () => {
+  handlePictures(user.photoId);
+  handlePictures(user.profilePicture);
+    fetch('http://localhost:3000/signup', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(user),
+    }).then((response) => response.json())
+      .then((data) => {
+        dispatch(logout());
+        dispatch(login(data));
+        navigation.navigate('Map');
+      });
+  }
+
+  // handle back button
+  const handleBack = () => {
+    setVisible(false);
+  }
+
+  // handle validation of the id
+  const handleValidateId = () => {
+    // navigation.navigate('Identity');
+    setVisible(false);
+  }
+
+  let modal;
+
+  // if the user has already taken a picture, show the modal to validate the picture
+  if(user.photoId && user.profilePicture) {
+    modal = (
+      <Modal visible={visible} contentContainerStyle={containerStyle}>
+          <Text>Finish your register</Text>
+          <Image source={{uri: user.profilePicture}} style={{width: 200, height: 200}} />
+          <Button onPress={handleValidate}>Validate</Button>
+          <Button onPress={handleBack}>Back</Button>
+        </Modal>
+    )
+  } else {
+    // if the user has not taken a profile picture and the id, show the modal to validate the id
+    modal = (
+      <Modal visible={visible} contentContainerStyle={containerStyle}>
+          <Text>Valid your Id picture</Text>
+          <Image source={{uri: user.photoId}} style={{width: 200, height: 200}} />
+          <Button onPress={handleValidateId}>Validate</Button>
+          <Button onPress={handleBack}>Back</Button>
+        </Modal>
+    )
+  }
+
   return (
-    <Camera type={type} flashMode={flashMode} ref={(ref) => cameraRef = ref} style={styles.camera}>
+    <PaperProvider >
+      <Portal>
+    <Camera type={type} ref={(ref) => cameraRef = ref} style={styles.camera}>
       
       <View style={styles.buttons}>
         <TouchableOpacity
@@ -68,9 +141,8 @@ export default function TakePictureScreen ({ navigation }) {
         </TouchableOpacity>
 
         <TouchableOpacity
-          onPress={() => setFlashMode(flashMode === flashMode.off ? flashMode.torch : flashMode.off)}
           style={styles.button} >
-          <FontAwesome name='flash' size={25} color={flashMode === flashMode.off ? '#ffffff' : '#e8be4b'} />
+          <FontAwesome name='flash' size={25} color='#ffffff'/>
          </TouchableOpacity>
       </View>
 
@@ -79,8 +151,10 @@ export default function TakePictureScreen ({ navigation }) {
         <FontAwesome name='circle-thin' size={95} color='pink' />
         </TouchableOpacity>
       </View>
-
+     {modal}
     </Camera>
+    </Portal>
+    </PaperProvider>
   )
 }
 

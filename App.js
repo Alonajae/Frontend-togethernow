@@ -1,7 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeScreen from './Screens/HomeScreen';
-import IdentityScreen from './Screens/IdentityScreen';
+import SpeechRecognitionScreen from './Screens/IdentityScreen';
 import MapScreen from './Screens/MapScreen';
 import TakePictureScreen from './Screens/TakePictureScreen';
 import MyProfileScreen from './Screens/MyProfileScreen';
@@ -14,7 +14,6 @@ import user from './reducers/user';
 import { useCallback, useEffect, useState } from "react";
 import { useFonts } from "expo-font"; // import des polices
 import * as SplashScreen from "expo-splash-screen"; // import SplashScreen pour utiliser les polices avant le chargement de l'application
-import { Provider as PaperProvider } from 'react-native-paper';
 
 const persistConfig = {
   key: 'TogetherNow',
@@ -58,19 +57,17 @@ export default function App() {
   return (
 
     <Provider store={store}>
-      <PaperProvider>
         <PersistGate loading={null} persistor={persistor}>
           <NavigationContainer>
             <Stack.Navigator screenOptions={{ headerShown: false }}>
               <Stack.Screen name="Home" component={HomeScreen} />
               <Stack.Screen name="Map" component={MapScreen} />
               <Stack.Screen name="TakePicture" component={TakePictureScreen} />
-              <Stack.Screen name="Identity" component={IdentityScreen} />
+              <Stack.Screen name="Identity" component={SpeechRecognitionScreen} />
               <Stack.Screen name="MyProfile" component={MyProfileScreen} />
             </Stack.Navigator>
           </NavigationContainer>
         </PersistGate>
-      </PaperProvider >
     </Provider >
   );
 }

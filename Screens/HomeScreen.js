@@ -58,7 +58,8 @@ export default function HomeScreen({ navigation }) {
       {step === 'signup1' && <Signup step={handlePressSignup2} signup2={state2} navigate={handleNavigation} />}
       {step === 'signup2' && <Signup step={handlePressSignup2} signup2={state2} navigate={handleNavigation} />}
       {step === 'signin' && <Signin step={handlePressSignin} />}
-      <Image source={require('../assets/CityLogo.png')} style={styles.background} />
+      <View style={styles.footer}>
+      </View>
     </KeyboardAvoidingView>
 
   );
@@ -142,5 +143,12 @@ const styles = StyleSheet.create({
     right: 0,
     height: '65%',
     width: '100%',
+  },
+  footer: {
+    position: 'absolute',
+    bottom: 0,
+    height: '15%',
+    width: '100%',
+    backgroundImage: '../assets/CityLogo.png',
   },
 });
