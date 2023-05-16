@@ -10,8 +10,8 @@ export default function Signup(props, { navigation }) {
 
   const [signUpEmail, setsignUpEmail] = useState("");
   const [signUpPassword, setSignUpPassword] = useState("");
-  const [passwordShown, setPasswordShown] = useState(true);
-  const [passwordShown2, setPasswordShown2] = useState(true);
+  const [passwordShown, setPasswordShown] = useState(false);
+  const [passwordShown2, setPasswordShown2] = useState(false);
   const [confirmPassword, setConfirmPassword] = useState("");
   const [age, setAge] = useState("");
   const [gender, setGender] = useState("");
@@ -77,7 +77,7 @@ export default function Signup(props, { navigation }) {
     // // redirect to the next step of the registration;
 
     // //   props.step();
-    
+
     // navigation.navigate('IdentityScan');
   };
 
@@ -185,7 +185,7 @@ export default function Signup(props, { navigation }) {
         <TextInput
           style={styles.input}
           mode='outlined'
-          secureTextEntry={passwordShown}
+          secureTextEntry={!passwordShown}
           right={<TextInput.Icon icon="eye" onPress={() => { setPasswordShown(!passwordShown) }} />}
           activeOutlineColor="pink"
           label="Password"
@@ -197,7 +197,7 @@ export default function Signup(props, { navigation }) {
         <TextInput
           style={styles.input}
           mode='outlined'
-          secureTextEntry={passwordShown2}
+          secureTextEntry={!passwordShown2}
           right={<TextInput.Icon icon="eye" onPress={() => { setPasswordShown2(!passwordShown2) }} />}
           activeOutlineColor="pink"
           label="Confirm Password"
