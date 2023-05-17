@@ -9,7 +9,6 @@ const initialState = {
         buddies: [],
         buddiesLoading: false,
         currentPosition: null,
-        search: '',
     },
 };
 
@@ -38,14 +37,21 @@ export const mapSlice = createSlice({
         setCurrentPosition: (state, action) => {
             state.value.currentPosition = action.payload.currentPosition;
         },
-        setSearch: (state, action) => {
-            state.value.search = action.payload.search;
-        },
         addAlert: (state, action) => {
             state.value.alerts.push(action.payload.alert);
+        },
+        logout: (state) => {
+            state.value.safePlaces = [];
+            state.value.safePlacesLoading = false;
+            state.value.alerts = [];
+            state.value.alertsLoading = false;
+            state.value.buddies = [];
+            state.value.buddiesLoading = false;
+            state.value.currentPosition = null;
+            state.value.search = '';
         }
     }
 });
 
-export const { setSafePlaces, setSafePlacesLoading, setAlerts, setAlertsLoading, setBuddies, setBuddiesLoading, setCurrentPosition, setSearch, addAlert } = mapSlice.actions;
+export const { setSafePlaces, setSafePlacesLoading, setAlerts, setAlertsLoading, setBuddies, setBuddiesLoading, setCurrentPosition, addAlert } = mapSlice.actions;
 export default mapSlice.reducer;
