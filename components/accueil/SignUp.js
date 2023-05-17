@@ -125,7 +125,6 @@ export default function SignUp(props) {
           contentContainerStyle={styles.accordionContent}
           style={styles.accordion}
         >       
-          
             <List.Item title="Safety Concerns" style={styles.listItem} />
             <List.Item title="Community Support" style={styles.listItem} />
             <List.Item title="Reporting Incidents" style={styles.listItem} />
