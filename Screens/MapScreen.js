@@ -4,7 +4,7 @@ import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import user from '../reducers/user';
-import { pink100 } from 'react-native-paper/lib/typescript/src/styles/themes/v2/colors';
+import { pink100, white } from 'react-native-paper/lib/typescript/src/styles/themes/v2/colors';
 
 export default function MapScreen() {
 
@@ -67,30 +67,6 @@ export default function MapScreen() {
     })();
   })
 
-  const handleSearch = () => {
-    setSearch(!search);
-  };
-
-  const handleBuddies = () => {
-    setBuddies(!buddies);
-    if (buddies) {
-      console.log('buddies');
-    }
-  };
-
-  const handleSafePlaces = () => {
-    setSafePlaces(!safePlaces);
-    if(safePlaces) {
-      console.log('safePlaces')
-    };
-
-  const handleAlerts = () => {
-    setAlerts(!alerts);
-    if(alerts) {
-      console.log('alerts')
-    }
-  };
-
   return (
     <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <SafeAreaView >
@@ -101,16 +77,16 @@ export default function MapScreen() {
           {alertsIsSelected ? alertsMarkers : null}
           
           <View style={styles.buttonsContainer}>
-            <TouchableOpacity title="Buddies" onPress={()=> !buddiesIsSelected} />
-            <FontAwesome name='user' size={25} color={pink100} /> 
+            <TouchableOpacity title="Buddies" onPress={()=> !buddiesIsSelected} >
+            <FontAwesome name='user' size={25} color={white} /> 
             </TouchableOpacity>
            
-            <TouchableOpacity title="Safe Places" onPress={()=> !safePlacesIsSelected} />
-            <FontAwesome name='house-circle-check' size={25} color={pink100} />
+            <TouchableOpacity title="Safe Places" onPress={()=> !safePlacesIsSelected} >
+            <FontAwesome name='house-circle-check' size={25} color={white} />
             </TouchableOpacity>
 
-            <TouchableOpacity title="Alerts" onPress={()=> !alertsIsSelected} /> 
-            <FontAwesome name='triangle-exclamation' size={25} color={pink100} />
+            <TouchableOpacity title="Alerts" onPress={()=> !alertsIsSelected} > 
+            <FontAwesome name='triangle-exclamation' size={25} color={white} />
             </TouchableOpacity>
 
           </View>
@@ -119,4 +95,6 @@ export default function MapScreen() {
       </SafeAreaView>
     </KeyboardAvoidingView>
   );
-}}
+}
+
+ 
