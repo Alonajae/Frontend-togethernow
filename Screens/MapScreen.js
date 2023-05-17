@@ -17,6 +17,7 @@ export default function MapScreen() {
   const [safePlacesIsSelected, setSafePlacesIsSelected] = useState(true);
   const [alertsIsSelected, setAlertsIsSelected] = useState(true);
 
+
   // create markers for buddies, safe places and alerts
   const buddiesMarkers = buddies.map((buddy, i) => {
     return (
