@@ -7,6 +7,7 @@ import {
   View,
   Image,
   Dimensions,
+  ImageBackground
 } from 'react-native';
 // import { useDispatch } from 'react-redux';
 import Signin from '../components/accueil/Signin';
@@ -44,7 +45,6 @@ export default function HomeScreen({ navigation }) {
       {step === 'landing' && (
         <View style={styles.landingpage}>
           <Image source={require('../assets/EllipseHome.png')} style={styles.ellipse} />
-
           <Text style={styles.title}>Together Now</Text>
           <Button style={styles.button} onPress={handlePressSignin} mode="contained">
             <Text style={styles.textButton}>Sign in</Text>
@@ -54,11 +54,13 @@ export default function HomeScreen({ navigation }) {
           </Button>
         </View>
       )}
+      <Image source={require('../assets/CityLogo.png')} style={styles.city} /> 
+
       {step === 'signup1' && <SignUp step={handlePressSignup2} signup2={state2} navigate={handleNavigation} />}
       {step === 'signup2' && <SignUp step={handlePressSignup2} signup2={state2} navigate={handleNavigation} />}
       {step === 'signin' && <Signin step={handlePressSignin} />}
-      <Image source={require('../assets/CityLogo.png')} style={styles.city} /> 
     </KeyboardAvoidingView>
+    
   );
 }
   //merci de ne pas supprimer la ligne 61 ni de la modifier, cela a tout fait sauter
@@ -66,7 +68,12 @@ export default function HomeScreen({ navigation }) {
 
 
 const styles = StyleSheet.create({
-
+  imageBackground: {
+    flex: 1,
+    resizeMode: 'cover',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   background: {
     position: 'absolute',
     bottom: 0,
