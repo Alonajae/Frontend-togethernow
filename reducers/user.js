@@ -10,7 +10,7 @@ const initialState = {
     password: null,
     emergencyContact: null,
     age: null,
-    gender: null,
+    reasons: null,
     visibleOnMap: null,
     photoId: null,
     profilePicture: null,
@@ -49,7 +49,7 @@ export const userSlice = createSlice({
       state.value.inscriptionDate = action.payload.inscriptionDate;
       state.value.emergencyContact = action.payload.emergencyContact;
       state.value.age = action.payload.age;
-      state.value.gender = action.payload.gender;
+      state.value.reasons = action.payload.reasons;
       state.value.visibleOnMap = action.payload.visibleOnMap;
       state.value.profilePicture = action.payload.profilePicture;
     },
@@ -61,7 +61,7 @@ export const userSlice = createSlice({
       state.value.inscriptionDate = null;
       state.value.emergencyContact = null;
       state.value.age = null;
-      state.value.gender = null;
+      state.value.reasons = null;
       state.value.photoId = null;
       state.value.validationVideo = null;
       state.value.profilePicture = null;

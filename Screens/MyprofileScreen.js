@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, Button, Switch, TextInput, StyleSheet } from 'react-native';
 
-export default function MyProfileScreen() {
+export default function MyprofileScreen() {
   const [sharePositions, setSharePosition] = useState(false);
   const [editProfil, setEditProfil] = useState(false);
   const [email, setEmail] = useState('');
@@ -51,3 +51,4 @@ export default function MyProfileScreen() {
     </KeyboardAvoidingView>
   )}
 
+//probleme bug

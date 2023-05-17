@@ -3,8 +3,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeScreen from './Screens/HomeScreen';
 import SpeechRecognitionScreen from './Screens/IdentityScreen';
 import MapScreen from './Screens/MapScreen';
-import TakePictureScreen from './Screens/TakePictureScreen';
-import MyProfileScreen from './Screens/MyProfileScreen';
+import TakepictureScreen from './Screens/TakepictureScreen';
+import MyprofileScreen from './Screens/MyprofileScreen';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { persistStore, persistReducer } from 'redux-persist';
@@ -62,9 +62,9 @@ export default function App() {
             <Stack.Navigator screenOptions={{ headerShown: false }}>
               <Stack.Screen name="Home" component={HomeScreen} />
               <Stack.Screen name="Map" component={MapScreen} />
-              <Stack.Screen name="TakePicture" component={TakePictureScreen} />
+              <Stack.Screen name="TakePicture" component={TakepictureScreen} />
               <Stack.Screen name="Identity" component={SpeechRecognitionScreen} />
-              <Stack.Screen name="MyProfile" component={MyProfileScreen} />
+              <Stack.Screen name="MyProfile" component={MyprofileScreen} />
             </Stack.Navigator>
           </NavigationContainer>
         </PersistGate>

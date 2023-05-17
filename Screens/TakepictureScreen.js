@@ -9,7 +9,7 @@ import { registerStep3, registerStep5, logout, login } from '../reducers/user';
 import { useDispatch, useSelector } from 'react-redux';
 import { Modal, PaperProvider, Button, Text, Portal } from 'react-native-paper';
 
-export default function TakePictureScreen ({ navigation }) {
+export default function TakepictureScreen ({ navigation }) {
 
   const user = useSelector((state) => state.user.value);
   // camera states
@@ -198,3 +198,5 @@ const styles = StyleSheet.create({
   //   // store the picture in database
     
   // }
+
+  // // if no permission, return empty view

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, TextInput, Button, StyleSheet, SafeAreaView } from 'react-native';
+import { View, TextInput, Button, StyleSheet, SafeAreaView, TouchableOpacity } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -10,7 +10,7 @@ export default function MapScreen() {
   const [buddies, setBuddies] = useState([]);
   const [safePlaces, setSafePlaces] = useState([]);
   const [alerts, setAlerts] = useState([]);
-
+ 
   const [currentPosition, setCurrentPosition] = useState(null);
 
   const [buddiesIsSelected, setBuddiesIsSelected] = useState(false);
@@ -65,45 +65,34 @@ export default function MapScreen() {
     })();
   })
 
-  const handleSearch = () => {
-    setSearch(!search);
-  };
-
-  const handleBuddies = () => {
-    setBuddies(!buddies);
-    if (buddies) {
-      console.log('buddies');
-    }
-  };
-
-  const handleSafePlaces = () => {
-    setSafePlaces(!safePlaces);
-    if(safePlaces) {
-      console.log('safePlaces')
-    };
-
-  const handleAlerts = () => {
-    setAlerts(!alerts);
-    if(alerts) {
-      console.log('alerts')
-    }
-  };
-
   return (
     <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <SafeAreaView >
-      <MapView>
-         {buddiesIsSelected ? buddiesMarkers : null}
+      <MapView mapType="hybrid" style={styles.map} >
+        
+          {buddiesIsSelected ? buddiesMarkers : null}
           {safePlacesIsSelected ? safePlacesMarkers : null}
           {alertsIsSelected ? alertsMarkers : null}
+          
           <View style={styles.buttonsContainer}>
-            <Button title="Buddies" onPress={()=> !buddiesIsSelected} />
-            <Button title="Safe Places" onPress={()=>!safePlacesIsSelected} />
-            <Button title="Alerts" onPress={()=>!alertsIsSelected } />
+            <TouchableOpacity title="Buddies" onPress={()=> !buddiesIsSelected} >
+            <FontAwesome name='user' size={25} color='white'/> 
+            </TouchableOpacity>
+           
+            <TouchableOpacity title="Safe Places" onPress={()=> !safePlacesIsSelected} >
+            <FontAwesome name='house-circle-check' size={25} color='white'/>
+            </TouchableOpacity>
+
+            <TouchableOpacity title="Alerts" onPress={()=> !alertsIsSelected} > 
+            <FontAwesome name='triangle-exclamation' size={25} color='white'/>
+            </TouchableOpacity>
+
           </View>
                
       </MapView>
       </SafeAreaView>
     </KeyboardAvoidingView>
   );
-}}
+}
+
+//  probleme maj test
