@@ -97,6 +97,7 @@ export default function MapScreen({ navigation }) {
 
           </View>
 
+          {currentPosition && currentPos}
 
         </MapView>
       </SafeAreaView>
