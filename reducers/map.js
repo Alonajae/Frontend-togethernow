@@ -53,5 +53,5 @@ export const mapSlice = createSlice({
     }
 });
 
-export const { setSafePlaces, setSafePlacesLoading, setAlerts, setAlertsLoading, setBuddies, setBuddiesLoading, setCurrentPosition, addAlert, logout } = mapSlice.actions;
+export const { setSafePlaces, setAlerts, setBuddies, setCurrentPosition, addAlert, logout } = mapSlice.actions;
 export default mapSlice.reducer;
