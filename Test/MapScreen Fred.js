@@ -23,23 +23,49 @@ export default function MapScreen() {
   })
 
   useEffect(() => {
-    (async () => {
-        const result = await fetch('http://URL:3000/safeplaces');
-        const data = await result.json();
-        console.log(data);
-        setSafePlaces(data.safeplaces);
-    })();
-    }, []);
-
-    const buddies fetch('http://URL:3000/buddies');
-    const data = await result.json();               
-    setBuddies(data.buddies);
-    })();
-    }, []);
-
-    const alerts fetch('http://URL:3000/alerts');
-    const data = await result.json();
-    setAlerts(data.alerts);
-    })();   
-    }, []);
-    }
+    const handleSafePlaces = () => {
+        fetch(`${BACKEND_ADDRESS}/safeplaces`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ latitude: coordinate.latitude, longitude: coordinate.longitude }),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            setSafePlaces(data.safePlaces);
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      };
+      
+      const handleBuddies = () => {
+        fetch(`${BACKEND_ADDRESS}/buddies`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ latitude: coordinate.latitude, longitude: coordinate.longitude }),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            setBuddies(data.buddies);
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      };
+      
+      const handleAlerts = () => {
+        fetch(`${BACKEND_ADDRESS}/alerts`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ latitude: coordinate.latitude, longitude: coordinate.longitude }),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            setAlerts(data.alerts);
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      };
+  })
+}
