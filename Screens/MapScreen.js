@@ -4,7 +4,7 @@ import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import user from '../reducers/user';
-import { pink100, white } from 'react-native-paper/lib/typescript/src/styles/themes/v2/colors';
+
 
 export default function MapScreen() {
 
@@ -78,15 +78,15 @@ export default function MapScreen() {
           
           <View style={styles.buttonsContainer}>
             <TouchableOpacity title="Buddies" onPress={()=> !buddiesIsSelected} >
-            <FontAwesome name='user' size={25} color={white} /> 
+            <FontAwesome name='user' size={25} color={"white"} /> 
             </TouchableOpacity>
            
             <TouchableOpacity title="Safe Places" onPress={()=> !safePlacesIsSelected} >
-            <FontAwesome name='house-circle-check' size={25} color={white} />
+            <FontAwesome name='house-circle-check' size={25} color={"white"} />
             </TouchableOpacity>
 
             <TouchableOpacity title="Alerts" onPress={()=> !alertsIsSelected} > 
-            <FontAwesome name='triangle-exclamation' size={25} color={white} />
+            <FontAwesome name='triangle-exclamation' size={25} color={"white"} />
             </TouchableOpacity>
 
           </View>
