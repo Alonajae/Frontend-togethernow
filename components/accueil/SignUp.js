@@ -98,10 +98,6 @@ export default function SignUp(props) {
     setExpandedId(expandedId === id ? "" : id);
   };
 
-  // const handleReasons = () => {
-  //   setReason(value);
-  // };
-
   let formulaire;
 
   if (props.signup2) {
@@ -120,22 +116,28 @@ export default function SignUp(props) {
               <List.Item
                 title="Safety Concerns"
                 style={styles.listItem}
-                onPress={() => setReason("Safety Concerns")}
+                onPress={() => {
+                  setReason("Safety Concerns") 
+                 setExpandedId(" ")}}
               />
               <List.Item
                 title="Community Support"
                 style={styles.listItem}
-                onPress={() => setReason("Community Support")}
+                onPress={() => { 
+                  setReason("Community Support") 
+                setExpandedId(" ")}}
               />
               <List.Item
                 title="Reporting Incidents"
                 style={styles.listItem}
-                onPress={() => setReason("Reporting Incidents")}
+                onPress={() => {setReason("Reporting Incidents")
+              setExpandedId(" ")}}
               />
               <List.Item
                 title="Allies and Supportive Individuals"
                 style={styles.listItem}
-                onPress={() => setReason("Allies and Supportive Individuals")}
+                onPress={() => {setReason("Allies and Supportive Individuals")
+              setExpandedId(" ")}}
               />
             </List.Accordion>
           </List.Section>
@@ -318,6 +320,11 @@ const styles = StyleSheet.create({
   // },
   listItem: {
     width: "80%", // Adjust the width as needed
+    borderBottomColor: "#9E15B8",
+    borderBottomWidth: 0.3,
+    width: "90%",
+    marginLeft: "5%",
+    marginRight: "5%",
   },
   menu: {
     width: "80%", // Adjust the width as needed
