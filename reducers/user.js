@@ -2,8 +2,8 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   value: {
-    token: null,
-    firstname: null,
+    token: 'degxg',
+    firstname: 'Camille',
     lastname: null,
     inscriptionDate: null,
     email: null,
