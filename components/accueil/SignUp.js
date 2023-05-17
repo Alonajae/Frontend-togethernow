@@ -5,7 +5,7 @@ import { View, Text, Dimensions, StyleSheet, SafeAreaView, PaperProvider } from 
 // import { redirect } from 'react-router-dom';
 // import Accueil from './Accueil';
 
-export default function Signup(props) {
+export default function SignUp(props) {
   const dispatch = useDispatch();
 
   const [signUpEmail, setsignUpEmail] = useState("");
