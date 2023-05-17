@@ -69,50 +69,29 @@ export default function MapScreen({ navigation }) {
     })();
   })
 
-  const currentPos = (
-    <Marker
-      coordinate={{ latitude: currentPosition.coords.latitude, longitude: currentPosition.coords.longitude }}
-      title="You are here"
-      description="Your current position"
-    />
-  )
+  let currentPos = null;
+  if (currentPosition) {
+    currentPos = (
+      <Marker
+        coordinate={{ latitude: currentPosition.coords.latitude, longitude: currentPosition.coords.longitude }}
+        title="You are here"
+        description="Your current position"
+      />
+    )
+  }
 
   return (
-    <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-      <SafeAreaView >
         <MapView mapType="hybrid" style={styles.map} >
-
-          <View style={styles.buttonsContainer}>
-            <TouchableOpacity title="Buddies" onPress={() => !buddiesIsSelected} >
-              <FontAwesome name='user' size={25} color='white' />
-            </TouchableOpacity>
-
-            <TouchableOpacity title="Safe Places" onPress={() => !safePlacesIsSelected} >
-              <FontAwesome name='house-circle-check' size={25} color='white' />
-            </TouchableOpacity>
-
-            <TouchableOpacity title="Alerts" onPress={() => !alertsIsSelected} >
-              <FontAwesome name='triangle-exclamation' size={25} color='white' />
-            </TouchableOpacity>
-
-          </View>
-
           {currentPosition && currentPos}
-
         </MapView>
-      </SafeAreaView>
-    </KeyboardAvoidingView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  map: {
     display: 'flex',
     height: Dimensions.get('window').height * 1,
     width: Dimensions.get('window').width * 1,
-  },
-  map: {
-    flex: 1,
   },
   buttonsContainer: {
     position: 'absolute',
@@ -138,3 +117,20 @@ const styles = StyleSheet.create({
 });
 
 //   {"coords": {"accuracy": 20, "altitude": 83.4000015258789, "altitudeAccuracy": 1.3919051885604858, "heading": 0, "latitude": 48.8877125, "longitude": 2.3036289, "speed": 0.0186806321144104}, "mocked": false, "timestamp": 1684335028537}
+
+// 
+//   <View style={styles.buttonsContainer}>
+//   <TouchableOpacity title="Buddies" onPress={() => !buddiesIsSelected} >
+//     <FontAwesome name='user' size={25} color='white' />
+//   </TouchableOpacity>
+
+//   <TouchableOpacity title="Safe Places" onPress={() => !safePlacesIsSelected} >
+//     <FontAwesome name='house-circle-check' size={25} color='white' />
+//   </TouchableOpacity>
+
+//   <TouchableOpacity title="Alerts" onPress={() => !alertsIsSelected} >
+//     <FontAwesome name='triangle-exclamation' size={25} color='white' />
+//   </TouchableOpacity>
+
+// </View>
+// 
