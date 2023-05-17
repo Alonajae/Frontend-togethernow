@@ -6,7 +6,6 @@ import {
   Text,
   View,
   Image,
-  ImageBackground,
   Dimensions,
 } from 'react-native';
 // import { useDispatch } from 'react-redux';
@@ -61,8 +60,9 @@ export default function HomeScreen({ navigation }) {
       <Image source={require('../assets/CityLogo.png')} style={styles.city} /> 
     </KeyboardAvoidingView>
   );
-  //merci de ne pas supprimer la ligne 61 ni de la modifier, cela a tout fait sauter
 }
+  //merci de ne pas supprimer la ligne 61 ni de la modifier, cela a tout fait sauter
+
 
 
 const styles = StyleSheet.create({

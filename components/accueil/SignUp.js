@@ -14,7 +14,7 @@ export default function SignUp(props) {
   const [passwordShown2, setPasswordShown2] = useState(false);
   const [confirmPassword, setConfirmPassword] = useState("");
   const [age, setAge] = useState("");
-  const [gender, setGender] = useState("");
+  // const [gender, setGender] = useState("");
   const [emergencyContact, setEmergencyContact] = useState("");
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
@@ -103,7 +103,6 @@ export default function SignUp(props) {
           label="Firstname"
           onChangeText={(e) => setFirstname(e)}
           value={firstname}
-        // color="secondary"
         />
         <TextInput
           style={styles.input}
@@ -114,7 +113,6 @@ export default function SignUp(props) {
           label="Lastname"
           onChangeText={(e) => setLastname(e)}
           value={lastname}
-        // color="secondary"
         />
         <List.AccordionGroup style={styles.input}>
         <List.Accordion
@@ -141,7 +139,6 @@ export default function SignUp(props) {
           label="Age"
           onChangeText={(e) => setAge(e)}
           value={age}
-        // color="secondary"
         />
         <TextInput
           style={styles.input}
@@ -152,7 +149,6 @@ export default function SignUp(props) {
           label="Emergency Contact"
           onChangeText={(e) => setEmergencyContact(e)}
           value={emergencyContact}
-          // color="secondary"
         />
         <Button
           style={styles.signupBtn}
@@ -189,7 +185,6 @@ export default function SignUp(props) {
           label="Password"
           onChangeText={(e) => setSignUpPassword(e)}
           value={signUpPassword}
-        // color="secondary"
         />
         <TextInput
           style={styles.input}
@@ -201,7 +196,6 @@ export default function SignUp(props) {
           label="Confirm Password"
           onChangeText={(e) => setConfirmPassword(e)}
           value={confirmPassword}
-        // color="secondary"
         />
         <Button
           style={styles.signupBtn}
@@ -218,12 +212,10 @@ export default function SignUp(props) {
   }
 
   return (
-    <PaperProvider>
     <SafeAreaView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
         <Text style={styles.title}>Create an account</Text>
         {formulaire}
     </SafeAreaView>
-    </PaperProvider>
   );
 }
 
