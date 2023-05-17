@@ -42,7 +42,7 @@ export default function HomeScreen({ navigation }) {
 
   // Get to the camera screen
   const handleNavigation = () => {
-    navigation.navigate('Map');
+    navigation.navigate('TakePicture');
   };
 
   const handleSignout = () => {
@@ -59,7 +59,7 @@ export default function HomeScreen({ navigation }) {
       <Button style={styles.button} onPress={handlePressSignin} mode="contained">
         <Text style={styles.textButton}>Sign in</Text>
       </Button>
-      <Button style={styles.buttonUp} onPress={handlePressSignin} mode="outlined">
+      <Button style={styles.buttonUp} onPress={handlePressSignup} mode="outlined">
         <Text style={styles.textButtonUp}>Sign up</Text>
       </Button>
     </View>
@@ -69,7 +69,7 @@ export default function HomeScreen({ navigation }) {
       <View style={styles.landingpage}>
       <Image source={require('../assets/EllipseHome.png')} style={styles.ellipse} />
       <Text style={styles.title}>Together Now</Text>
-      <Button style={styles.button} onPress={handleNavigation} mode="contained">
+      <Button style={styles.button} onPress={()=> navigation.navigate('Map')} mode="contained">
         <Text style={styles.textButton}>Go to Map</Text>
       </Button>
       <Button style={styles.buttonUp} onPress={handleSignout} mode="outlined">
