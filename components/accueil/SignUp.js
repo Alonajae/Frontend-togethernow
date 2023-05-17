@@ -220,7 +220,6 @@ export default function Signup(props) {
   return (
     <PaperProvider>
     <SafeAreaView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-    {/* <View className={styles.registerContainer}> */}
         <Text style={styles.title}>Create an account</Text>
         {formulaire}
     </SafeAreaView>
@@ -245,8 +244,6 @@ const styles = StyleSheet.create({
   container: {  
     display: "flex",
     flex: 1,
-    // height: Dimensions.get('window').height * 1,
-
   },
   formulaire: {
     height: '100%',
@@ -276,9 +273,6 @@ const styles = StyleSheet.create({
   },
   accordion: {
     marginBottom: 8,
-  },
-  accordionContent: {
-    paddingHorizontal: 16,
   },
   listItemsContainer: {
     width: '100%', // Adjust the width as needed
