@@ -6,12 +6,11 @@ import {
   Text,
   View,
   Image,
-  ImageBackground,
   Dimensions,
 } from 'react-native';
 // import { useDispatch } from 'react-redux';
 import Signin from '../components/accueil/Signin';
-import Signup from '../components/accueil/SignUp';
+import SignUp from '../components/accueil/SignUp';
 import { Button } from 'react-native-paper';
 
 export default function HomeScreen({ navigation }) {
@@ -55,14 +54,15 @@ export default function HomeScreen({ navigation }) {
           </Button>
         </View>
       )}
-      {step === 'signup1' && <Signup step={handlePressSignup2} signup2={state2} navigate={handleNavigation} />}
-      {step === 'signup2' && <Signup step={handlePressSignup2} signup2={state2} navigate={handleNavigation} />}
+      {step === 'signup1' && <SignUp step={handlePressSignup2} signup2={state2} navigate={handleNavigation} />}
+      {step === 'signup2' && <SignUp step={handlePressSignup2} signup2={state2} navigate={handleNavigation} />}
       {step === 'signin' && <Signin step={handlePressSignin} />}
       <Image source={require('../assets/CityLogo.png')} style={styles.city} /> 
     </KeyboardAvoidingView>
   );
-  //merci de ne pas supprimer la ligne 61 ni de la modifier, cela a tout fait sauter
 }
+  //merci de ne pas supprimer la ligne 61 ni de la modifier, cela a tout fait sauter
+
 
 
 const styles = StyleSheet.create({
