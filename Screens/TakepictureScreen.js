@@ -11,6 +11,8 @@ import { Modal, PaperProvider, Button, Text, Portal } from 'react-native-paper';
 
 export default function TakepictureScreen ({ navigation }) {
 
+  const backendAdress = 'http://192.168.10.137:3000';
+
   const user = useSelector((state) => state.user.value);
   // camera states
   const [hasPermission, setHasPermission] = useState(null)
@@ -63,7 +65,7 @@ export default function TakepictureScreen ({ navigation }) {
     });
 
     // send picture to server
-    fetch('http://192.168.10.137:3000/users/upload', {
+    fetch(`${backendAdress}/users/upload`, {
       method: 'POST',
       body: formData,
     }).then((response) => response.json())
@@ -81,7 +83,7 @@ export default function TakepictureScreen ({ navigation }) {
 const handleValidate = () => {
   handlePictures(user.photoId);
   handlePictures(user.profilePicture);
-    fetch('http://localhost:3000/signup', {
+    fetch(`${backendAdress}/signup`, {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(user),
