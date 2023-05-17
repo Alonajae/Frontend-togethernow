@@ -79,18 +79,12 @@ export default function MapScreen() {
             <FontAwesome name='user' size={25} color='white'/> 
             </TouchableOpacity>
            
-            <TouchableOpacity title="Safe Places" onPress={() => {
-              if (!safePlacesIsSelected) {
-                //ne pas afficher les safe places
-                <FontAwesome name='house-circle-check' size={0} color='transparent'/>
-              }
-              }}>
+            <TouchableOpacity title="Safe Places" onPress={() => !safePlacesIsSelected} >
                 <FontAwesome name='house-circle-check' size={25} color='white'/>
              </TouchableOpacity>
                         
-
             <TouchableOpacity title="Alerts" onPress={()=> !alertsIsSelected} > 
-            <FontAwesome name='triangle-exclamation' size={25} color='white'/>
+                <FontAwesome name='triangle-exclamation' size={25} color='white'/>
             </TouchableOpacity>
 
           </View>
