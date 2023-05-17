@@ -53,7 +53,7 @@ export default function Signin() {
             firstname: data.user.firstname,
             lastname: data.user.lastname,
             age: data.user.age,
-            genre: data.user.genre,
+            reasons: data.user.reasons,
             emergencyContact: data.user.emergencyContact,
             inscriptionDate: data.user.inscriptionDate,
             profilePicture: data.user.profilePicture,
