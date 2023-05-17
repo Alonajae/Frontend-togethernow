@@ -13,8 +13,13 @@ import {
 import Signin from '../components/accueil/Signin';
 import SignUp from '../components/accueil/SignUp';
 import { Button } from 'react-native-paper';
+import { useSelector, useDispatch } from 'react-redux';
+import { logout } from '../reducers/user';
 
 export default function HomeScreen({ navigation }) {
+
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user.value);
 
   const [step, setStep] = useState('landing');
   const [state2, setState2] = useState(false);
@@ -37,23 +42,47 @@ export default function HomeScreen({ navigation }) {
 
   // Get to the camera screen
   const handleNavigation = () => {
-    navigation.navigate('TakePicture');
+    navigation.navigate('Map');
   };
+
+  const handleSignout = () => {
+    dispatch(logout());
+    setStep('landing');
+  };
+
+  let landingpage;
+  if (!user.token) {
+    landingpage = (
+      <View style={styles.landingpage}>
+      <Image source={require('../assets/EllipseHome.png')} style={styles.ellipse} />
+      <Text style={styles.title}>Together Now</Text>
+      <Button style={styles.button} onPress={handlePressSignin} mode="contained">
+        <Text style={styles.textButton}>Sign in</Text>
+      </Button>
+      <Button style={styles.buttonUp} onPress={handlePressSignin} mode="outlined">
+        <Text style={styles.textButtonUp}>Sign up</Text>
+      </Button>
+    </View>
+    )
+  } else {
+    landingpage = (
+      <View style={styles.landingpage}>
+      <Image source={require('../assets/EllipseHome.png')} style={styles.ellipse} />
+      <Text style={styles.title}>Together Now</Text>
+      <Button style={styles.button} onPress={handleNavigation} mode="contained">
+        <Text style={styles.textButton}>Go to Map</Text>
+      </Button>
+      <Button style={styles.buttonUp} onPress={handleSignout} mode="outlined">
+        <Text style={styles.textButtonUp}>Sign out</Text>
+      </Button>
+      <Text style={styles.welcome}>Welcome {user.firstname}</Text>
+    </View>
+    )
+  }
 
   return (
     <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.container}>
-      {step === 'landing' && (
-        <View style={styles.landingpage}>
-          <Image source={require('../assets/EllipseHome.png')} style={styles.ellipse} />
-          <Text style={styles.title}>Together Now</Text>
-          <Button style={styles.button} onPress={handlePressSignin} mode="contained">
-            <Text style={styles.textButton}>Sign in</Text>
-          </Button>
-          <Button style={styles.buttonUp} onPress={handlePressSignup} mode="outlined">
-            <Text style={styles.textButtonUp}>Sign up</Text>
-          </Button>
-        </View>
-      )}
+      {step === 'landing' && landingpage}
       <Image source={require('../assets/CityLogo.png')} style={styles.city} /> 
 
       {step === 'signup1' && <SignUp step={handlePressSignup2} signup2={state2} navigate={handleNavigation} />}
@@ -96,7 +125,6 @@ const styles = StyleSheet.create({
     color: '#350040',
     fontSize: 150,
     fontWeight: '600',
-    marginBottom: 20,
     lineHeight: 110,
     textAlign: 'center',
     marginBottom: 50,
@@ -154,5 +182,13 @@ const styles = StyleSheet.create({
     bottom: 0,
     height: '25%',
     width: '100%',
+  },
+  welcome: {
+    fontFamily: 'Jomhuria',
+    color: 'black',
+    fontSize: 40,
+    fontWeight: '400',
+    marginBottom: 10,
+    textAlign: 'center',
   },
 });
