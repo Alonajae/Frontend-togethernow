@@ -94,6 +94,28 @@ export default function SignUp(props) {
   if (props.signup2) {
     formulaire = (
       <View style={styles.formulaire}>
+            <View style={styles.menu}>
+        {/* <List.AccordionGroup>
+
+      <Text>
+        List.Accordion can be wrapped because implementation uses React.Context.
+      </Text> */}
+      <List.Section >
+        {/* <List.Subheader>Reasons for using Together Now</List.Subheader>  */}
+        <List.Accordion
+          id="reasons"
+          expanded={expandedId === 'reasons'}
+          onPress={() => handleAccordionPress('reasons')}
+        >       
+            <List.Item title="Safety Concerns" style={styles.listItem} />
+            <List.Item title="Community Support" style={styles.listItem} />
+            <List.Item title="Reporting Incidents" style={styles.listItem} />
+            <List.Item title="Allies and Supportive Individuals" style={styles.listItem} />
+     </List.Accordion >
+     </List.Section>  
+     </View>
+     {/* </View>
+     </List.AccordionGroup> */}
         <TextInput
           style={styles.input}
           mode='outlined'
@@ -114,21 +136,7 @@ export default function SignUp(props) {
           onChangeText={(e) => setLastname(e)}
           value={lastname}
         />
-        <List.AccordionGroup style={styles.input}>
-        <List.Accordion
-          title="Why are you downloading the app?"
-          id="reasons"
-          expanded={expandedId === 'reasons'}
-          onPress={() => handleAccordionPress('reasons')}
-          contentContainerStyle={styles.accordionContent}
-          style={styles.accordion}
-        >       
-            <List.Item title="Safety Concerns" style={styles.listItem} />
-            <List.Item title="Community Support" style={styles.listItem} />
-            <List.Item title="Reporting Incidents" style={styles.listItem} />
-            <List.Item title="Allies and Supportive Individuals" style={styles.listItem} />
-     </List.Accordion>
-      </List.AccordionGroup>
+
         <TextInput
           style={styles.input}
           mode='outlined'
@@ -237,6 +245,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   formulaire: {
+
     height: '100%',
     alignItems: "center",
     justifyContent: "center",
@@ -265,10 +274,13 @@ const styles = StyleSheet.create({
   accordion: {
     marginBottom: 8,
   },
-  listItemsContainer: {
-    width: '100%', // Adjust the width as needed
-  },
+  // listItemsContainer: {
+  //   width: '100%', // Adjust the width as needed
+  // },
   listItem: {
-    width: '100%', // Adjust the width as needed
+    width: '80%', // Adjust the width as needed
+  },
+  menu: {
+    width: '80%', // Adjust the width as needed
   },
 });

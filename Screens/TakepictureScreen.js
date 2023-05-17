@@ -133,7 +133,6 @@ const handleValidate = () => {
     <PaperProvider >
       <Portal>
     <Camera type={type} ref={(ref) => cameraRef = ref} style={styles.camera}>
-      
       <View style={styles.buttons}>
         <TouchableOpacity
           onPress={() => setType(type === CameraType.back ? CameraType.front : CameraType.back)}
