@@ -65,8 +65,6 @@ export default function HomeScreen({ navigation }) {
 }
   //merci de ne pas supprimer la ligne 61 ni de la modifier, cela a tout fait sauter
 
-
-
 const styles = StyleSheet.create({
   imageBackground: {
     flex: 1,

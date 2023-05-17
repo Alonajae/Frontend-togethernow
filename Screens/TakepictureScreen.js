@@ -19,6 +19,7 @@ export default function TakepictureScreen ({ navigation }) {
   const [type, setType] = useState(CameraType.back);
   const [camera, setCamera] = useState(null)
   const [visible, setVisible] = useState(false);
+  const [map, setMap] = useState('map');
 
   const isFocused = useIsFocused();
   const dispatch = useDispatch();
@@ -106,6 +107,10 @@ const handleValidate = () => {
     setVisible(false);
   }
 
+  const handleValidateProfile= () => {
+    setMap('map');
+  };
+
   let modal;
 
   // if the user has already taken a picture, show the modal to validate the picture
@@ -116,14 +121,14 @@ const handleValidate = () => {
           <Image source={{uri: user.profilePicture}} style={{width: 200, height: 200}} />
           <Button onPress={handleValidate}>Validate</Button>
           <Button onPress={handleBack}>Back</Button>
-          <Button onPress={() => navigation.navigate('Identity')}>Next</Button>
+          <Button onPress={() => navigation.navigate('Map')}>Next</Button>
         </Modal>
-    ) // test button next to go to the next screen
+    ) // test button next to go to the next screen (map)
   } else {
     // if the user has not taken a profile picture and the id, show the modal to validate the id
     modal = (
       <Modal visible={visible} contentContainerStyle={containerStyle}>
-          <Text>Valid your Id picture</Text>
+          <Text>Valid your ID picture</Text>
           <Image source={{uri: user.photoId}} style={{width: 200, height: 200}} />
           <Button onPress={handleValidateId}>Validate</Button>
           <Button onPress={handleBack}>Back</Button>

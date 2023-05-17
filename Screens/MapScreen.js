@@ -14,8 +14,8 @@ export default function MapScreen() {
   const [currentPosition, setCurrentPosition] = useState(null);
 
   const [buddiesIsSelected, setBuddiesIsSelected] = useState(false);
-  const [safePlacesIsSelected, setSafePlacesIsSelected] = useState(false);
-  const [alertsIsSelected, setAlertsIsSelected] = useState(false);
+  const [safePlacesIsSelected, setSafePlacesIsSelected] = useState(true);
+  const [alertsIsSelected, setAlertsIsSelected] = useState(true);
 
   // create markers for buddies, safe places and alerts
   const buddiesMarkers = buddies.map((buddy, i) => {
@@ -79,12 +79,12 @@ export default function MapScreen() {
             <FontAwesome name='user' size={25} color='white'/> 
             </TouchableOpacity>
            
-            <TouchableOpacity title="Safe Places" onPress={()=> !safePlacesIsSelected} >
-            <FontAwesome name='house-circle-check' size={25} color='white'/>
-            </TouchableOpacity>
-
+            <TouchableOpacity title="Safe Places" onPress={() => !safePlacesIsSelected} >
+                <FontAwesome name='house-circle-check' size={25} color='white'/>
+             </TouchableOpacity>
+                        
             <TouchableOpacity title="Alerts" onPress={()=> !alertsIsSelected} > 
-            <FontAwesome name='triangle-exclamation' size={25} color='white'/>
+                <FontAwesome name='triangle-exclamation' size={25} color='white'/>
             </TouchableOpacity>
 
           </View>
@@ -95,4 +95,6 @@ export default function MapScreen() {
   );
 }
 
-//  probleme maj test
+{/* <TouchableOpacity title="Safe Places" onPress={()=> !safePlacesIsSelected} >
+            <FontAwesome name='house-circle-check' size={25} color='white'/>
+            </TouchableOpacity> */}
