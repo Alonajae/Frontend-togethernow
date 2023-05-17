@@ -198,3 +198,5 @@ const styles = StyleSheet.create({
   //   // store the picture in database
     
   // }
+
+  // // if no permission, return empty view
