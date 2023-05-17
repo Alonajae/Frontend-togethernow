@@ -1,7 +1,14 @@
 import { useState } from "react";
 import { TextInput, Button, ProgressBar, List } from "react-native-paper";
 import { useDispatch } from "react-redux";
-import { View, Text, Dimensions, StyleSheet, SafeAreaView, PaperProvider } from "react-native";
+import {
+  View,
+  Text,
+  Dimensions,
+  StyleSheet,
+  SafeAreaView,
+  PaperProvider,
+} from "react-native";
 // import { redirect } from 'react-router-dom';
 // import Accueil from './Accueil';
 
@@ -14,7 +21,10 @@ export default function SignUp(props) {
   const [passwordShown2, setPasswordShown2] = useState(false);
   const [confirmPassword, setConfirmPassword] = useState("");
   const [age, setAge] = useState("");
-  // const [gender, setGender] = useState("");
+  const [reason, setReason] = useState("");
+  console.log('====================================');
+  console.log(reason);
+  console.log('====================================');
   const [emergencyContact, setEmergencyContact] = useState("");
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
@@ -82,43 +92,57 @@ export default function SignUp(props) {
     props.navigate();
   };
 
+  const [expandedId, setExpandedId] = useState("");
 
-    const [expandedId, setExpandedId] = useState('');
-  
-    const handleAccordionPress = (id) => {
-      setExpandedId(expandedId === id ? '' : id);
-    };
+  const handleAccordionPress = (id) => {
+    setExpandedId(expandedId === id ? "" : id);
+  };
+
+  // const handleReasons = () => {
+  //   setReason(value);
+  // };
 
   let formulaire;
 
   if (props.signup2) {
     formulaire = (
       <View style={styles.formulaire}>
-            <View style={styles.menu}>
-        {/* <List.AccordionGroup>
-
-      <Text>
-        List.Accordion can be wrapped because implementation uses React.Context.
-      </Text> */}
-      <List.Section >
-        {/* <List.Subheader>Reasons for using Together Now</List.Subheader>  */}
-        <List.Accordion
-          id="reasons"
-          expanded={expandedId === 'reasons'}
-          onPress={() => handleAccordionPress('reasons')}
-        >       
-            <List.Item title="Safety Concerns" style={styles.listItem} />
-            <List.Item title="Community Support" style={styles.listItem} />
-            <List.Item title="Reporting Incidents" style={styles.listItem} />
-            <List.Item title="Allies and Supportive Individuals" style={styles.listItem} />
-     </List.Accordion >
-     </List.Section>  
-     </View>
-     {/* </View>
-     </List.AccordionGroup> */}
+        <View style={styles.menu}>
+          <List.Section>
+            <List.Accordion
+              id="reasons"
+              expanded={expandedId === "reasons"}
+              onPress={() => handleAccordionPress("reasons")}
+              title="Why are you using Together Now?"
+              mode="outlined"
+              style={styles.accordion}
+            >
+              <List.Item
+                title="Safety Concerns"
+                style={styles.listItem}
+                onPress={() => setReason("Safety Concerns")}
+              />
+              <List.Item
+                title="Community Support"
+                style={styles.listItem}
+                onPress={() => setReason("Community Support")}
+              />
+              <List.Item
+                title="Reporting Incidents"
+                style={styles.listItem}
+                onPress={() => setReason("Reporting Incidents")}
+              />
+              <List.Item
+                title="Allies and Supportive Individuals"
+                style={styles.listItem}
+                onPress={() => setReason("Allies and Supportive Individuals")}
+              />
+            </List.Accordion>
+          </List.Section>
+        </View>
         <TextInput
           style={styles.input}
-          mode='outlined'
+          mode="outlined"
           type="text"
           activeOutlineColor="pink"
           outlineColor="#9E15B8"
@@ -128,7 +152,7 @@ export default function SignUp(props) {
         />
         <TextInput
           style={styles.input}
-          mode='outlined'
+          mode="outlined"
           type="text"
           activeOutlineColor="pink"
           outlineColor="#9E15B8"
@@ -139,7 +163,7 @@ export default function SignUp(props) {
 
         <TextInput
           style={styles.input}
-          mode='outlined'
+          mode="outlined"
           type="number"
           activeOutlineColor="pink"
           outlineColor="#9E15B8"
@@ -149,7 +173,7 @@ export default function SignUp(props) {
         />
         <TextInput
           style={styles.input}
-          mode='outlined'
+          mode="outlined"
           type="text"
           activeOutlineColor="pink"
           outlineColor="#9E15B8"
@@ -174,7 +198,7 @@ export default function SignUp(props) {
       <View style={styles.formulaire}>
         <TextInput
           style={styles.input}
-          mode='outlined'
+          mode="outlined"
           activeOutlineColor="pink"
           outlineColor="#9E15B8"
           label="Email"
@@ -184,9 +208,16 @@ export default function SignUp(props) {
 
         <TextInput
           style={styles.input}
-          mode='outlined'
+          mode="outlined"
           secureTextEntry={!passwordShown}
-          right={<TextInput.Icon icon="eye" onPress={() => { setPasswordShown(!passwordShown) }} />}
+          right={
+            <TextInput.Icon
+              icon="eye"
+              onPress={() => {
+                setPasswordShown(!passwordShown);
+              }}
+            />
+          }
           activeOutlineColor="pink"
           outlineColor="#9E15B8"
           label="Password"
@@ -195,9 +226,16 @@ export default function SignUp(props) {
         />
         <TextInput
           style={styles.input}
-          mode='outlined'
+          mode="outlined"
           secureTextEntry={!passwordShown2}
-          right={<TextInput.Icon icon="eye" onPress={() => { setPasswordShown2(!passwordShown2) }} />}
+          right={
+            <TextInput.Icon
+              icon="eye"
+              onPress={() => {
+                setPasswordShown2(!passwordShown2);
+              }}
+            />
+          }
           activeOutlineColor="pink"
           outlineColor="#9E15B8"
           label="Confirm Password"
@@ -219,56 +257,57 @@ export default function SignUp(props) {
   }
 
   return (
-    <SafeAreaView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-        <Text style={styles.title}>Create an account</Text>
-        {formulaire}
+    <SafeAreaView
+      style={styles.container}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+    >
+      <Text style={styles.title}>Create an account</Text>
+      {formulaire}
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-
   signupBtn: {
     borderColor: "#9E15B8",
-    width: '80%',
+    width: "80%",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: '15%',
+    marginTop: "15%",
   },
   signupBtnText: {
     color: "#9E15B8",
     fontSize: 16,
     fontWeight: "bold",
   },
-  container: {  
+  container: {
     display: "flex",
     flex: 1,
   },
   formulaire: {
-
-    height: '100%',
+    height: "100%",
     alignItems: "center",
     justifyContent: "center",
     width: Dimensions.get("window").width * 1,
   },
   input: {
-    width: '80%',
+    width: "80%",
     height: 56,
     margin: 10,
     fontSize: 16,
     backgroundColor: "#ffffff",
   },
   title: {
-    position: 'absolute',
-    alignSelf: 'center',
-    marginTop: Dimensions.get('window').height * 0.15,
+    position: "absolute",
+    alignSelf: "center",
+    marginTop: Dimensions.get("window").height * 0.15,
     top: 0,
     fontSize: 22,
     fontWeight: "bold",
     color: "#9E15B8",
   },
   progressBar: {
-    width: '80%',
+    width: "80%",
     marginTop: 10,
   },
   accordion: {
@@ -278,9 +317,16 @@ const styles = StyleSheet.create({
   //   width: '100%', // Adjust the width as needed
   // },
   listItem: {
-    width: '80%', // Adjust the width as needed
+    width: "80%", // Adjust the width as needed
   },
   menu: {
-    width: '80%', // Adjust the width as needed
+    width: "80%", // Adjust the width as needed
+  },
+  accordion: {
+    borderWidth: 1,
+    borderRadius: 5,
+    height: 56,
+    borderColor: "#9E15B8",
+    backgroundColor: "#ffffff",
   },
 });
