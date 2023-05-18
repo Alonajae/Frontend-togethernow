@@ -35,15 +35,16 @@ export default function MapScreen({ navigation }) {
   // });
 
 
-  const alertsMarkers = alerts.map((alerts, i) => {
+  const alertsMarkers = alerts.map((alert, i) => {
     return (
       <Marker
         key={i}
-        coordinate={alerts.coordinate}
-        title={alerts.name}
-        description={alerts.description}
-        
-       />
+        coordinate={alert.coordinate}
+        title={alert.name}
+        description={alert.description}
+      >
+        <FontAwesomeIcon name="exclamation-triangle" size={30} color="red" />
+      </Marker>
     );
   });
 
