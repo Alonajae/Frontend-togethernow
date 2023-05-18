@@ -18,19 +18,19 @@ export const mapSlice = createSlice({
         setSafePlaces: (state, action) => {
             state.value.safePlaces = action.payload.safePlaces;
         },
-        setSafePlacesLoading: (state, action) => {
+        setSafePlacesLoading: (state) => {
             state.value.safePlacesLoading ? false : true;
         },
         setAlerts: (state, action) => {
             state.value.alerts = action.payload.alerts;
         },
-        setAlertsLoading: (state, action) => {
+        setAlertsLoading: (state) => {
             state.value.alertsLoading ? false : true;
         },
         setBuddies: (state, action) => {
             state.value.buddies = action.payload.buddies;
         },
-        setBuddiesLoading: (state, action) => {
+        setBuddiesLoading: (state) => {
             state.value.buddiesLoading ? false : true;
         },
         addAlert: (state, action) => {
