@@ -20,74 +20,70 @@ export default function SignUp(props) {
   const [passwordShown2, setPasswordShown2] = useState(false);
   const [confirmPassword, setConfirmPassword] = useState("");
   const [age, setAge] = useState("");
-  const [reason, setReason] = useState("");
-  console.log('====================================');
-  console.log(reason);
-  console.log('====================================');
+  const [reasons, setReasons] = useState("");
   const [emergencyContact, setEmergencyContact] = useState("");
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
 
   const handleRegister = () => {
     // Send the registration data to verify if the email is not already in use
-    if (signUpPassword !== confirmPassword) {
-
+    if (!signUpEmail || !signUpPassword || !confirmPassword) {
+      alert("Please fill all the fields")
+      return;
+    } else if (signUpPassword !== confirmPassword) {
       alert("Passwords don't match")
-
-    } else {
-
-      fetch("https://backend-together-mvp.vercel.app/verify", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email: signUpEmail,
-        }),
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          if (data.result) {
-            // If the email is available for registration, store the user data in the redux store
-
-            dispatch(
-              registerStep1({
-                email: signUpEmail,
-                password: signUpPassword
-              })
-            );
-            // redirect to the next step of the registration;
-            props.step();
-          } else {
-            // If the registration failed, show an error message
-            alert(data.message);
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      return;
     }
+
+    fetch("https://backend-together-mvp.vercel.app/verify", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email: signUpEmail,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.result) {
+          // If the email is available for registration, store the user data in the redux store
+
+          dispatch(
+            registerStep1({
+              email: signUpEmail,
+              password: signUpPassword
+            })
+          );
+          // redirect to the next step of the registration;
+          props.step();
+        } else {
+          // If the registration failed, show an error message
+          alert(data.message);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
   };
 
   const handleRegister2 = () => {
-    // Store the user data in the redux store
-
-    // If the email is available for registration, store the user data in the redux store
-
-    // dispatch(
-    //   register({
-    //     gender: setGender,
-    //     age: setAge,
-    //     emergencyContact: setEmergencyContact,
-    //     firstname: setFirstname,
-    //     lastname: setLastname,
-    //   })
-    // );
-
-    // // redirect to the next step of the registration;
-
-    // //   props.step();
-
-    // navigation.navigate('IdentityScan');
-    props.navigate();
+    // Verify if all the fields are filled
+    if (!age || !reasons || !emergencyContact || !firstname || !lastname) {
+      alert("Please fill all the fields")
+    } else {
+      // If all the fields are filled, store the user data in the redux store
+      dispatch(
+        registerStep2({
+          age: age,
+          reasons: reasons,
+          emergencyContact: emergencyContact,
+          firstname: firstname,
+          lastname: lastname,
+        })
+      );
+      // redirect to the next step of the registration;
+      props.navigate();
+    };
   };
 
   const [expandedId, setExpandedId] = useState("");
@@ -115,7 +111,7 @@ export default function SignUp(props) {
                 title="Safety Concerns"
                 style={styles.listItem}
                 onPress={() => {
-                  setReason("Safety Concerns")
+                  setReasons("Safety Concerns")
                   setExpandedId(" ")
                 }}
               />
@@ -123,7 +119,7 @@ export default function SignUp(props) {
                 title="Community Support"
                 style={styles.listItem}
                 onPress={() => {
-                  setReason("Community Support")
+                  setReasons("Community Support")
                   setExpandedId(" ")
                 }}
               />
@@ -131,7 +127,7 @@ export default function SignUp(props) {
                 title="Reporting Incidents"
                 style={styles.listItem}
                 onPress={() => {
-                  setReason("Reporting Incidents")
+                  setReasons("Reporting Incidents")
                   setExpandedId(" ")
                 }}
               />
@@ -139,7 +135,7 @@ export default function SignUp(props) {
                 title="Allies and Supportive Individuals"
                 style={styles.listItem}
                 onPress={() => {
-                  setReason("Allies and Supportive Individuals")
+                  setReasons("Allies and Supportive Individuals")
                   setExpandedId(" ")
                 }}
               />
