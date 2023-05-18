@@ -11,7 +11,7 @@ import { Modal, PaperProvider, Button, Text, Portal } from 'react-native-paper';
 
 export default function TakepictureScreen ({ navigation }) {
 
-  const backendAdress = 'http://192.168.10.137:3000';
+  const backendAdress = 'https://backend-together-mvp.vercel.app';
 
   const user = useSelector((state) => state.user.value);
   // camera states
@@ -103,7 +103,7 @@ const handleValidate = () => {
 
   // handle validation of the id
   const handleValidateId = () => {
-    // navigation.navigate('Identity');
+    navigation.navigate('Video');
     setVisible(false);
   }
 
