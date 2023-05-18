@@ -4,7 +4,7 @@ import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native'; 
 
 export default function MapScreen({ navigation }) {
 
@@ -21,9 +21,6 @@ export default function MapScreen({ navigation }) {
   const [buddies, setBuddies] = useState([]);
   const [safePlaces, setSafePlaces] = useState([]);
   const [alerts, setAlerts] = useState([]);
-console.log('====================================');
-console.log(safePlaces);
-console.log('====================================');
 
   // create markers for buddies, safe places and alerts
   // const buddiesMarkers = buddies.map((buddy, i) => {
@@ -38,17 +35,17 @@ console.log('====================================');
   // });
 
 
-
-  // const alertsMarkers = alerts.map((alerts, i) => {
-  //   return (
-  //     <Marker
-  //       key={i}
-  //       coordinate={alerts.coordinate}
-  //       title={alerts.name}
-  //       description={alerts.description}
-  //     />
-  //   );
-  // });
+  const alertsMarkers = alerts.map((alerts, i) => {
+    return (
+      <Marker
+        key={i}
+        coordinate={alerts.coordinate}
+        title={alerts.name}
+        description={alerts.description}
+        
+       />
+    );
+  });
 
   const safePlacesMarkers = safePlaces.map((safePlaces, i) => {
     return (
@@ -76,24 +73,21 @@ console.log('====================================');
     fetch(`https://backend-together-mvp.vercel.app/safeplaces`)
       .then((response) => response.json())
       .then((data) => {
-        console.log('====================================');
-        console.log(data);
-        console.log('====================================');
-        setSafePlaces(data.safeplaces);
+       setSafePlaces(data.safeplaces);
         })
 
-      // fetch(`http://192.168.10.166:3000/users`)
-      // .then((response) => response.json())
-      // .then((data) => {
-      //   setBuddies(data.users);
-      //   console.log(data.users);
-      // })
+      fetch(`https://backend-together-mvp.vercel.app/users/buddies`)
+      .then((response) => response.json())
+      .then((data) => {
+        setBuddies(data.users);
+        })
 
-    // fetch(`http://192.168.10.166:3000/alerts`)
-    //  .then((response) => response.json())
-    //  .then((data) => {
-    //   setAlerts(data.alerts);
-    //     })
+    fetch(`https://backend-together-mvp.vercel.app/alerts`)
+     .then((response) => response.json())
+     .then((data) => {
+      setAlerts(data.alerts);
+      console.log(data);
+        })
     },[]);
 
   let currentPos = null;
@@ -109,16 +103,16 @@ console.log('====================================');
 
   return (
         <MapView mapType="hybrid" style={styles.map} >
-           initialRegion={{
+           {/* initialRegion={{
               latitude: currentPosition.coords.latitude,
               longitude:  currentPosition.coords.longitude,
               latitudeDelta: 0.0922,
               longitudeDelta: 0.0421,
-            }}
+            }} */}
           {currentPosition && currentPos}
           {safePlacesMarkers}
-          {/* {alertsMarkers}
-          {buddiesMarkers} */}
+          {alertsMarkers}
+          {/* {buddiesMarkers} */}
         </MapView>
   );
 }
