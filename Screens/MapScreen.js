@@ -110,8 +110,8 @@ console.log('====================================');
   return (
         <MapView mapType="hybrid" style={styles.map} >
            initialRegion={{
-              latitude: currentPosition.coords.latitude,
-              longitude:  currentPosition.coords.longitude,
+              // latitude: currentPosition.coords.latitude,
+              // longitude:  currentPosition.coords.longitude,
               latitudeDelta: 0.0922,
               longitudeDelta: 0.0421,
             }}
