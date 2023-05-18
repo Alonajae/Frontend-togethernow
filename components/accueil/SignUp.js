@@ -68,8 +68,11 @@ export default function SignUp(props) {
 
   const handleRegister2 = () => {
     // Verify if all the fields are filled
-    if (!age || !reasons || !emergencyContact || !firstname || !lastname) {
+    if (!age || !reasons || !firstname || !lastname) {
       alert("Please fill all the fields")
+    } else if (isNaN(age)) {
+      // Verify if the age is a number
+      alert("Please enter a valid age")
     } else {
       // If all the fields are filled, store the user data in the redux store
       dispatch(
