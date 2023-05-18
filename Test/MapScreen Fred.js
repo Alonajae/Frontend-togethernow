@@ -39,7 +39,7 @@ export default function MapScreen() {
       };
       
       const handleBuddies = () => {
-        fetch(`${BACKEND_ADDRESS}/buddies`, {
+        fetch(`${BACKEND_ADDRESS}/users`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ latitude: coordinate.latitude, longitude: coordinate.longitude }),
