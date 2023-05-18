@@ -108,7 +108,7 @@ export default function MapScreen({ navigation }) {
               longitude:  currentPosition.coords.longitude,
               latitudeDelta: 0.0922,
               longitudeDelta: 0.0421,
-            }} */}
+            }} */
           {currentPosition && currentPos}
           {safePlacesMarkers}
           {alertsMarkers}
