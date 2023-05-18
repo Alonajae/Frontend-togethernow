@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { TextInput, Button, ProgressBar, List } from "react-native-paper";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   View,
   Text,
@@ -9,8 +9,7 @@ import {
   SafeAreaView,
   PaperProvider,
 } from "react-native";
-// import { redirect } from 'react-router-dom';
-// import Accueil from './Accueil';
+import { registerStep1, registerStep2 } from "../../reducers/user";
 
 export default function SignUp(props) {
   const dispatch = useDispatch();
@@ -31,42 +30,41 @@ export default function SignUp(props) {
 
   const handleRegister = () => {
     // Send the registration data to verify if the email is not already in use
+    if (signUpPassword !== confirmPassword) {
 
-    // fetch("http://localhost:3000/verify", {
-    //   method: "POST",
-    //   headers: { "Content-Type": "application/json" },
-    //   body: JSON.stringify({
-    //     email: signUpEmail,
-    //   }),
-    // })
-    //   .then((response) => response.json())
-    //   .then((data) => {
+      alert("Passwords don't match")
 
-    // Handle the response data here
+    } else {
 
-    // console.log("Response data:", data);
-    // if (data.result) {
-    // If the email is available for registration, store the user data in the redux store
-    // dispatch(
-    //   register({
-    //     email: signUpEmail,
-    //     password: signUpPassword,
-    //     confirmPassword: confirmPassword,
-    //     token: data.token,
-    //   })
-    // );
+      fetch("https://backend-together-mvp.vercel.app/verify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: signUpEmail,
+        }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.result) {
+            // If the email is available for registration, store the user data in the redux store
 
-    // redirect to the next step of the registration;
-
-    props.step();
-
-    // } else {
-
-    // If the registration failed, show an error message
-
-    //     alert(data.message);
-    //   }
-    // });
+            dispatch(
+              registerStep1({
+                email: signUpEmail,
+                password: signUpPassword
+              })
+            );
+            // redirect to the next step of the registration;
+            props.step();
+          } else {
+            // If the registration failed, show an error message
+            alert(data.message);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
   };
 
   const handleRegister2 = () => {
@@ -117,27 +115,33 @@ export default function SignUp(props) {
                 title="Safety Concerns"
                 style={styles.listItem}
                 onPress={() => {
-                  setReason("Safety Concerns") 
-                 setExpandedId(" ")}}
+                  setReason("Safety Concerns")
+                  setExpandedId(" ")
+                }}
               />
               <List.Item
                 title="Community Support"
                 style={styles.listItem}
-                onPress={() => { 
-                  setReason("Community Support") 
-                setExpandedId(" ")}}
+                onPress={() => {
+                  setReason("Community Support")
+                  setExpandedId(" ")
+                }}
               />
               <List.Item
                 title="Reporting Incidents"
                 style={styles.listItem}
-                onPress={() => {setReason("Reporting Incidents")
-              setExpandedId(" ")}}
+                onPress={() => {
+                  setReason("Reporting Incidents")
+                  setExpandedId(" ")
+                }}
               />
               <List.Item
                 title="Allies and Supportive Individuals"
                 style={styles.listItem}
-                onPress={() => {setReason("Allies and Supportive Individuals")
-              setExpandedId(" ")}}
+                onPress={() => {
+                  setReason("Allies and Supportive Individuals")
+                  setExpandedId(" ")
+                }}
               />
             </List.Accordion>
           </List.Section>
