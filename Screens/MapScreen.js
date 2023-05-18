@@ -21,6 +21,9 @@ export default function MapScreen({ navigation }) {
   const [buddies, setBuddies] = useState([]);
   const [safePlaces, setSafePlaces] = useState([]);
   const [alerts, setAlerts] = useState([]);
+console.log('====================================');
+console.log(safePlaces);
+console.log('====================================');
 
   // create markers for buddies, safe places and alerts
   // const buddiesMarkers = buddies.map((buddy, i) => {
@@ -70,9 +73,12 @@ export default function MapScreen({ navigation }) {
       }
     })();
 
-    fetch(`http://192.168.10.166:3000/safeplaces`)
+    fetch(`https://backend-together-mvp.vercel.app/safeplaces`)
       .then((response) => response.json())
       .then((data) => {
+        console.log('====================================');
+        console.log(data);
+        console.log('====================================');
         setSafePlaces(data.safeplaces);
         })
 
