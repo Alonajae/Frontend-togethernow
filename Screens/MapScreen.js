@@ -5,8 +5,6 @@ import * as Location from 'expo-location';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
-import { setSafePlaces, setAlerts, setBuddies } from '../reducers/map';
-
 
 export default function MapScreen({ navigation }) {
 
@@ -20,41 +18,45 @@ export default function MapScreen({ navigation }) {
   const [safePlacesIsSelected, setSafePlacesIsSelected] = useState(false);
   const [alertsIsSelected, setAlertsIsSelected] = useState(false);
 
+  const [buddies, setBuddies] = useState([]);
+  const [safePlaces, setSafePlaces] = useState([]);
+  const [alerts, setAlerts] = useState([]);
 
   // create markers for buddies, safe places and alerts
   // const buddiesMarkers = buddies.map((buddy, i) => {
   //   return (
   //     <Marker
   //       key={i}
-  //       coordinate={{ latitude: buddy.latitude, longitude: buddy.longitude }}
+  //       coordinate={users.coordinate}
   //       title={buddy.firstname}
   //       description={buddy.lastname}
   //     />
   //   );
   // });
 
-  // const safePlacesMarkers = safePlaces.map((safePlace, i) => {
+
+
+  // const alertsMarkers = alerts.map((alerts, i) => {
   //   return (
   //     <Marker
   //       key={i}
-  //       coordinate={{ latitude: safePlace.latitude, longitude: safePlace.longitude }}
-  //       title={safePlace.name}
-  //       description={safePlace.description}
+  //       coordinate={alerts.coordinate}
+  //       title={alerts.name}
+  //       description={alerts.description}
   //     />
   //   );
   // });
 
-  // const alertsMarkers = alerts.map((alert, i) => {
-  //   return (
-  //     <Marker
-  //       key={i}
-  //       coordinate={{ latitude: alert.latitude, longitude: alert.longitude }}
-  //       title={alert.name}
-  //       description={alert.description}
-  //     />
-  //   );
-  // });
-
+  const safePlacesMarkers = safePlaces.map((safePlaces, i) => {
+    return (
+      <Marker
+        key={i}
+        coordinate={safePlaces.coordinate}
+        title={safePlaces.name}
+        description={safePlaces.description}
+      />
+    );
+  });
 
   useEffect(() => {
     (async () => {
@@ -67,7 +69,26 @@ export default function MapScreen({ navigation }) {
           });
       }
     })();
-  })
+
+    fetch(`http://192.168.10.166:3000/safeplaces`)
+      .then((response) => response.json())
+      .then((data) => {
+        setSafePlaces(data.safeplaces);
+        })
+
+      // fetch(`http://192.168.10.166:3000/users`)
+      // .then((response) => response.json())
+      // .then((data) => {
+      //   setBuddies(data.users);
+      //   console.log(data.users);
+      // })
+
+    // fetch(`http://192.168.10.166:3000/alerts`)
+    //  .then((response) => response.json())
+    //  .then((data) => {
+    //   setAlerts(data.alerts);
+    //     })
+    },[]);
 
   let currentPos = null;
   if (currentPosition) {
@@ -83,6 +104,9 @@ export default function MapScreen({ navigation }) {
   return (
         <MapView mapType="hybrid" style={styles.map} >
           {currentPosition && currentPos}
+          {safePlacesMarkers}
+          {/* {alertsMarkers}
+          {buddiesMarkers} */}
         </MapView>
   );
 }

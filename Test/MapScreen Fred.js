@@ -20,10 +20,10 @@ export default function MapScreen() {
           });
       }
     })();
-  })
+  // })
 
-  useEffect(() => {
-    const handleSafePlaces = () => {
+  // useEffect(() => {
+  //   const handleSafePlaces = () => {
         fetch(`${BACKEND_ADDRESS}/safeplaces`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -36,9 +36,9 @@ export default function MapScreen() {
           .catch((error) => {
             console.error(error);
           });
-      };
+      // };
       
-      const handleBuddies = () => {
+      // const handleBuddies = () => {
         fetch(`${BACKEND_ADDRESS}/users`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -51,9 +51,9 @@ export default function MapScreen() {
           .catch((error) => {
             console.error(error);
           });
-      };
+      // };
       
-      const handleAlerts = () => {
+      // const handleAlerts = () => {
         fetch(`${BACKEND_ADDRESS}/alerts`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -66,6 +66,6 @@ export default function MapScreen() {
           .catch((error) => {
             console.error(error);
           });
-      };
+      // };
   })
 }
