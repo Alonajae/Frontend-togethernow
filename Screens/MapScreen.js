@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { View, TextInput, StyleSheet, SafeAreaView, TouchableOpacity, KeyboardAvoidingView, Dimensions, Image } from 'react-native';
+import { View, TextInput, StyleSheet, SafeAreaView, TouchableOpacity, KeyboardAvoidingView, Dimensions, Image, Text } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
 // import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { useDispatch, useSelector } from 'react-redux';
 // import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import { Modal, Button } from 'react-native-paper';
+import Constants from 'expo-constants';
 
 export default function MapScreen({ navigation }) {
+
+  const GOOGLE_PLACES_API_KEY = 'AIzaSyD_qcRhN9VzJWseMGcv6zzsqCwAZ40s5P';
 
   const dispatch = useDispatch();
   const token = useSelector((state) => state.user.value.token);
@@ -38,9 +41,7 @@ export default function MapScreen({ navigation }) {
     }
   });
 
-  const googleApi = 'AIzaSyD_qcRhN9VzJWseMGcv6zzsqCwAZ40s5P';
-
-
+  
   // create markers for buddies, safe places and alerts
 
   const buddiesMarkers = buddies.map((buddy, i) => {
@@ -49,7 +50,7 @@ export default function MapScreen({ navigation }) {
         key={i}
         coordinate={buddy.coordinate}
         title={buddy.firstname}
-        description={buddy.firsttname}
+        description={buddy.firstname}
       />
     );
   });
@@ -76,7 +77,7 @@ export default function MapScreen({ navigation }) {
         title={safePlaces.name}
         description={safePlaces.description}
       >
-        <Image source={require('../assets/SafePlaces.png')} />
+        <Image source={require('../assets/icons8-location-48.png')} />
       </Marker>
     );
   });
@@ -216,20 +217,33 @@ export default function MapScreen({ navigation }) {
     }
   }
 
+  const ref = useRef();
+
+  useEffect(() => {
+    ref.current?.setAddressText('Some Text');
+  }, []);
 
   return (
     <MapView mapType="hybrid" style={styles.map}
-      initialRegion={initialRegion}
-      showsUserLocation={true}
-      showsMyLocationButton={true}
-      showsCompass={true}
-      onLongPress={(e) => { handleLongPress(e) }}
-    >
-      <GooglePlacesAutocomplete
-        placeholder="Type a place"
-        query={{ key: googleApi }}
-      />
+        initialRegion={initialRegion}
+        showsUserLocation={true}
+        showsMyLocationButton={true}
+        showsCompass={true}
+        onLongPress={(e) => { handleLongPress(e) }}
+      >
 
+      <GooglePlacesAutocomplete
+        ref={ref}
+        placeholder='Search'
+        onPress={(data, details = null) => {
+          console.log(data, details);
+        }}
+        query={{
+          key: GOOGLE_PLACES_API_KEY,
+          language: 'en',
+        }}
+      />
+    
       {currentPosition && currentPos}
       {safePlacesMarkers}
       {alertsMarkers}
@@ -290,23 +304,27 @@ const styles = StyleSheet.create({
     margin: 12,
     borderWidth: 1,
   },
+  modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    height: 500,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 10
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center",
+    fontSize: 20,
+    fontWeight: 'bold'
+  }
 });
 
-//   {"coords": {"accuracy": 20, "altitude": 83.4000015258789, "altitudeAccuracy": 1.3919051885604858, "heading": 0, "latitude": 48.8877125, "longitude": 2.3036289, "speed": 0.0186806321144104}, "mocked": false, "timestamp": 1684335028537}
-
-//
-//   <View style={styles.buttonsContainer}>
-//   <TouchableOpacity title="Buddies" onPress={() => !buddiesIsSelected} >
-//     <FontAwesome name='user' size={25} color='white' />
-//   </TouchableOpacity>
-
-//   <TouchableOpacity title="Safe Places" onPress={() => !safePlacesIsSelected} >
-//     <FontAwesome name='house-circle-check' size={25} color='white' />
-//   </TouchableOpacity>
-
-//   <TouchableOpacity title="Alerts" onPress={() => !alertsIsSelected} >
-//     <FontAwesome name='triangle-exclamation' size={25} color='white' />
-//   </TouchableOpacity>
-
-// </View>
-// 
