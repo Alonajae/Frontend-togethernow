@@ -6,6 +6,8 @@ import { TouchableOpacity } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { Modal, PaperProvider, Button, Text, Portal } from 'react-native-paper';
+import { Audio } from 'expo-av';
+// import Voice from '@react-native-voice/voice';
 
 export default function VideoScreen () {
 
@@ -14,39 +16,81 @@ export default function VideoScreen () {
   const [type, setType] = useState(CameraType.back);
   const isFocused = useIsFocused();
   const containerStyle = {backgroundColor: 'white', padding: 20};
-  const [videoSource, setVideoSource] = useState([]);
-  const [videoRecording, setIsVideoRecording] = useState(false);
-  const [isPreview, setIsPreview] = useState(false);
+  const [videoSource, setVideoSource] = useState('');
+  const [sound, setSound] = useState('');
+
+  let [started, setStarted] = useState(false);
+  let [results, setResults] = useState([]);
   console.log('====================================');
-  console.log(videoSource);
+  console.log(results);
   console.log('====================================');
+
+  // useEffect(() => {
+  //   Voice.onSpeechError = onSpeechError;
+  //   Voice.onSpeechResults = onSpeechResults;
+
+  //   return () => {
+  //     Voice.destroy().then(Voice.removeAllListeners);
+  //   }
+  // }, []);
+
+
+  // console.log('====================================');
+  // console.log(videoSource);
+  // console.log('====================================');
 
   let cameraRef = useRef(null);
+ // take the video
 
-  
-  // // take the video
-  const recordVideo = async () => {
-    if (cameraRef) {
-      try {
-        const videoRecordPromise = await cameraRef.current.recordAsync();
-        console.log('====================================');
-        console.log('videoRecordPromise', videoRecordPromise);
-        console.log('====================================');
-        // if (videoRecordPromise) {
-        //   setIsVideoRecording(true);
-        //   const data = await videoRecordPromise;
-        //   const source = data.uri;
-        //   if (source) {
-        //     setIsPreview(true);
-        //     setVideoSource(source);
-        //   }
-        // }
-      } catch (error) {
-        console.warn(error);
-      }
-    }}
+ 
+
+    const recordVideo = async () => {
+      if (cameraRef) {
+        try {
+          const videoRecordPromise = await cameraRef.current.recordAsync();
+          console.log('====================================');
+          console.log('videoRecordPromise', videoRecordPromise);
+          console.log('====================================');
+          if (videoRecordPromise) {          
+            setVideoSource(videoRecordPromise);
+            //envoyer au back le videoRecordPromise.uri
+            //display une modal de chargement
+            // donner l'autorisation d'accéder à la map
+          }
+        } catch (error) {
+          console.warn(error);
+        }
+      }}
+
+      // recuperation du son qui marche mais pas de possibilité de speech to text avec ExpoGo 
+      // Ne pas supprimer SVP
+
+      // const playsSound = async () => {
+      //   console.log('Loading Sound');
+      //   console.log(videoSource.uri);
+      //   const { sound } = await Audio.Sound.createAsync({uri: videoSource.uri});
+      //   setSound(sound);
+      //   // console.log('Playing Sound');
+      //   await sound.playAsync(); }
+
+      // useEffect(() => {
+      //   return sound
+      //     ? () => {
+
+      //         console.log('Unloading Sound');
+      //         sound.unloadAsync(); }
+      //     : undefined;
+      // }, [sound]);
+
+      //dans le return :
+      // <TouchableOpacity onPress={() => playsSound()}>
+      // <FontAwesome name='circle-thin' size={95} color='green' />
+      // </TouchableOpacity>
+
+      // fin du test
 
     return (
+
     <PaperProvider >
       <Portal>
     <Camera type={type} ref={cameraRef} style={styles.camera}>
@@ -61,21 +105,23 @@ export default function VideoScreen () {
           style={styles.button} >
           <FontAwesome name='flash' size={25} color='#ffffff'/>
          </TouchableOpacity>
+         <View style={styles.container}>
+        </View>
       </View>
-
       <View style={styles.snapButton}>
         <TouchableOpacity onPress={() => cameraRef && recordVideo()}>
         <FontAwesome name='circle-thin' size={95} color='pink' />
         </TouchableOpacity>
+
         <TouchableOpacity onPress={() => cameraRef && cameraRef.current.stopRecording()}>
-        <FontAwesome name='circle-thin' size={95} color='red' />
+        <FontAwesome name='circle' size={85} color='red' />
         </TouchableOpacity>
       </View>
     </Camera>
     </Portal>
     </PaperProvider>
   )
-}
+    }
 
 const styles = StyleSheet.create({
   camera: {
@@ -107,5 +153,5 @@ const styles = StyleSheet.create({
 });
 
 
-
+//test comment
   // // if no permission, return empty view

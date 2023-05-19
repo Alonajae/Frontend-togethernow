@@ -57,18 +57,20 @@ export default function Signin(props) {
             emergencyContact: data.user.emergencyContact,
             inscriptionDate: data.user.inscriptionDate,
             profilePicture: data.user.profilePicture,
+            accessGranted: data.user.accessGranted,
           };
           dispatch(login(infos));
           setSignInEmail('');
           setSignInPassword('');
           setError(null);
-          props.navigate();
+          props.navigate()
         }
         else {
 
           // If the registration failed, show an error message
 
           setError(data.error);
+          alert('your email and password might be incorrect or your account has not been validated')
         }
       })
   };

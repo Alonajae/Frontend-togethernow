@@ -15,6 +15,7 @@ const initialState = {
     photoId: null,
     profilePicture: null,
     validationVideo: null,
+    accessGranted: null,
   },
 };
 
@@ -37,10 +38,10 @@ export const userSlice = createSlice({
       state.value.photoId = action.payload.photoId;
     },
     registerStep4: (state, action) => {
-      state.value.validationVideo = action.payload.validationVideo;
+      state.value.profilePicture = action.payload.profilePicture;
     },
     registerStep5: (state, action) => {
-      state.value.profilePicture = action.payload.profilePicture;
+      state.value.validationVideo = action.payload.validationVideo;
     },
     login: (state, action) => {
       state.value.token = action.payload.token;
@@ -53,6 +54,7 @@ export const userSlice = createSlice({
       state.value.reasons = action.payload.reasons;
       state.value.visibleOnMap = action.payload.visibleOnMap;
       state.value.profilePicture = action.payload.profilePicture;
+      state.value.accessGranted = action.payload.accessGranted;
     },
     logout: (state) => {
       state.value.token = null;
@@ -68,6 +70,7 @@ export const userSlice = createSlice({
       state.value.profilePicture = null;
       state.value.visibleOnMap = null;
       state.value.password = null;
+      state.value.accessGranted = null;
     },
   },
 });
