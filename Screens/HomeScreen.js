@@ -87,7 +87,7 @@ export default function HomeScreen({ navigation }) {
 
       {step === 'signup1' && <SignUp step={handlePressSignup2} signup2={state2} navigate={handleNavigation} />}
       {step === 'signup2' && <SignUp step={handlePressSignup2} signup2={state2} navigate={handleNavigation} />}
-      {step === 'signin' && <Signin step={handlePressSignin} />}
+      {step === 'signin' && <Signin navigate={navigation.navigate('Map')}/>}
     </KeyboardAvoidingView>
     
   );
