@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, Button, Switch, TextInput, StyleSheet } from 'react-native';
+import * as ImagePicker from 'expo-image-picker';
+
 
 export default function MyprofileScreen() {
   const [sharePositions, setSharePosition] = useState(false);
@@ -9,6 +11,7 @@ export default function MyprofileScreen() {
   const [address, setAddress] = useState('');
   const [firstname, setFirstname] = useState('');
   const [history, setHistory] = useState('');
+  const [profileImage, setProfileImage] = useState(null)
   
   const handleSharePosition = () => {
     setSharePosition(!sharePosition);
@@ -22,23 +25,40 @@ export default function MyprofileScreen() {
     setHistory(!history);
   };
   
+  const handleImageUpload = async () => {
+    const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+    if (permissionResult.granted === false) {
+      alert("La permission d'accéder à la galerie est requise pour choisir une image de profil.");
+      return;
+    }
+
   return (
     <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-        <View>
+        <View style={styles.container}>
         <Text style={styles.title}>My Profile</Text>
 
         {/* <Image style={styles.profileimage} source={require('../assets/PROFIL.jpg')} /> */}
+          <TouchableOpacity onPress={handleImageUpload}>
+          {profileImage ? (
+            <Image source={{ uri: profileImage }} style={styles.profileImage} />
+          ) : (
+            <Text style={styles.uploadText}>Choisir une photo</Text>
+          )}
+        </TouchableOpacity>
             
         <TextInput>Firstname: {Firtname}</TextInput>
                 
         <Text>Shared Routes:</Text>
         <Text>counter avec la BDD </Text>
         
-        <Text style={styles.subtitle}>Personal Informations</Text>
-        <TextInput>Firstname: {Firstname}</TextInput>
-        <TextInput>Email: {email}</TextInput>
-        <TextInput>Phone: {phone}</TextInput>
-        <TextInput>Address: {address}</TextInput>
+        <View style={styles.personnalinfos}>
+          <Text style={styles.subtitle}>Personal Informations</Text>
+          <TextInput>Firstname: {Firstname}</TextInput>
+          <TextInput>Email: {email}</TextInput>
+          <TextInput>Phone: {phone}</TextInput>
+          <TextInput>Address: {address}</TextInput>
+        </View>
         
         <View>
             <Text>Share My Position:</Text>
@@ -47,8 +67,20 @@ export default function MyprofileScreen() {
         
         <Button title={styles.editprofile} onPress={() => handleEditprofil()} />
         <Button title={styles.history} onPress={() => handleHistory ()} />
+        
         </View>
     </KeyboardAvoidingView>
   )}
 
-//probleme bug
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    profileImage: {
+      width: 100,
+      height: 100,
+      borderRadius: 50,
+    },
+   });}

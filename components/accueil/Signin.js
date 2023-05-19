@@ -61,6 +61,7 @@ export default function Signin(props) {
           dispatch(login(infos));
           setSignInEmail('');
           setSignInPassword('');
+          setError(null);
           props.navigate();
         }
         else {
