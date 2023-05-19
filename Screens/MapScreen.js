@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, TextInput, Button, StyleSheet, SafeAreaView, TouchableOpacity, KeyboardAvoidingView, Dimensions } from 'react-native';
+import { View, TextInput, Button, StyleSheet, SafeAreaView, TouchableOpacity, KeyboardAvoidingView, Dimensions, Image } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -43,7 +43,7 @@ export default function MapScreen({ navigation }) {
         title={alert.name}
         description={alert.description}
       >
-        <FontAwesomeIcon name="exclamation-triangle" size={30} color="red" />
+      <Image source={require('../assets/Alerts.png')} />
       </Marker>
     );
   });
@@ -55,7 +55,9 @@ export default function MapScreen({ navigation }) {
         coordinate={safePlaces.coordinate}
         title={safePlaces.name}
         description={safePlaces.description}
-      />
+        >
+        <Image source={require('../assets/SafePlaces.png')} />
+        </Marker>
     );
   });
 
@@ -77,7 +79,7 @@ export default function MapScreen({ navigation }) {
        setSafePlaces(data.safeplaces);
         })
 
-      fetch(`https://backend-together-mvp.vercel.app/users/buddies`)
+    fetch(`https://backend-together-mvp.vercel.app/users/buddies`)
       .then((response) => response.json())
       .then((data) => {
         setBuddies(data.users);
