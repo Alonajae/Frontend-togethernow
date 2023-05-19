@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { login } from '../../reducers/user'
 
-export default function Signin() {
+export default function Signin(props) {
 
   const dispatch = useDispatch();
 
@@ -61,6 +61,7 @@ export default function Signin() {
           dispatch(login(infos));
           setSignInEmail('');
           setSignInPassword('');
+          props.navigate();
         }
         else {
 

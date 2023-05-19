@@ -3,18 +3,18 @@ import { Button, StyleSheet, Text, View } from "react-native";
 import * as Speech from "expo-speech";
 import { Camera } from "expo-camera";
 
-export default function VideoScreen({ navigation}) {
+export default function VideoScreen({ navigation }) {
+  
   const [results, setResults] = useState([]);
   const [isListening, setIsListening] = useState(false);
   const [randomNumbers, setRandomNumbers] = useState([]);
   const cameraRef = useRef(null);
 
   // 
-  const onSpeechResults = ({ value }) => {
+  const onSpeechResults = (value) => {
     setResults(value ?? []);
     compareResults(value ?? []);
   };
-
   // 
   const startSpeechRecognition = async () => {
     try {
@@ -41,15 +41,13 @@ export default function VideoScreen({ navigation}) {
   }, []);
 
   useEffect(() => {
-
     Speech.addListener(onSpeechResults);
 
     return () => {
       Speech.stop();
       Speech.removeAllListeners();
     };
-
-  }, []);
+  }, [randomNumbers]);
 
   const generateRandomNumbers = () => {
     const numbers = [];
@@ -90,11 +88,11 @@ export default function VideoScreen({ navigation}) {
         />
         <Text style={styles.overlayText}>Results:</Text>
         {results.map((result, index) => (
-          <Text key={`result-${index}`}>{result}</Text>
+          <Text key={`result-${index}`}>{String(result)}</Text>
         ))}
         <Text style={styles.overlayText}>Random Numbers:</Text>
         {randomNumbers.map((number, index) => (
-          <Text key={`number-${index}`}>{number}</Text>
+          <Text key={`number-${index}`}>{String(number)}</Text>
         ))}
       </View>
     </View>
