@@ -290,6 +290,28 @@ const styles = StyleSheet.create({
     margin: 12,
     borderWidth: 1,
   },
+  modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    height: 500,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 10
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center",
+    fontSize: 20,
+    fontWeight: 'bold'
+  }
 });
 
 //   {"coords": {"accuracy": 20, "altitude": 83.4000015258789, "altitudeAccuracy": 1.3919051885604858, "heading": 0, "latitude": 48.8877125, "longitude": 2.3036289, "speed": 0.0186806321144104}, "mocked": false, "timestamp": 1684335028537}
