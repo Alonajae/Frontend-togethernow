@@ -119,8 +119,9 @@ export default function TakepictureScreen({ navigation }) {
           <Button onPress={handleValidate}>Validate</Button>
           <Button onPress={handleBack}>Back</Button>
           <Button onPress={() => navigation.navigate('Map')}>Next</Button>
+          </View>
         </Modal>
-    ) // test button next to go to the next screen (map)
+    ) 
   } else {
     // if the user has not taken a profile picture and the id, show the modal to validate the id
     modal = (
@@ -203,9 +204,7 @@ const takePicture = async () => {
   console.log(photo.width, photo.height);
   console.log(photo.uri);
   // store the picture in redux
-
   // store the picture in database
-
 }
 
   // // if no permission, return empty view

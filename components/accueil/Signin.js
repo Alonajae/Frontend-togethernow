@@ -75,6 +75,10 @@ export default function Signin(props) {
       })
   };
 
+  const handleBackHome = () => {
+    props.navigation.navigate('Home');
+  };
+
 
   return (
     <SafeAreaView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
@@ -100,9 +104,18 @@ export default function Signin(props) {
             value={signInPassword}
           />
           <Text style={styles.error}>{error}</Text>
-          <Button style={styles.button} onPress={handleConnection} mode="outlined">
-          <Text style={styles.textButton}>Go</Text>
+          <View style={styles.signin} >
+        <Button
+          style={styles.signinBtn}
+          mode="outlined"
+          onPress={handleConnection}
+        >
+          <Text style={styles.signinBtnText}> Go! </Text>
         </Button>
+        <Button style={styles.signinBtnHome} onPress={() => props.setStep("landing")} mode="outlined">
+            <Text style={styles.signinBtnTextBack} >Back Home</Text>
+        </Button> 
+        </View>
         </View>
       </View>
     </SafeAreaView>
@@ -114,6 +127,36 @@ const styles = StyleSheet.create({
     display: 'flex',
     flex: 1,
   },
+  signin: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-around",
+    width: "80%",
+  },
+  signinBtn: {
+    borderColor: "#9E15B8",
+    width: "40%",
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: "15%",
+  },
+  signinBtnHome: {
+    borderColor: "#FB8C7C",
+    width: "40%",
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: "15%",
+  },
+  signinBtnText: {
+    color: "#9E15B8",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  signinBtnTextBack: {
+    color: "#FB8C7C",
+    fontSize: 16,
+  },
+
   registerContainer: {
     justifyContent: 'center',
     alignItems: 'center',
