@@ -115,13 +115,13 @@ export default function TakepictureScreen({ navigation }) {
       <Modal visible={visible} contentContainerStyle={containerStyle}>
         <View style={styles.imageContainer}>
           <Text>Finish your register</Text>
-          <Image source={{uri: user.profilePicture}} style={{width: 200, height: 200}} />
-          <Button onPress={handleValidate}>Validate</Button>
-          <Button onPress={handleBack}>Back</Button>
-          <Button onPress={() => navigation.navigate('Map')}>Next</Button>
-          </View>
-        </Modal>
-    ) 
+          <Image source={{ uri: user.profilePicture }} style={{ width: 200, height: 200 }} />
+        </View>
+        <Button onPress={handleValidate}>Validate</Button>
+        <Button onPress={handleBack}>Back</Button>
+        <Button onPress={() => navigation.navigate('Map')}>Next</Button>
+      </Modal>
+    ) // test button next to go to the next screen (map)
   } else {
     // if the user has not taken a profile picture and the id, show the modal to validate the id
     modal = (
