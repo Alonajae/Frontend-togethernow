@@ -4,12 +4,11 @@ import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigation } from '@react-navigation/native';  
 
 export default function MapScreen({ navigation }) {
 
   const dispatch = useDispatch();
-  const map = useSelector((state) => state.map.value);
+  const token = useSelector((state) => state.user.value.token);
 
   const [search, setSearch] = useState('');
   const [currentPosition, setCurrentPosition] = useState(null);
@@ -18,21 +17,24 @@ export default function MapScreen({ navigation }) {
   const [safePlacesIsSelected, setSafePlacesIsSelected] = useState(false);
   const [alertsIsSelected, setAlertsIsSelected] = useState(false);
 
+  const [alerts, setAlerts] = useState([]);
   const [buddies, setBuddies] = useState([]);
   const [safePlaces, setSafePlaces] = useState([]);
-  const [alerts, setAlerts] = useState([]);
+
+
 
   // create markers for buddies, safe places and alerts
-  // const buddiesMarkers = buddies.map((buddy, i) => {
-  //   return (
-  //     <Marker
-  //       key={i}
-  //       coordinate={users.coordinate}
-  //       title={buddy.firstname}
-  //       description={buddy.lastname}
-  //     />
-  //   );
-  // });
+
+  const buddiesMarkers = buddies.map((buddy, i) => {
+    return (
+      <Marker
+        key={i}
+        coordinate={buddy.coordinate}
+        title={buddy.firstname}
+        description={buddy.firsttname}
+      />
+    );
+  });
 
 
   const alertsMarkers = alerts.map((alert, i) => {
@@ -69,6 +71,22 @@ export default function MapScreen({ navigation }) {
         Location.watchPositionAsync({ distanceInterval: 10 },
           (location) => {
             setCurrentPosition(location);
+            fetch(`https://backend-together-mvp.vercel.app/users/location`, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                token: token,
+                coordinate: {
+                  latitude: location.coords.latitude,
+                  longitude: location.coords.longitude
+                }
+              })
+            })
+              .then((response) => response.json())
+              .then((data) => {
+                console.log(data);
+              }
+              )
           });
       }
     })();
@@ -76,22 +94,22 @@ export default function MapScreen({ navigation }) {
     fetch(`https://backend-together-mvp.vercel.app/safeplaces`)
       .then((response) => response.json())
       .then((data) => {
-       setSafePlaces(data.safeplaces);
-        })
+        setSafePlaces(data.safeplaces);
+      })
 
     fetch(`https://backend-together-mvp.vercel.app/users/buddies`)
       .then((response) => response.json())
       .then((data) => {
         setBuddies(data.users);
-        })
+      })
 
     fetch(`https://backend-together-mvp.vercel.app/alerts`)
-     .then((response) => response.json())
-     .then((data) => {
-      setAlerts(data.alerts);
-      console.log(data);
-        })
-    },[]);
+      .then((response) => response.json())
+      .then((data) => {
+        setAlerts(data.alerts);
+        console.log(data);
+      })
+  }, []);
 
   let currentPos = null;
   if (currentPosition) {
@@ -104,19 +122,33 @@ export default function MapScreen({ navigation }) {
     )
   }
 
+  let initialRegion;
+  if (currentPosition) {
+    initialRegion = {
+      latitude: currentPosition.coords.latitude,
+      longitude: currentPosition.coords.longitude,
+      latitudeDelta: 0.0922,
+      longitudeDelta: 0.0421,
+    }
+  } else {
+    initialRegion = {
+      latitude: 48.8877125,
+      longitude: 2.3036289,
+      latitudeDelta: 0.0922,
+      longitudeDelta: 0.0421,
+    }
+  }
+
+
   return (
-        <MapView mapType="hybrid" style={styles.map} >
-           initialRegion={{
-              latitude: currentPosition.coords.latitude,
-              longitude:  currentPosition.coords.longitude,
-              latitudeDelta: 0.0922,
-              longitudeDelta: 0.0421,
-            }} */
-          {currentPosition && currentPos}
-          {safePlacesMarkers}
-          {alertsMarkers}
-          {/* {buddiesMarkers} */}
-        </MapView>
+    <MapView mapType="hybrid" style={styles.map}
+      initialRegion={initialRegion}
+    >
+      {currentPosition && currentPos}
+      {safePlacesMarkers}
+      {alertsMarkers}
+      {/* {buddiesMarkers} */}
+    </MapView>
   );
 }
 
@@ -151,7 +183,7 @@ const styles = StyleSheet.create({
 
 //   {"coords": {"accuracy": 20, "altitude": 83.4000015258789, "altitudeAccuracy": 1.3919051885604858, "heading": 0, "latitude": 48.8877125, "longitude": 2.3036289, "speed": 0.0186806321144104}, "mocked": false, "timestamp": 1684335028537}
 
-// 
+//
 //   <View style={styles.buttonsContainer}>
 //   <TouchableOpacity title="Buddies" onPress={() => !buddiesIsSelected} >
 //     <FontAwesome name='user' size={25} color='white' />
