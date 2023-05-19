@@ -4,12 +4,11 @@ import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigation } from '@react-navigation/native';
 
 export default function MapScreen({ navigation }) {
 
   const dispatch = useDispatch();
-  const map = useSelector((state) => state.map.value);
+  const token = useSelector((state) => state.user.value.token);
 
   const [search, setSearch] = useState('');
   const [currentPosition, setCurrentPosition] = useState(null);
@@ -18,21 +17,24 @@ export default function MapScreen({ navigation }) {
   const [safePlacesIsSelected, setSafePlacesIsSelected] = useState(false);
   const [alertsIsSelected, setAlertsIsSelected] = useState(false);
 
+  const [alerts, setAlerts] = useState([]);
   const [buddies, setBuddies] = useState([]);
   const [safePlaces, setSafePlaces] = useState([]);
-  const [alerts, setAlerts] = useState([]);
+
+
 
   // create markers for buddies, safe places and alerts
-  // const buddiesMarkers = buddies.map((buddy, i) => {
-  //   return (
-  //     <Marker
-  //       key={i}
-  //       coordinate={users.coordinate}
-  //       title={buddy.firstname}
-  //       description={buddy.lastname}
-  //     />
-  //   );
-  // });
+
+  const buddiesMarkers = buddies.map((buddy, i) => {
+    return (
+      <Marker
+        key={i}
+        coordinate={buddy.coordinate}
+        title={buddy.firstname}
+        description={buddy.firsttname}
+      />
+    );
+  });
 
 
   const alertsMarkers = alerts.map((alert, i) => {
@@ -43,7 +45,7 @@ export default function MapScreen({ navigation }) {
         title={alert.name}
         description={alert.description}
       >
-        <FontAwesomeIcon name="exclamation-triangle" size={30} color="red" />
+        <FontAwesome name="exclamation-triangle" size={30} color="red" />
       </Marker>
     );
   });
@@ -67,6 +69,22 @@ export default function MapScreen({ navigation }) {
         Location.watchPositionAsync({ distanceInterval: 10 },
           (location) => {
             setCurrentPosition(location);
+            fetch(`https://backend-together-mvp.vercel.app/users/location`, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                token: token,
+                coordinate: {
+                  latitude: location.coords.latitude,
+                  longitude: location.coords.longitude
+                }
+              })
+            })
+              .then((response) => response.json())
+              .then((data) => {
+                console.log(data);
+              }
+              )
           });
       }
     })();
