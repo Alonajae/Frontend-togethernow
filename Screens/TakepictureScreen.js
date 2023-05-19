@@ -11,7 +11,7 @@ import { Modal, PaperProvider, Button, Text, Portal } from 'react-native-paper';
 
 export default function TakepictureScreen({ navigation }) {
 
-  const backendAdress = 'https://backend-together-mvp.vercel.app';
+  const backendAdress = 'http://192.168.10.166:3000';
 
   const user = useSelector((state) => state.user.value);
   // camera states
@@ -82,6 +82,7 @@ export default function TakepictureScreen({ navigation }) {
   // handle validation of the register
 
   const handleValidate = () => {
+    console.log('test');
     handlePictures(user.photoId);
     handlePictures(user.profilePicture);
     fetch(`${backendAdress}/signup`, {
@@ -93,7 +94,8 @@ export default function TakepictureScreen({ navigation }) {
         dispatch(logout());
         dispatch(login(data));
         navigation.navigate('Video');
-      });
+      })
+      .catch((error) => console.log(error));
   }
 
   // handle back button

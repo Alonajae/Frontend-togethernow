@@ -4,9 +4,8 @@ import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
 // import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { useDispatch, useSelector } from 'react-redux';
-// import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import { Modal, Button } from 'react-native-paper';
-import Constants from 'expo-constants';
 
 export default function MapScreen({ navigation }) {
 
@@ -52,7 +51,7 @@ export default function MapScreen({ navigation }) {
         title={buddy.firstname}
         description={buddy.firstname}
         >
-          <Image source={require('../assets/icons8-location-48.png')} />
+          <Image source={require('../assets/icons8-utilisateur-sexe.png')} />
         </Marker>
     );
   });
