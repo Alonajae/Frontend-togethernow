@@ -31,6 +31,7 @@ export const userSlice = createSlice({
       state.value.lastname = action.payload.lastname;
       state.value.emergencyContact = action.payload.emergencyContact;
       state.value.age = action.payload.age;
+      state.value.reasons = action.payload.reasons;
     },
     registerStep3: (state, action) => {
       state.value.photoId = action.payload.photoId;
