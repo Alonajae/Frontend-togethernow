@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, Button, Switch, TextInput, StyleSheet } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
+import { KeyboardAvoidingView } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 
 
 export default function MyprofileScreen() {
@@ -25,6 +27,10 @@ export default function MyprofileScreen() {
     setHistory(!history);
   };
   
+  const toggleSwitch = () => {
+    setSharePositions((previousState) => !previousState);
+  };
+
   const handleImageUpload = async () => {
     const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
@@ -39,13 +45,13 @@ export default function MyprofileScreen() {
         <Text style={styles.title}>My Profile</Text>
 
         {/* <Image style={styles.profileimage} source={require('../assets/PROFIL.jpg')} /> */}
-          <TouchableOpacity onPress={handleImageUpload}>
+          {/* <TouchableOpacity onPress={handleImageUpload}>
           {profileImage ? (
             <Image source={{ uri: profileImage }} style={styles.profileImage} />
           ) : (
             <Text style={styles.uploadText}>Choisir une photo</Text>
           )}
-        </TouchableOpacity>
+        </TouchableOpacity> */}
             
         <TextInput>Firstname: {Firtname}</TextInput>
                 
@@ -62,7 +68,13 @@ export default function MyprofileScreen() {
         
         <View>
             <Text>Share My Position:</Text>
-            <Switch onChange={(e) => setSharePosition(e)} value={sharePosition} />
+            <Switch
+            trackColor={{ false: "#767577", true: "#81b0ff" }}
+            thumbColor={sharePositions ? "#9E15B8" : "#FB8C7C"}
+            ios_backgroundColor="white"
+            onValueChange={toggleSwitch}
+            value={sharePositions}
+            />
         </View>
         
         <Button title={styles.editprofile} onPress={() => handleEditprofil()} />

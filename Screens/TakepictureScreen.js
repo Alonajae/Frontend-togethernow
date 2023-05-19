@@ -202,9 +202,7 @@ const takePicture = async () => {
   console.log(photo.width, photo.height);
   console.log(photo.uri);
   // store the picture in redux
-
   // store the picture in database
-
 }
 
   // // if no permission, return empty view
