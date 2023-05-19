@@ -103,7 +103,7 @@ const handleValidate = () => {
 
   // handle validation of the id
   const handleValidateId = () => {
-    navigation.navigate('Video');
+    // navigation.navigate('Video');
     setVisible(false);
   }
 
@@ -119,9 +119,8 @@ const handleValidate = () => {
       <Modal visible={visible} contentContainerStyle={containerStyle}>
           <Text>Finish your register</Text>
           <Image source={{uri: user.profilePicture}} style={{width: 200, height: 200}} />
-          <Button onPress={handleValidate}>Validate</Button>
+          <Button onPress={() => navigation.navigate('Video')}>Validate</Button>
           <Button onPress={handleBack}>Back</Button>
-          <Button onPress={() => navigation.navigate('Map')}>Next</Button>
         </Modal>
     ) // test button next to go to the next screen (map)
   } else {
