@@ -10,17 +10,23 @@ export default function MapScreen({ navigation }) {
   const dispatch = useDispatch();
   const token = useSelector((state) => state.user.value.token);
 
+  // states for the search bar and the current position
   const [search, setSearch] = useState('');
   const [currentPosition, setCurrentPosition] = useState(null);
 
+  // states for the buttons
   const [buddiesIsSelected, setBuddiesIsSelected] = useState(false);
   const [safePlacesIsSelected, setSafePlacesIsSelected] = useState(false);
   const [alertsIsSelected, setAlertsIsSelected] = useState(false);
 
+  // states for the map
   const [alerts, setAlerts] = useState([]);
   const [buddies, setBuddies] = useState([]);
   const [safePlaces, setSafePlaces] = useState([]);
 
+  // states for the modals
+  const [alertModalVisible, setAlertModalVisible] = useState(false);
+  const [infoModalVisible, setInfoModalVisible] = useState(false);
 
 
   // create markers for buddies, safe places and alerts
@@ -140,11 +146,15 @@ export default function MapScreen({ navigation }) {
   return (
     <MapView mapType="hybrid" style={styles.map}
       initialRegion={initialRegion}
+      showsUserLocation={true}
+      showsMyLocationButton={true}
+      showsCompass={true}
+      onLongPress={(e) => { handleLongPress(e) }}
     >
       {currentPosition && currentPos}
       {safePlacesMarkers}
       {alertsMarkers}
-      {/* {buddiesMarkers} */}
+      {buddiesMarkers}
     </MapView>
   );
 }
