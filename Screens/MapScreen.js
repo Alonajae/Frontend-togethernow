@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { View, TextInput, Button, StyleSheet, SafeAreaView, TouchableOpacity, KeyboardAvoidingView, Dimensions, Image } from 'react-native';
+import { View, TextInput, StyleSheet, SafeAreaView, TouchableOpacity, KeyboardAvoidingView, Dimensions, Image } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
 // import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { useDispatch, useSelector } from 'react-redux';
-import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
+import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+import { Modal, Button } from 'react-native-paper';
 
 export default function MapScreen({ navigation }) {
 
@@ -24,6 +25,18 @@ export default function MapScreen({ navigation }) {
   const [alerts, setAlerts] = useState([]);
   const [buddies, setBuddies] = useState([]);
   const [safePlaces, setSafePlaces] = useState([]);
+
+  // states for the modals
+  const [infoModalVisible, setInfoModalVisible] = useState(false);
+  const [alertModalVisible, setAlertModalVisible] = useState(false);
+  const [newAlertInfos, setNewAlertInfos] = useState({
+    name: '',
+    description: '',
+    coordinate: {
+      latitude: 0,
+      longitude: 0
+    }
+  });
 
   const googleApi = 'AIzaSyD_qcRhN9VzJWseMGcv6zzsqCwAZ40s5P';
 
@@ -50,7 +63,7 @@ export default function MapScreen({ navigation }) {
         title={alert.name}
         description={alert.description}
       >
-      <Image source={require('../assets/Alerts.png')} />
+        <Image source={require('../assets/Alerts.png')} />
       </Marker>
     );
   });
@@ -62,12 +75,13 @@ export default function MapScreen({ navigation }) {
         coordinate={safePlaces.coordinate}
         title={safePlaces.name}
         description={safePlaces.description}
-        >
+      >
         <Image source={require('../assets/SafePlaces.png')} />
-        </Marker>
+      </Marker>
     );
   });
 
+  // get the current position of the user and send it to the backend
   useEffect(() => {
     (async () => {
       const { status } = await Location.requestForegroundPermissionsAsync();
@@ -96,6 +110,7 @@ export default function MapScreen({ navigation }) {
       }
     })();
 
+    // get the safe places, buddies and alerts from the backend
     fetch(`https://backend-together-mvp.vercel.app/safeplaces`)
       .then((response) => response.json())
       .then((data) => {
@@ -115,6 +130,63 @@ export default function MapScreen({ navigation }) {
       })
   }, []);
 
+  // handle the long press on the map to create an alert and open the modal
+
+  const handleLongPress = (e) => {
+    setAlertModalVisible(true);
+    setNewAlertInfos({
+      ...newAlertInfos,
+      coordinate: {
+        latitude: e.nativeEvent.coordinate.latitude,
+        longitude: e.nativeEvent.coordinate.longitude
+      }
+    })
+  }
+
+  // handle the creation of an alert
+
+  const handleCreateAlert = () => {
+    fetch(`https://backend-together-mvp.vercel.app/alerts/add`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        token: token,
+        name: newAlertInfos.name,
+        description: newAlertInfos.description,
+        coordinate: newAlertInfos.coordinate
+      })
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setAlerts([...alerts, data.alert]);
+        setAlertModalVisible(false);
+        setNewAlertInfos({
+          name: '',
+          description: '',
+          coordinate: {
+            latitude: 0,
+            longitude: 0
+          }
+        })
+      })
+  }
+
+  // handle cancel the creation of an alert
+
+  const handleCancelAlert = () => {
+    setAlertModalVisible(false);
+    setNewAlertInfos({
+      name: '',
+      description: '',
+      coordinate: {
+        latitude: 0,
+        longitude: 0
+      }
+    })
+  }
+
+
+  // handle the position of the user
   let currentPos = null;
   if (currentPosition) {
     currentPos = (
@@ -126,6 +198,7 @@ export default function MapScreen({ navigation }) {
     )
   }
 
+  // make the initial region of the map the current position of the user
   let initialRegion;
   if (currentPosition) {
     initialRegion = {
@@ -147,16 +220,45 @@ export default function MapScreen({ navigation }) {
   return (
     <MapView mapType="hybrid" style={styles.map}
       initialRegion={initialRegion}
-      >
+      showsUserLocation={true}
+      showsMyLocationButton={true}
+      showsCompass={true}
+      onLongPress={(e) => { handleLongPress(e) }}
+    >
       <GooglePlacesAutocomplete
         placeholder="Type a place"
-        query={{key: googleApi}}
+        query={{ key: googleApi }}
       />
 
       {currentPosition && currentPos}
       {safePlacesMarkers}
       {alertsMarkers}
       {buddiesMarkers}
+      <Modal visible={alertModalVisible} animationType="slide">
+        <View style={styles.modalView}>
+          <Text style={styles.modalText}>Create an alert</Text>
+          <TextInput
+            style={styles.input}
+            onChangeText={(text) => setNewAlertInfos({ ...newAlertInfos, name: text })}
+            value={newAlertInfos.name}
+            placeholder="Name"
+          />
+          <TextInput
+            style={styles.input}
+            onChangeText={(text) => setNewAlertInfos({ ...newAlertInfos, description: text })}
+            value={newAlertInfos.description}
+            placeholder="Description"
+          />
+          <Button
+            title="Create"
+            onPress={handleCreateAlert}
+          />
+          <Button
+            title="Cancel"
+            onPress={handleCancelAlert}
+          />
+        </View>
+      </Modal>
     </MapView>
   );
 }
