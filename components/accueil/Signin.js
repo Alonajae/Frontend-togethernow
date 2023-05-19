@@ -15,7 +15,7 @@ export default function Signin(props) {
   const [passwordShown, setPasswordShown] = useState(false);
   const [error, setError] = useState(null);
 
-  const backendAdress = 'http://192.168.10.137:3000';
+  const backendAdress = 'https://backend-together-mvp.vercel.app';
 
   const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
