@@ -69,6 +69,7 @@ export default function Signin(props) {
           // If the registration failed, show an error message
 
           setError(data.error);
+          alert('your email and password might be incorrect or your account has not been validated')
         }
       })
   };
