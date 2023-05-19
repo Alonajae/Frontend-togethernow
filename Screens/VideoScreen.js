@@ -1,156 +1,111 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Button, StyleSheet, Text, View } from "react-native";
-import * as Speech from "expo-speech";
-import { Camera } from "expo-camera";
+import { View, StyleSheet, Image } from 'react-native';
+import React from 'react';
+import { Camera, CameraType } from 'expo-camera';
+import { useState, useEffect, useRef } from 'react';
+import { TouchableOpacity } from 'react-native';
+import { useIsFocused } from '@react-navigation/native';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import { Modal, PaperProvider, Button, Text, Portal } from 'react-native-paper';
 
-export default function VideoScreen({ navigation }) {
+export default function VideoScreen () {
+
+
+  // camera states
+  const [type, setType] = useState(CameraType.back);
+  const isFocused = useIsFocused();
+  const containerStyle = {backgroundColor: 'white', padding: 20};
+  const [videoSource, setVideoSource] = useState([]);
+  const [videoRecording, setIsVideoRecording] = useState(false);
+  const [isPreview, setIsPreview] = useState(false);
+  console.log('====================================');
+  console.log(videoSource);
+  console.log('====================================');
+
+  let cameraRef = useRef(null);
+
   
-  const [results, setResults] = useState([]);
-  const [isListening, setIsListening] = useState(false);
-  const [randomNumbers, setRandomNumbers] = useState([]);
-  const cameraRef = useRef(null);
+  // // take the video
+  const recordVideo = async () => {
+    if (cameraRef) {
+      try {
+        const videoRecordPromise = await cameraRef.current.recordAsync();
+        console.log('====================================');
+        console.log('videoRecordPromise', videoRecordPromise);
+        console.log('====================================');
+        // if (videoRecordPromise) {
+        //   setIsVideoRecording(true);
+        //   const data = await videoRecordPromise;
+        //   const source = data.uri;
+        //   if (source) {
+        //     setIsPreview(true);
+        //     setVideoSource(source);
+        //   }
+        // }
+      } catch (error) {
+        console.warn(error);
+      }
+    }}
 
-  // 
-  const onSpeechResults = (value) => {
-    setResults(value ?? []);
-    compareResults(value ?? []);
-  };
-  // 
-  const startSpeechRecognition = async () => {
-    try {
-      Speech.stop();
-      setResults([]);
-      await Speech.startListeningAsync();
-      setIsListening(true);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+    return (
+    <PaperProvider >
+      <Portal>
+    <Camera type={type} ref={cameraRef} style={styles.camera}>
+      <View style={styles.buttons}>
+        <TouchableOpacity
+          onPress={() => setType(type === CameraType.back ? CameraType.front : CameraType.back)}
+          style={styles.button}>
+          <FontAwesome name='rotate-right' size={25} color='#ffffff' />
+        </TouchableOpacity>
 
-  const stopSpeechRecognition = async () => {
-    try {
-      await Speech.stopListeningAsync();
-      setIsListening(false);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  useEffect(() => {
-    generateRandomNumbers();
-  }, []);
-
-  useEffect(() => {
-    Speech.addListener(onSpeechResults);
-
-    return () => {
-      Speech.stop();
-      Speech.removeAllListeners();
-    };
-  }, [randomNumbers]);
-
-  const generateRandomNumbers = () => {
-    const numbers = [];
-    for (let i = 0; i < 5; i++) {
-      const randomNum = Math.floor(Math.random() * 100);
-      numbers.push(randomNum);
-    }
-    setRandomNumbers(numbers);
-  };
-
-  const compareResults = (spokenResults) => {
-    spokenResults.forEach((spokenResult) => {
-      randomNumbers.forEach((randomNumber, index) => {
-        if (spokenResult.includes(randomNumber.toString())) {
-          console.log(`Spoken result ${spokenResult} matches random number ${randomNumber}`);
-        }
-      });
-    });
-  };
-
-  const toggleListening = () => {
-    if (isListening) {
-      stopSpeechRecognition();
-    } else {
-      startSpeechRecognition();
-    }
-  };
-
-  return (
-    <View style={styles.container}>
-      <Camera style={styles.camera} ref={cameraRef} />
-
-      <View style={styles.overlay}>
-        <Text style={styles.overlayText}>Press the button and start speaking.</Text>
-        <Button
-          title={isListening ? "Stop Recognizing" : "Start Recognizing"}
-          onPress={toggleListening}
-        />
-        <Text style={styles.overlayText}>Results:</Text>
-        {results.map((result, index) => (
-          <Text key={`result-${index}`}>{String(result)}</Text>
-        ))}
-        <Text style={styles.overlayText}>Random Numbers:</Text>
-        {randomNumbers.map((number, index) => (
-          <Text key={`number-${index}`}>{String(number)}</Text>
-        ))}
+        <TouchableOpacity
+          style={styles.button} >
+          <FontAwesome name='flash' size={25} color='#ffffff'/>
+         </TouchableOpacity>
       </View>
-    </View>
-  );
+
+      <View style={styles.snapButton}>
+        <TouchableOpacity onPress={() => cameraRef && recordVideo()}>
+        <FontAwesome name='circle-thin' size={95} color='pink' />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => cameraRef && cameraRef.current.stopRecording()}>
+        <FontAwesome name='circle-thin' size={95} color='red' />
+        </TouchableOpacity>
+      </View>
+    </Camera>
+    </Portal>
+    </PaperProvider>
+  )
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
   camera: {
     flex: 1,
   },
-  overlay: {
-    position: "absolute",
-    bottom: 0,
-    left: 0,
-    right: 0,
-    padding: 16,
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  buttons: {
+    flex: 0.1,
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    justifyContent: 'space-between',
+    paddingTop: 20,
+    paddingLeft: 20,
+    paddingRight: 20,
   },
-  overlayText: {
-    color: "#FFF",
-    fontSize: 16,
-    marginBottom: 8,
+  button: {
+    width: 44,
+    height: 44,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.2)',
+    borderRadius: 50,
+  },
+  snapButton: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    paddingBottom: 25,
   },
 });
 
-/*
-  const onSpeechResults = ({ value }) => {
-      setResults(value ?? []);
-      compareResults(value ?? []);
-    };
 
-    const startSpeechRecognition = async () => {
-      try {
-        Speech.stop();
-        setResults([]);
-        await Speech.startListeningAsync();
-        setIsListening(true);
-      } catch (error) {
-        console.error(error);
-      }
-    };
 
-    const stopSpeechRecognition = async () => {
-      try {
-        await Speech.stopListeningAsync();
-        setIsListening(false);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    Speech.addListener(onSpeechResults);
-
-    return () => {
-      Speech.stop();
-      Speech.removeAllListeners();
-    };
-    */
+  // // if no permission, return empty view

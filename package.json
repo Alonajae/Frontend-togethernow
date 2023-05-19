@@ -19,7 +19,9 @@
     "expo": "^48.0.16",
     "expo-app-loading": "^2.1.1",
     "expo-audio": "^0.0.0",
+    "expo-av": "^13.2.1",
     "expo-camera": "^13.2.1",
+    "expo-dev-client": "^2.2.1",
     "expo-font": "^11.1.1",
     "expo-google-fonts": "^0.0.0",
     "expo-image-picker": "^14.1.1",
@@ -39,6 +41,7 @@
     "react-native-screens": "~3.20.0",
     "react-native-text-to-speech": "^4.1.4",
     "react-native-tts": "^4.1.0",
+    "react-native-vector-icons": "^9.2.0",
     "react-native-voice": "^0.3.0",
     "react-redux": "^8.0.5",
     "redux-persist": "^6.0.0"

@@ -195,14 +195,14 @@ const styles = StyleSheet.create({
 });
 
   // // take the picture
-  // const takePicture = async () => {
-  //   const photo = await cameraRef.takePictureAsync({ quality: 0.3 });
-  //   console.log(photo.width, photo.height);
-  //   console.log(photo.uri);
-  //   // store the picture in redux
+  const takePicture = async () => {
+    const photo = await cameraRef.takePictureAsync({ quality: 0.3 });
+    console.log(photo.width, photo.height);
+    console.log(photo.uri);
+    // store the picture in redux
 
-  //   // store the picture in database
+    // store the picture in database
     
-  // }
+  }
 
   // // if no permission, return empty view
