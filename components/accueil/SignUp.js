@@ -8,8 +8,10 @@ import {
   StyleSheet,
   SafeAreaView,
   PaperProvider,
+  TouchableOpacity,
 } from "react-native";
 import { registerStep1, registerStep2 } from "../../reducers/user";
+import HomeScreen from "../../Screens/HomeScreen";
 
 export default function SignUp(props) {
   const dispatch = useDispatch();
@@ -186,6 +188,7 @@ export default function SignUp(props) {
           onChangeText={(e) => setEmergencyContact(e)}
           value={emergencyContact}
         />
+        <View style={styles.signup} >
         <Button
           style={styles.signupBtn}
           mode="outlined"
@@ -195,6 +198,10 @@ export default function SignUp(props) {
         >
           <Text style={styles.signupBtnText}> Next </Text>
         </Button>
+        <Button style={styles.signupBtnHome} onPress={() => props.setStep("landing")} mode="outlined">
+            <Text style={styles.signupBtnTextBack} >Back Home</Text>
+        </Button> 
+        </View>
         <ProgressBar progress={0.3} color="green" style={styles.progressBar} />
       </View>
     );
@@ -247,6 +254,7 @@ export default function SignUp(props) {
           onChangeText={(e) => setConfirmPassword(e)}
           value={confirmPassword}
         />
+        <View style={styles.signup} >
         <Button
           style={styles.signupBtn}
           mode="outlined"
@@ -256,6 +264,10 @@ export default function SignUp(props) {
         >
           <Text style={styles.signupBtnText}> Next </Text>
         </Button>
+        <Button style={styles.signupBtnHome} onPress={() => props.setStep("landing")} mode="outlined">
+            <Text style={styles.signupBtnTextBack} >Back Home</Text>
+        </Button> 
+        </View>
         <ProgressBar progress={0.3} color="green" style={styles.progressBar} />
       </View>
     );
@@ -272,10 +284,28 @@ export default function SignUp(props) {
   );
 }
 
+{/* <Button style={styles.button} onPress={() => navigation.navigate("Home")} mode="outlined">
+<Text style={styles.textButton} >Back Home</Text>
+</Button> */}
+
+
 const styles = StyleSheet.create({
+  signup: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-around",
+    width: "80%",
+  },
   signupBtn: {
     borderColor: "#9E15B8",
-    width: "80%",
+    width: "40%",
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: "15%",
+  },
+  signupBtnHome: {
+    borderColor: "#FB8C7C",
+    width: "40%",
     justifyContent: "center",
     alignItems: "center",
     marginTop: "15%",
@@ -284,6 +314,10 @@ const styles = StyleSheet.create({
     color: "#9E15B8",
     fontSize: 16,
     fontWeight: "bold",
+  },
+  signupBtnTextBack: {
+    color: "#FB8C7C",
+    fontSize: 16,
   },
   container: {
     display: "flex",
