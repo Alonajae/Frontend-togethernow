@@ -1,30 +1,25 @@
 Arguments: 
-  /usr/local/bin/node /usr/local/bin/yarn add expo-speech-to-text
+  C:\Program Files\nodejs\node.exe C:\Users\frede\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js install
 
 PATH: 
-  /Library/Frameworks/Python.framework/Versions/3.11/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/Library/Frameworks/Python.framework/Versions/3.6/bin:/Library/Frameworks/Python.framework/Versions/3.7/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/share/dotnet:~/.dotnet/tools:/Library/Apple/usr/bin:/Library/Frameworks/Mono.framework/Versions/Current/Commands
+  C:\Users\frede\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\local\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\frede\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files\nodejs;C:\Program Files\Git\cmd;C:\Users\frede\AppData\Local\Microsoft\WindowsApps;C:\Users\frede\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\frede\AppData\Roaming\npm;C:\Program Files\Git\usr\bin\vendor_perl;C:\Program Files\Git\usr\bin\core_perl
 
 Yarn version: 
   1.22.19
 
 Node version: 
-  18.12.1
+  18.15.0
 
 Platform: 
-  darwin arm64
+  win32 x64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/expo-speech-to-text: Not found
-      at params.callback [as _callback] (/usr/local/lib/node_modules/yarn/lib/cli.js:66145:18)
-      at self.callback (/usr/local/lib/node_modules/yarn/lib/cli.js:140890:22)
-      at Request.emit (node:events:513:28)
-      at Request.<anonymous> (/usr/local/lib/node_modules/yarn/lib/cli.js:141862:10)
-      at Request.emit (node:events:513:28)
-      at IncomingMessage.<anonymous> (/usr/local/lib/node_modules/yarn/lib/cli.js:141784:12)
-      at Object.onceWrapper (node:events:627:28)
-      at IncomingMessage.emit (node:events:525:35)
-      at endReadableNT (node:internal/streams/readable:1359:12)
-      at process.processTicksAndRejections (node:internal/process/task_queues:82:21)
+  SyntaxError: C:\Users\frede\OneDrive\Bureau\TogetherNow\frontend-together\package.json: Unexpected token < in JSON at position 1114
+      at JSON.parse (<anonymous>)
+      at C:\Users\frede\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:1629:59
+      at Generator.next (<anonymous>)
+      at step (C:\Users\frede\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:310:30)
+      at C:\Users\frede\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:321:13
 
 npm manifest: 
   {
@@ -48,7 +43,9 @@ npm manifest:
       "expo": "^48.0.16",
       "expo-app-loading": "^2.1.1",
       "expo-audio": "^0.0.0",
+      "expo-av": "^13.2.1",
       "expo-camera": "^13.2.1",
+      "expo-dev-client": "^2.2.1",
       "expo-font": "^11.1.1",
       "expo-google-fonts": "^0.0.0",
       "expo-image-picker": "^14.1.1",
@@ -58,16 +55,22 @@ npm manifest:
       "expo-splash-screen": "~0.18.2",
       "expo-status-bar": "~1.4.4",
       "react": "18.2.0",
-      "react-native": "0.71.7",
+      "react-native": "0.71.8",
       "react-native-asset": "^2.1.1",
       "react-native-camera": "^4.2.1",
+  <<<<<<< HEAD
+      "react-native-google-places-autocomplete": "^2.5.1",
       "react-native-maps": "^1.7.1",
+  =======
+      "react-native-maps": "1.3.2",
+  >>>>>>> 42e3fbb5fc651da0c447a7d47234ab124885a709
       "react-native-paper": "^5.8.0",
       "react-native-permissions": "^3.8.0",
       "react-native-safe-area-context": "4.5.0",
       "react-native-screens": "~3.20.0",
       "react-native-text-to-speech": "^4.1.4",
       "react-native-tts": "^4.1.0",
+      "react-native-vector-icons": "^9.2.0",
       "react-native-voice": "^0.3.0",
       "react-redux": "^8.0.5",
       "redux-persist": "^6.0.0"
@@ -1951,7 +1954,7 @@ Lockfile:
   
   "@react-native-voice/voice@^3.2.4":
     version "3.2.4"
-    resolved "https://registry.npmjs.org/@react-native-voice/voice/-/voice-3.2.4.tgz"
+    resolved "https://registry.yarnpkg.com/@react-native-voice/voice/-/voice-3.2.4.tgz#a0f9e5986c3c290155dd6e35ed192dab1c453f2c"
     integrity sha512-4i3IpB/W5VxCI7BQZO5Nr2VB0ecx0SLvkln2Gy29cAQKqgBl+1ZsCwUBChwHlPbmja6vA3tp/+2ADQGwB1OhHg==
     dependencies:
       "@expo/config-plugins" "^2.0.0"
@@ -2086,9 +2089,9 @@ Lockfile:
     dependencies:
       "@sinonjs/commons" "^3.0.0"
   
-  "@types/geojson@^7946.0.10":
+  "@types/geojson@^7946.0.8":
     version "7946.0.10"
-    resolved "https://registry.npmjs.org/@types/geojson/-/geojson-7946.0.10.tgz"
+    resolved "https://registry.yarnpkg.com/@types/geojson/-/geojson-7946.0.10.tgz#6dfbf5ea17142f7f9a043809f1cd4c448cb68249"
     integrity sha512-Nmh0K3iWQJzniTuPRcJn5hxXkfB1T1pgB89SBig5PlJQU5yocazeu4jATJlaA0GYFKWMqDdvYemoSnF2pXgLVA==
   
   "@types/hoist-non-react-statics@^3.3.1":
@@ -2871,6 +2874,15 @@ Lockfile:
       strip-ansi "^6.0.0"
       wrap-ansi "^6.2.0"
   
+  cliui@^7.0.2:
+    version "7.0.4"
+    resolved "https://registry.npmjs.org/cliui/-/cliui-7.0.4.tgz"
+    integrity sha512-OcRE68cOsVMXp1Yvonl/fzkQOyjLSu/8bhPDfQt0e0/Eb283TKP20Fs2MqoPsr9SwA595rRCA+QMzYc9nBP+JQ==
+    dependencies:
+      string-width "^4.2.0"
+      strip-ansi "^6.0.0"
+      wrap-ansi "^7.0.0"
+  
   cliui@^8.0.1:
     version "8.0.1"
     resolved "https://registry.npmjs.org/cliui/-/cliui-8.0.1.tgz"
@@ -3474,6 +3486,11 @@ Lockfile:
     resolved "https://registry.npmjs.org/expo-audio/-/expo-audio-0.0.0.tgz"
     integrity sha512-fSLIE+hK9dXN5/FuzRCMZ6CWzKB/SBxMYmZQxDceGL1Fcli4aeHqBczw7ER6EbT3Q8DnHC2c12EfuqwcSlOsqw==
   
+  expo-av@^13.2.1:
+    version "13.2.1"
+    resolved "https://registry.yarnpkg.com/expo-av/-/expo-av-13.2.1.tgz#ce502a4c5d4a57962fd9f5f1a40c76c39c88f5ee"
+    integrity sha512-mC0mYSzaOaZgXjzhW2l4Ag325JjH6q5IbptfwD7gkMOFYy7VPOMxEMUnetadbs3DDzmgE6vUWrTjUIUbwq59qg==
+  
   expo-camera@^13.2.1:
     version "13.2.1"
     resolved "https://registry.npmjs.org/expo-camera/-/expo-camera-13.2.1.tgz"
@@ -3489,6 +3506,39 @@ Lockfile:
     dependencies:
       "@expo/config" "~8.0.0"
       uuid "^3.3.2"
+  
+  expo-dev-client@^2.2.1:
+    version "2.2.1"
+    resolved "https://registry.yarnpkg.com/expo-dev-client/-/expo-dev-client-2.2.1.tgz#3abdb875e9c9ed30e1f6dadc2f80b392d15b1c1e"
+    integrity sha512-BDhKyni82LiT6PypgBns1/FLqo3cGDBluaj4/Pojx9P7x9iwOFcesepO8r6BCWb4LuBjdB+z2yQ1fMXxzNC3qQ==
+    dependencies:
+      expo-dev-launcher "2.2.1"
+      expo-dev-menu "2.2.0"
+      expo-dev-menu-interface "1.1.1"
+      expo-manifests "~0.5.0"
+      expo-updates-interface "~0.9.0"
+  
+  expo-dev-launcher@2.2.1:
+    version "2.2.1"
+    resolved "https://registry.yarnpkg.com/expo-dev-launcher/-/expo-dev-launcher-2.2.1.tgz#db9eec550487400cdac9c2aeedd3b6791fd49469"
+    integrity sha512-TP9SOrNIKF5Whju7uhtBsJeOvf9idUSg7snhHNVRpm2mA5kReckeD3PFv4HsvBHdnrfoslpeq4spOdS6UUx3XA==
+    dependencies:
+      expo-dev-menu "2.2.0"
+      resolve-from "^5.0.0"
+      semver "^7.3.5"
+  
+  expo-dev-menu-interface@1.1.1:
+    version "1.1.1"
+    resolved "https://registry.yarnpkg.com/expo-dev-menu-interface/-/expo-dev-menu-interface-1.1.1.tgz#8a0d979f62d9a192696f66a77f75d8fab79e604b"
+    integrity sha512-doT+7WrSBnxCcTGZw9QIEZoL+43U4RywbG8XZwbhkcsFWGsh9scp0y/bv3ieFHxRtIdImxbxOoYh7fy1O6g28w==
+  
+  expo-dev-menu@2.2.0:
+    version "2.2.0"
+    resolved "https://registry.yarnpkg.com/expo-dev-menu/-/expo-dev-menu-2.2.0.tgz#849ec3601f1dc228ad2858e4a25614a72932a61c"
+    integrity sha512-ImRUD7IVyLme7t3S+pNsOOgCBorkriVNo+ryEmkAjzRTKlpiklhoc1GEdQUU3qvO6e66gUguMbs4wnaP6o4NEw==
+    dependencies:
+      expo-dev-menu-interface "1.1.1"
+      semver "^7.3.5"
   
   expo-file-system@~15.2.0, expo-file-system@~15.2.2:
     version "15.2.2"
@@ -3521,6 +3571,11 @@ Lockfile:
     dependencies:
       expo-image-loader "~4.1.0"
   
+  expo-json-utils@~0.5.0:
+    version "0.5.1"
+    resolved "https://registry.yarnpkg.com/expo-json-utils/-/expo-json-utils-0.5.1.tgz#fcb01050b8aa66592eea2024a48979f2d090c6f9"
+    integrity sha512-Y5boshyf40vPjwxNnOIfacZPNkOymecZRQ1k+TSXlq6gnw5XRsnM5hnP0VLVYhdv8x+9CX6E1fDsDUNvsK38Dg==
+  
   expo-keep-awake@~12.0.1:
     version "12.0.1"
     resolved "https://registry.npmjs.org/expo-keep-awake/-/expo-keep-awake-12.0.1.tgz"
@@ -3530,6 +3585,13 @@ Lockfile:
     version "15.1.1"
     resolved "https://registry.npmjs.org/expo-location/-/expo-location-15.1.1.tgz"
     integrity sha512-hoKRlmi6Ya+NeZ72Zt385SDcSsIDpJI60TCBVO+Hc9xfKA9Hyminyyo5WiwI8J03igmPTCl8Y37MxBNKY9AWkg==
+  
+  expo-manifests@~0.5.0:
+    version "0.5.2"
+    resolved "https://registry.yarnpkg.com/expo-manifests/-/expo-manifests-0.5.2.tgz#60f91ad196cd5a37248c28c6f307df806c5a27ad"
+    integrity sha512-WnsTlE2le3pV/B/AJPKTOSjb2K9AT1mPDCfQxTQ/KMCwF95saoXYt2OPF3hxZNaMAV6VIAhXgd5Y6wpcH9ruPQ==
+    dependencies:
+      expo-json-utils "~0.5.0"
   
   expo-modules-autolinking@1.2.0:
     version "1.2.0"
@@ -3557,7 +3619,7 @@ Lockfile:
   
   expo-speech@^11.1.1:
     version "11.1.1"
-    resolved "https://registry.npmjs.org/expo-speech/-/expo-speech-11.1.1.tgz"
+    resolved "https://registry.yarnpkg.com/expo-speech/-/expo-speech-11.1.1.tgz#4370a7a5d4a6537a182c97fadc2628e933f79e45"
     integrity sha512-JiyZmmNci7vIXZA/XLZ7x64jIvT/v/TOc5Y/nTBzo6Aqc3+YnYk3VoR+QDVQzeFRR6MW72FZyOvhvlFbfGRzTQ==
   
   expo-splash-screen@~0.17.0:
@@ -3570,7 +3632,7 @@ Lockfile:
   
   expo-splash-screen@~0.18.2:
     version "0.18.2"
-    resolved "https://registry.yarnpkg.com/expo-splash-screen/-/expo-splash-screen-0.18.2.tgz#dde246204da875785ba40c7143a70013cdefdbb6"
+    resolved "https://registry.npmjs.org/expo-splash-screen/-/expo-splash-screen-0.18.2.tgz"
     integrity sha512-fsiKmyn/lbJtV6Uor6wSvl21fScOidFzmB/HHShQJJOu2TBN/vqMvhPu/r0bF5NVk8Wi64r98hiWY1EEsbW03w==
     dependencies:
       "@expo/configure-splash-screen" "^0.6.0"
@@ -3580,6 +3642,11 @@ Lockfile:
     version "1.4.4"
     resolved "https://registry.npmjs.org/expo-status-bar/-/expo-status-bar-1.4.4.tgz"
     integrity sha512-5DV0hIEWgatSC3UgQuAZBoQeaS9CqeWRZ3vzBR9R/+IUD87Adbi4FGhU10nymRqFXOizGsureButGZIXPs7zEA==
+  
+  expo-updates-interface@~0.9.0:
+    version "0.9.1"
+    resolved "https://registry.yarnpkg.com/expo-updates-interface/-/expo-updates-interface-0.9.1.tgz#e81308d551ed5a4c35c8770ac61434f6ca749610"
+    integrity sha512-wk88LLhseQ7LJvxdN7BTKiryyqALxnrvr+lyHK3/prg76Yy0EGi2Q/oE/rtFyyZ1JmQDRbO/5pdX0EE6QqVQXQ==
   
   expo@^48.0.16:
     version "48.0.16"
@@ -5877,7 +5944,7 @@ Lockfile:
       kleur "^3.0.3"
       sisteransi "^1.0.5"
   
-  prop-types@*, prop-types@^15.6.2:
+  prop-types@*, prop-types@^15.6.2, prop-types@^15.7.2:
     version "15.8.1"
     resolved "https://registry.npmjs.org/prop-types/-/prop-types-15.8.1.tgz"
     integrity sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==
@@ -5905,6 +5972,11 @@ Lockfile:
     integrity sha512-MvjoMCJwEarSbUYk5O+nmoSzSutSsTwF85zcHPQ9OrlFoZOYIjaqBAJIqIXjptyD5vThxGq52Xu/MaJzRkIk4Q==
     dependencies:
       side-channel "^1.0.4"
+  
+  qs@~6.9.1:
+    version "6.9.7"
+    resolved "https://registry.yarnpkg.com/qs/-/qs-6.9.7.tgz#4610846871485e1e048f44ae3b94033f0e675afe"
+    integrity sha512-IhMFgUmuNpyRfxA90umL7ByLlgRXu6tIfKPpF5TmcfRLlLCckfP/g3IQmju6jjpu+Hh8rA+2p6A27ZSPOOHdKw==
   
   query-string@^7.1.3:
     version "7.1.3"
@@ -6008,17 +6080,30 @@ Lockfile:
       jscodeshift "^0.13.1"
       nullthrows "^1.1.1"
   
+  <<<<<<< HEAD
+  react-native-google-places-autocomplete@^2.5.1:
+    version "2.5.1"
+    resolved "https://registry.yarnpkg.com/react-native-google-places-autocomplete/-/react-native-google-places-autocomplete-2.5.1.tgz#93d5ac3e34e3e8f594aae5349f9e2d3e0b87484e"
+    integrity sha512-2FZZomogB18mLSC/N39UcpiVoJn/fFIpud1M2KZMom/pJhSMgfqV4qLjHuzaDyYIl7KBz/zpGDcbYgmtvvpkHQ==
+    dependencies:
+      lodash.debounce "^4.0.8"
+      prop-types "^15.7.2"
+      qs "~6.9.1"
+  
   react-native-gradle-plugin@^0.71.17:
+  =======
+  react-native-gradle-plugin@^0.71.18:
+  >>>>>>> 42e3fbb5fc651da0c447a7d47234ab124885a709
     version "0.71.18"
-    resolved "https://registry.npmjs.org/react-native-gradle-plugin/-/react-native-gradle-plugin-0.71.18.tgz"
+    resolved "https://registry.yarnpkg.com/react-native-gradle-plugin/-/react-native-gradle-plugin-0.71.18.tgz#20ef199bc85be32e45bb6cc069ec2e7dcb1a74a6"
     integrity sha512-7F6bD7B8Xsn3JllxcwHhFcsl9aHIig47+3eN4IHFNqfLhZr++3ElDrcqfMzugM+niWbaMi7bJ0kAkAL8eCpdWg==
   
-  react-native-maps@^1.7.1:
-    version "1.7.1"
-    resolved "https://registry.npmjs.org/react-native-maps/-/react-native-maps-1.7.1.tgz"
-    integrity sha512-CHVLzL+Q2jiUGgbt4/vosxVI1SukWyaLGjD62VLgR/wZpnH4Umi9ql1bmKDPWcfj2C1QZwMU0Yc7rXTbvZUIiw==
+  react-native-maps@1.3.2:
+    version "1.3.2"
+    resolved "https://registry.yarnpkg.com/react-native-maps/-/react-native-maps-1.3.2.tgz#8e30bfd9d934de02827253e5cde6c08a04f6356c"
+    integrity sha512-NB7HGRZOgxxXCWzrhIVucx/bsrEWANvk3DLci1ov4P9MQnEVQYQCCkTxsnaEvO191GeBOCRDyYn6jckqbfMtmg==
     dependencies:
-      "@types/geojson" "^7946.0.10"
+      "@types/geojson" "^7946.0.8"
   
   react-native-paper@^5.8.0:
     version "5.8.0"
@@ -6060,15 +6145,23 @@ Lockfile:
     resolved "https://registry.npmjs.org/react-native-tts/-/react-native-tts-4.1.0.tgz"
     integrity sha512-tvf3lQ6u9MqztUie37qoPw5YQPqi0ql1lPhDsBBs/RRA6A/H1J9X9H/qb1A0Hx0ZpjavrEdtVSqQQ2JDZvZCTQ==
   
+  react-native-vector-icons@^9.2.0:
+    version "9.2.0"
+    resolved "https://registry.npmjs.org/react-native-vector-icons/-/react-native-vector-icons-9.2.0.tgz"
+    integrity sha512-wKYLaFuQST/chH3AJRjmOLoLy3JEs1JR6zMNgTaemFpNoXs0ztRnTxcxFD9xhX7cJe1/zoN5BpQYe7kL0m5yyA==
+    dependencies:
+      prop-types "^15.7.2"
+      yargs "^16.1.1"
+  
   react-native-voice@^0.3.0:
     version "0.3.0"
     resolved "https://registry.npmjs.org/react-native-voice/-/react-native-voice-0.3.0.tgz"
     integrity sha512-puSrXCNn1MM03UZkY8q+GW931OqBCEBCiupNK4vD8i49esGqRDDmzv8sRYyEgXj5ScVDKe6lnlKCmJSn5Wo2UA==
   
-  react-native@0.71.7:
-    version "0.71.7"
-    resolved "https://registry.npmjs.org/react-native/-/react-native-0.71.7.tgz"
-    integrity sha512-Id6iRLS581fJMFGbBl1jP5uSmjExtGOvw5Gvh7694zISXjsRAsFMmU+izs0pyCLqDBoHK7y4BT7WGPGw693nYw==
+  react-native@0.71.8:
+    version "0.71.8"
+    resolved "https://registry.yarnpkg.com/react-native/-/react-native-0.71.8.tgz#4314145341c49448cf7465b93ced52a433a5e191"
+    integrity sha512-ftMAuhpgTkbHU9brrqsEyxcNrpYvXKeATY+if22Nfhhg1zW+6wn95w9otwTnA3xHkljPCbng8mUhmmERjGEl7g==
     dependencies:
       "@jest/create-cache-key-function" "^29.2.1"
       "@react-native-community/cli" "10.2.2"
@@ -6095,7 +6188,7 @@ Lockfile:
       promise "^8.3.0"
       react-devtools-core "^4.26.1"
       react-native-codegen "^0.71.5"
-      react-native-gradle-plugin "^0.71.17"
+      react-native-gradle-plugin "^0.71.18"
       react-refresh "^0.4.0"
       react-shallow-renderer "^16.15.0"
       regenerator-runtime "^0.13.2"
@@ -6176,7 +6269,7 @@ Lockfile:
   
   redux-persist@^6.0.0:
     version "6.0.0"
-    resolved "https://registry.yarnpkg.com/redux-persist/-/redux-persist-6.0.0.tgz#b4d2972f9859597c130d40d4b146fecdab51b3a8"
+    resolved "https://registry.npmjs.org/redux-persist/-/redux-persist-6.0.0.tgz"
     integrity sha512-71LLMbUq2r02ng2We9S215LtPu3fY0KgaGE0k8WRgl6RkqxtGfl7HUozz1Dftwsb0D/5mZ8dwAaPbtnzfvbEwQ==
   
   redux-thunk@^2.4.2:
@@ -7512,6 +7605,11 @@ Lockfile:
       camelcase "^5.0.0"
       decamelize "^1.2.0"
   
+  yargs-parser@^20.2.2:
+    version "20.2.9"
+    resolved "https://registry.npmjs.org/yargs-parser/-/yargs-parser-20.2.9.tgz"
+    integrity sha512-y11nGElTIV+CT3Zv9t7VKl+Q3hTQoT9a1Qzezhhl6Rp21gJ/IVTW7Z3y9EWXhuUBC2Shnf+DX0antecpAwSP8w==
+  
   yargs-parser@^21.1.1:
     version "21.1.1"
     resolved "https://registry.npmjs.org/yargs-parser/-/yargs-parser-21.1.1.tgz"
@@ -7533,6 +7631,19 @@ Lockfile:
       which-module "^2.0.0"
       y18n "^4.0.0"
       yargs-parser "^18.1.2"
+  
+  yargs@^16.1.1:
+    version "16.2.0"
+    resolved "https://registry.npmjs.org/yargs/-/yargs-16.2.0.tgz"
+    integrity sha512-D1mvvtDG0L5ft/jGWkLpG1+m0eQxOfaBvTNELraWj22wSVUMWxZUvYgJYcKh6jGGIkJFhH4IZPQhR4TKpc8mBw==
+    dependencies:
+      cliui "^7.0.2"
+      escalade "^3.1.1"
+      get-caller-file "^2.0.5"
+      require-directory "^2.1.1"
+      string-width "^4.2.0"
+      y18n "^5.0.5"
+      yargs-parser "^20.2.2"
   
   yargs@^17.5.1:
     version "17.7.2"

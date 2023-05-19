@@ -1,30 +1,47 @@
 import React, { useState, useEffect } from 'react';
-import { View, TextInput, Button, StyleSheet, SafeAreaView, TouchableOpacity, KeyboardAvoidingView, Dimensions, Image } from 'react-native';
+import { View, TextInput, StyleSheet, SafeAreaView, TouchableOpacity, KeyboardAvoidingView, Dimensions, Image, Text } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
 // import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { useDispatch, useSelector } from 'react-redux';
-import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
+import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+import { Modal, Button } from 'react-native-paper';
+import Constants from 'expo-constants';
 
 export default function MapScreen({ navigation }) {
+
+  const GOOGLE_PLACES_API_KEY = 'AIzaSyD_qcRhN9VzJWseMGcv6zzsqCwAZ40s5P';
 
   const dispatch = useDispatch();
   const token = useSelector((state) => state.user.value.token);
 
+  // states for the search bar and the current position
   const [search, setSearch] = useState('');
   const [currentPosition, setCurrentPosition] = useState(null);
 
+  // states for the buttons
   const [buddiesIsSelected, setBuddiesIsSelected] = useState(false);
   const [safePlacesIsSelected, setSafePlacesIsSelected] = useState(false);
   const [alertsIsSelected, setAlertsIsSelected] = useState(false);
 
+  // states for the map
   const [alerts, setAlerts] = useState([]);
   const [buddies, setBuddies] = useState([]);
   const [safePlaces, setSafePlaces] = useState([]);
 
-  const googleApi = 'AIzaSyD_qcRhN9VzJWseMGcv6zzsqCwAZ40s5P';
+  // states for the modals
+  const [infoModalVisible, setInfoModalVisible] = useState(false);
+  const [alertModalVisible, setAlertModalVisible] = useState(false);
+  const [newAlertInfos, setNewAlertInfos] = useState({
+    name: '',
+    description: '',
+    coordinate: {
+      latitude: 0,
+      longitude: 0
+    }
+  });
 
-
+  
   // create markers for buddies, safe places and alerts
 
   const buddiesMarkers = buddies.map((buddy, i) => {
@@ -33,7 +50,7 @@ export default function MapScreen({ navigation }) {
         key={i}
         coordinate={buddy.coordinate}
         title={buddy.firstname}
-        description={buddy.firsttname}
+        description={buddy.firstname}
       />
     );
   });
@@ -47,7 +64,7 @@ export default function MapScreen({ navigation }) {
         title={alert.name}
         description={alert.description}
       >
-      <Image source={require('../assets/Alerts.png')} />
+        <Image source={require('../assets/Alerts.png')} />
       </Marker>
     );
   });
@@ -59,12 +76,13 @@ export default function MapScreen({ navigation }) {
         coordinate={safePlaces.coordinate}
         title={safePlaces.name}
         description={safePlaces.description}
-        >
-        <Image source={require('../assets/SafePlaces.png')} />
-        </Marker>
+      >
+        <Image source={require('../assets/icons8-location-48.png')} />
+      </Marker>
     );
   });
 
+  // get the current position of the user and send it to the backend
   useEffect(() => {
     (async () => {
       const { status } = await Location.requestForegroundPermissionsAsync();
@@ -93,6 +111,7 @@ export default function MapScreen({ navigation }) {
       }
     })();
 
+    // get the safe places, buddies and alerts from the backend
     fetch(`https://backend-together-mvp.vercel.app/safeplaces`)
       .then((response) => response.json())
       .then((data) => {
@@ -112,6 +131,63 @@ export default function MapScreen({ navigation }) {
       })
   }, []);
 
+  // handle the long press on the map to create an alert and open the modal
+
+  const handleLongPress = (e) => {
+    setAlertModalVisible(true);
+    setNewAlertInfos({
+      ...newAlertInfos,
+      coordinate: {
+        latitude: e.nativeEvent.coordinate.latitude,
+        longitude: e.nativeEvent.coordinate.longitude
+      }
+    })
+  }
+
+  // handle the creation of an alert
+
+  const handleCreateAlert = () => {
+    fetch(`https://backend-together-mvp.vercel.app/alerts/add`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        token: token,
+        name: newAlertInfos.name,
+        description: newAlertInfos.description,
+        coordinate: newAlertInfos.coordinate
+      })
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setAlerts([...alerts, data.alert]);
+        setAlertModalVisible(false);
+        setNewAlertInfos({
+          name: '',
+          description: '',
+          coordinate: {
+            latitude: 0,
+            longitude: 0
+          }
+        })
+      })
+  }
+
+  // handle cancel the creation of an alert
+
+  const handleCancelAlert = () => {
+    setAlertModalVisible(false);
+    setNewAlertInfos({
+      name: '',
+      description: '',
+      coordinate: {
+        latitude: 0,
+        longitude: 0
+      }
+    })
+  }
+
+
+  // handle the position of the user
   let currentPos = null;
   if (currentPosition) {
     currentPos = (
@@ -123,6 +199,7 @@ export default function MapScreen({ navigation }) {
     )
   }
 
+  // make the initial region of the map the current position of the user
   let initialRegion;
   if (currentPosition) {
     initialRegion = {
@@ -140,20 +217,62 @@ export default function MapScreen({ navigation }) {
     }
   }
 
+  const ref = useRef();
+
+  useEffect(() => {
+    ref.current?.setAddressText('Some Text');
+  }, []);
 
   return (
     <MapView mapType="hybrid" style={styles.map}
-      initialRegion={initialRegion}
+        initialRegion={initialRegion}
+        showsUserLocation={true}
+        showsMyLocationButton={true}
+        showsCompass={true}
+        onLongPress={(e) => { handleLongPress(e) }}
       >
-      <GooglePlacesAutocomplete
-        placeholder="Type a place"
-        query={{key: googleApi}}
-      />
 
+      <GooglePlacesAutocomplete
+        ref={ref}
+        placeholder='Search'
+        onPress={(data, details = null) => {
+          console.log(data, details);
+        }}
+        query={{
+          key: GOOGLE_PLACES_API_KEY,
+          language: 'en',
+        }}
+      />
+    
       {currentPosition && currentPos}
       {safePlacesMarkers}
       {alertsMarkers}
-      {/* {buddiesMarkers} */}
+      {buddiesMarkers}
+      <Modal visible={alertModalVisible} animationType="slide">
+        <View style={styles.modalView}>
+          <Text style={styles.modalText}>Create an alert</Text>
+          <TextInput
+            style={styles.input}
+            onChangeText={(text) => setNewAlertInfos({ ...newAlertInfos, name: text })}
+            value={newAlertInfos.name}
+            placeholder="Name"
+          />
+          <TextInput
+            style={styles.input}
+            onChangeText={(text) => setNewAlertInfos({ ...newAlertInfos, description: text })}
+            value={newAlertInfos.description}
+            placeholder="Description"
+          />
+          <Button
+            title="Create"
+            onPress={handleCreateAlert}
+          />
+          <Button
+            title="Cancel"
+            onPress={handleCancelAlert}
+          />
+        </View>
+      </Modal>
     </MapView>
   );
 }
@@ -187,21 +306,3 @@ const styles = StyleSheet.create({
   },
 });
 
-//   {"coords": {"accuracy": 20, "altitude": 83.4000015258789, "altitudeAccuracy": 1.3919051885604858, "heading": 0, "latitude": 48.8877125, "longitude": 2.3036289, "speed": 0.0186806321144104}, "mocked": false, "timestamp": 1684335028537}
-
-//
-//   <View style={styles.buttonsContainer}>
-//   <TouchableOpacity title="Buddies" onPress={() => !buddiesIsSelected} >
-//     <FontAwesome name='user' size={25} color='white' />
-//   </TouchableOpacity>
-
-//   <TouchableOpacity title="Safe Places" onPress={() => !safePlacesIsSelected} >
-//     <FontAwesome name='house-circle-check' size={25} color='white' />
-//   </TouchableOpacity>
-
-//   <TouchableOpacity title="Alerts" onPress={() => !alertsIsSelected} >
-//     <FontAwesome name='triangle-exclamation' size={25} color='white' />
-//   </TouchableOpacity>
-
-// </View>
-// 
