@@ -50,6 +50,18 @@ export default function HomeScreen({ navigation }) {
     setStep('landing');
   };
 
+  // Go to the map screen or the profile screen if the access is granted
+
+  const handleAccess = () => {
+    if (user.token && user.accessGranted) {
+      navigation.navigate('Map');
+    } else if (user.token && !user.accessGranted) {
+      navigation.navigate('Profile');
+    }
+  };
+
+  // Display the landing page or give access to the map or profile screen
+
   let landingpage;
   if (!user.token) {
     landingpage = (
@@ -69,8 +81,8 @@ export default function HomeScreen({ navigation }) {
       <View style={styles.landingpage}>
       <Image source={require('../assets/EllipseHome.png')} style={styles.ellipse} />
       <Text style={styles.title}>Together Now</Text>
-      <Button style={styles.button} onPress={()=> navigation.navigate('Map')} mode="contained">
-        <Text style={styles.textButton}>Go to Map</Text>
+      <Button style={styles.button} onPress={handleAccess} mode="contained">
+        <Text style={styles.textButton}>Enter the App</Text>
       </Button>
       <Button style={styles.buttonUp} onPress={handleSignout} mode="outlined">
         <Text style={styles.textButtonUp}>Sign out</Text>
@@ -87,7 +99,7 @@ export default function HomeScreen({ navigation }) {
 
       {step === 'signup1' && <SignUp step={handlePressSignup2} signup2={state2} navigate={handleNavigation} />}
       {step === 'signup2' && <SignUp step={handlePressSignup2} signup2={state2} navigate={handleNavigation} />}
-      {step === 'signin' && <Signin navigate={() => navigation.navigate('Map')}/>}
+      {step === 'signin' && <Signin navigate={handleAccess}/>}
     </KeyboardAvoidingView>
     
   );
