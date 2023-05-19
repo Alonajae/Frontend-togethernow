@@ -105,7 +105,6 @@ export default function MapScreen({ navigation }) {
       .then((response) => response.json())
       .then((data) => {
         setAlerts(data.alerts);
-        console.log(data);
       })
   }, []);
 
