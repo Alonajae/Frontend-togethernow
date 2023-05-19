@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { View, TextInput, Button, StyleSheet, SafeAreaView, TouchableOpacity, KeyboardAvoidingView, Dimensions, Image } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
+// import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { useDispatch, useSelector } from 'react-redux';
+import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
 
 export default function MapScreen({ navigation }) {
 
@@ -21,6 +22,7 @@ export default function MapScreen({ navigation }) {
   const [buddies, setBuddies] = useState([]);
   const [safePlaces, setSafePlaces] = useState([]);
 
+  const googleApi = 'AIzaSyD_qcRhN9VzJWseMGcv6zzsqCwAZ40s5P';
 
 
   // create markers for buddies, safe places and alerts
@@ -143,7 +145,12 @@ export default function MapScreen({ navigation }) {
   return (
     <MapView mapType="hybrid" style={styles.map}
       initialRegion={initialRegion}
-    >
+      >
+      <GooglePlacesAutocomplete
+        placeholder="Type a place"
+        query={{key: googleApi}}
+      />
+
       {currentPosition && currentPos}
       {safePlacesMarkers}
       {alertsMarkers}
