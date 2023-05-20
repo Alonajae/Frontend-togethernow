@@ -155,25 +155,31 @@ const styles = StyleSheet.create({
   },
   button: {
     alignItems: 'center',
+    justifyContent: 'center',
     backgroundColor: '#9E15B8',
-    width: 227,
-    height: 44,
+    width: 270,
+    height: 48,
+    borderRadius: 50,
+    marginTop: 30,
   },
   buttonUp: {
     alignItems: 'center',
+    justifyContent: 'center',
     borderWidth: 1,
+    borderRadius: 50,
     borderColor: '#9E15B8',
-    width: 227,
-    height: 44,
+    width: 270,
+    height: 48,
     marginTop: 30,
-
   },
   textButton: {
+    fontSize: 16,
     fontFamily: 'Inter',
     fontWeight: '600',
   },
 
   textButtonUp: {
+    fontSize: 16,
     fontFamily: 'Inter',
     fontWeight: '600',
     color: '#350040',

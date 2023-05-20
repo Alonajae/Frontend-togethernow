@@ -199,7 +199,7 @@ export default function SignUp(props) {
           <Text style={styles.signupBtnText}> Next </Text>
         </Button>
         <Button style={styles.signupBtnHome} onPress={() => props.setStep("landing")} mode="outlined">
-            <Text style={styles.signupBtnTextBack} >Back Home</Text>
+            <Text style={styles.signupBtnTextBack} >Cancel</Text>
         </Button> 
         </View>
         <ProgressBar progress={0.3} color="green" style={styles.progressBar} />
@@ -265,7 +265,7 @@ export default function SignUp(props) {
           <Text style={styles.signupBtnText}> Next </Text>
         </Button>
         <Button style={styles.signupBtnHome} onPress={() => props.setStep("landing")} mode="outlined">
-            <Text style={styles.signupBtnTextBack} >Back Home</Text>
+            <Text style={styles.signupBtnTextBack} >Cancel</Text>
         </Button> 
         </View>
         <ProgressBar progress={0.3} color="green" style={styles.progressBar} />
@@ -341,7 +341,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     marginTop: Dimensions.get("window").height * 0.15,
     top: 0,
-    fontSize: 22,
+    fontSize: 25,
     fontWeight: "bold",
     color: "#9E15B8",
   },

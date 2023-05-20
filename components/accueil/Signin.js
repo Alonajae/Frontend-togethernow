@@ -83,7 +83,7 @@ export default function Signin(props) {
   return (
     <SafeAreaView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <View style={styles.registerContainer}>
-        <Text style={styles.title}>Welcome Back</Text>
+        <Text style={styles.title}>Welcome Back!</Text>
         <View style={styles.connectionSection}>
           <TextInput
             style={styles.input}
@@ -180,6 +180,7 @@ const styles = StyleSheet.create({
   fontWeight: "bold",
   },
   input: {
+  justifyContent: 'center',
   width: '80%',
   height: 56,
   margin: 10,
@@ -190,9 +191,9 @@ const styles = StyleSheet.create({
   title: {
   position: 'absolute',
   alignSelf: 'center',
-  marginTop: Dimensions.get('window').height * 0.15,
+  marginTop: Dimensions.get('window').height * 0.16,
   top: 0,
-  fontSize: 22,
+  fontSize: 40,
   fontWeight: "bold",
   color: "#9E15B8",
 },
