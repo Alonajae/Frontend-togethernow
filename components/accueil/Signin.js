@@ -193,7 +193,7 @@ const styles = StyleSheet.create({
   alignSelf: 'center',
   marginTop: Dimensions.get('window').height * 0.16,
   top: 0,
-  fontSize: 40,
+  fontSize: 35,
   fontWeight: "bold",
   color: "#9E15B8",
 },

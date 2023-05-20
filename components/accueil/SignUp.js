@@ -339,9 +339,9 @@ const styles = StyleSheet.create({
   title: {
     position: "absolute",
     alignSelf: "center",
-    marginTop: Dimensions.get("window").height * 0.15,
+    marginTop: Dimensions.get("window").height * 0.16,
     top: 0,
-    fontSize: 25,
+    fontSize: 35,
     fontWeight: "bold",
     color: "#9E15B8",
   },
