@@ -240,6 +240,107 @@ export default function MapScreen({ navigation }) {
   //   }}
   // />
   // )
+  const modalAlert = (
+    <Modal visible={alertModalVisible} animationType="slide">
+      <View style={styles.modalView}>
+        <Text style={styles.modalText}>Create an alert</Text>
+        <TextInput
+          style={styles.input}
+          onChangeText={(text) => setNewAlertInfos({ ...newAlertInfos, name: text })}
+          value={newAlertInfos.name}
+          placeholder="Name"
+        />
+        <TextInput
+          style={styles.input}
+          onChangeText={(text) => setNewAlertInfos({ ...newAlertInfos, description: text })}
+          value={newAlertInfos.description}
+          placeholder="Description"
+        />
+        <Button
+          title="Create"
+          onPress={handleCreateAlert}
+        />
+        <Button
+          title="Cancel"
+          onPress={handleCancelAlert}
+        />
+      </View>
+    </Modal>
+  )
+
+  // create a modal to display the infos of alerts, safe places and buddies
+
+  let infoModal;
+  if (buddiesIsSelected) {
+    infoModal = (
+      <Modal visible={buddyModalVisible} animationType="slide">
+        <View style={styles.modalView}>
+          <Text style={styles.modalText}>Buddies</Text>
+          <FlatList
+            data={buddies}
+            renderItem={({ item }) => (
+              <View>
+                <Text style={styles.modalText}>{item.name}</Text>
+                <Text style={styles.modalText}>{item.description}</Text>
+              </View>
+            )}
+            keyExtractor={item => item._id}
+          />
+          <Button
+            title="Close"
+            onPress={() => { setInfoModalVisible(false); setBuddiesIsSelected(false) }}
+          />
+        </View>
+      </Modal>
+    )
+  } else if (safePlacesIsSelected) {
+    infoModal = (
+      <Modal visible={buddyModalVisible} animationType="slide">
+        <View style={styles.modalView}>
+          <Text style={styles.modalText}>Safe Places</Text>
+          <FlatList
+            data={buddies}
+            renderItem={({ item }) => (
+              <View>
+                <Text style={styles.modalText}>{item.name}</Text>
+                <Text style={styles.modalText}>{item.description}</Text>
+              </View>
+            )}
+            keyExtractor={item => item._id}
+          />
+          <Button
+            title="Close"
+            onPress={() => { setInfoModalVisible(false); setSafePlacesIsSelected(false) }}
+          />
+        </View>
+      </Modal>
+    )
+  } else if (alertsIsSelected) {
+    infoModal = (
+      <Modal visible={alertModalVisible} animationType="slide">
+        <View style={styles.modalView}>
+          <Text style={styles.modalText}>Alerts</Text>
+          <FlatList
+            data={alerts}
+            renderItem={({ item }) => (
+              <View>
+                <Text style={styles.modalText}>{item.name}</Text>
+                <Text style={styles.modalText}>{item.description}</Text>
+              </View>
+            )}
+            keyExtractor={item => item._id}
+          />
+          <Button
+            title="Close"
+            onPress={() => { setInfoModalVisible(false); setAlertsIsSelected(false) }}
+          />
+        </View>
+      </Modal>
+    )
+  } else {
+    infoModal = null;
+  }
+
 
 
   return (
@@ -256,31 +357,28 @@ export default function MapScreen({ navigation }) {
         {safePlacesMarkers}
         {alertsMarkers}
         {buddiesMarkers}
-        <Modal visible={alertModalVisible} animationType="slide">
-          <View style={styles.modalView}>
-            <Text style={styles.modalText}>Create an alert</Text>
-            <TextInput
-              style={styles.input}
-              onChangeText={(text) => setNewAlertInfos({ ...newAlertInfos, name: text })}
-              value={newAlertInfos.name}
-              placeholder="Name"
-            />
-            <TextInput
-              style={styles.input}
-              onChangeText={(text) => setNewAlertInfos({ ...newAlertInfos, description: text })}
-              value={newAlertInfos.description}
-              placeholder="Description"
-            />
+        {modalAlert}
+        {infoModal}
+        <View style={styles.buttonsContainer}>
+          <View style={styles.button}>
             <Button
-              title="Create"
-              onPress={handleCreateAlert}
-            />
-            <Button
-              title="Cancel"
-              onPress={handleCancelAlert}
+              title="Alerts"
+              onPress={() => { setInfoModalVisible(true); setAlertsIsSelected(true) }}
             />
           </View>
-        </Modal>
+          <View style={styles.button}>
+            <Button
+              title="Safe places"
+              onPress={() => { setInfoModalVisible(true); setSafePlacesIsSelected(true) }}
+            />
+          </View>
+          <View style={styles.button}>
+            <Button
+              title="Buddies"
+              onPress={() => { setInfoModalVisible(true); setBuddiesIsSelected(true) }}
+            />
+          </View>
+        </View>
       </MapView>
     </SafeAreaView>
   );
