@@ -360,24 +360,18 @@ export default function MapScreen({ navigation }) {
         {modalAlert}
         {infoModal}
         <View style={styles.buttonsContainer}>
-          <View style={styles.button}>
-            <Button
-              title="Alerts"
-              onPress={() => { setInfoModalVisible(true); setAlertsIsSelected(true) }}
-            />
-          </View>
-          <View style={styles.button}>
-            <Button
-              title="Safe places"
-              onPress={() => { setInfoModalVisible(true); setSafePlacesIsSelected(true) }}
-            />
-          </View>
-          <View style={styles.button}>
-            <Button
-              title="Buddies"
-              onPress={() => { setInfoModalVisible(true); setBuddiesIsSelected(true) }}
-            />
-          </View>
+          <Button
+            title="Alerts"
+            onPress={() => { setInfoModalVisible(true); setAlertsIsSelected(true) }}
+          />
+          <Button
+            title="Safe places"
+            onPress={() => { setInfoModalVisible(true); setSafePlacesIsSelected(true) }}
+          />
+          <Button
+            title="Buddies"
+            onPress={() => { setInfoModalVisible(true); setBuddiesIsSelected(true) }}
+          />
         </View>
       </MapView>
     </SafeAreaView>
