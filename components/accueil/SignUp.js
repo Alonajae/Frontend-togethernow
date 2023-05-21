@@ -11,7 +11,6 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { registerStep1, registerStep2 } from "../../reducers/user";
-import HomeScreen from "../../Screens/HomeScreen";
 
 export default function SignUp(props) {
   const dispatch = useDispatch();
@@ -189,6 +188,9 @@ export default function SignUp(props) {
           value={emergencyContact}
         />
         <View style={styles.signup} >
+        <Button style={styles.signupBtnHome} onPress={() => props.setStep("landing")} mode="outlined">
+            <Text style={styles.signupBtnTextBack} >Cancel</Text>
+        </Button> 
         <Button
           style={styles.signupBtn}
           mode="outlined"
@@ -198,9 +200,6 @@ export default function SignUp(props) {
         >
           <Text style={styles.signupBtnText}> Next </Text>
         </Button>
-        <Button style={styles.signupBtnHome} onPress={() => props.setStep("landing")} mode="outlined">
-            <Text style={styles.signupBtnTextBack} >Back Home</Text>
-        </Button> 
         </View>
         <ProgressBar progress={0.3} color="green" style={styles.progressBar} />
       </View>
@@ -255,6 +254,9 @@ export default function SignUp(props) {
           value={confirmPassword}
         />
         <View style={styles.signup} >
+        <Button style={styles.signupBtnHome} onPress={() => props.setStep("landing")} mode="outlined">
+            <Text style={styles.signupBtnTextBack} >Cancel</Text>
+        </Button> 
         <Button
           style={styles.signupBtn}
           mode="outlined"
@@ -264,9 +266,6 @@ export default function SignUp(props) {
         >
           <Text style={styles.signupBtnText}> Next </Text>
         </Button>
-        <Button style={styles.signupBtnHome} onPress={() => props.setStep("landing")} mode="outlined">
-            <Text style={styles.signupBtnTextBack} >Back Home</Text>
-        </Button> 
         </View>
         <ProgressBar progress={0.3} color="green" style={styles.progressBar} />
       </View>
@@ -339,9 +338,9 @@ const styles = StyleSheet.create({
   title: {
     position: "absolute",
     alignSelf: "center",
-    marginTop: Dimensions.get("window").height * 0.15,
+    marginTop: Dimensions.get("window").height * 0.16,
     top: 0,
-    fontSize: 22,
+    fontSize: 35,
     fontWeight: "bold",
     color: "#9E15B8",
   },

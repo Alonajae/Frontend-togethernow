@@ -5,13 +5,16 @@ import VideoScreen from './Screens/VideoScreen';
 import MapScreen from './Screens/MapScreen';
 import TakepictureScreen from './Screens/TakepictureScreen';
 import MyprofileScreen from './Screens/MyprofileScreen';
+
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
+
 import user from './reducers/user';
 import map from './reducers/map';
+
 import { useCallback, useEffect, useState } from "react";
 import { useFonts } from "expo-font"; // import des polices
 import * as SplashScreen from "expo-splash-screen"; // import SplashScreen pour utiliser les polices avant le chargement de l'application
@@ -59,7 +62,7 @@ export default function App() {
   return (
 
     <Provider store={store}>
-        <PersistGate loading={null} persistor={persistor}>
+        <PersistGate persistor={persistor}>
           <NavigationContainer>
             <Stack.Navigator screenOptions={{ headerShown: false }}>
               <Stack.Screen name="Home" component={HomeScreen} />

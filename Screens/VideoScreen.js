@@ -5,7 +5,7 @@ import { useState, useEffect, useRef } from "react";
 import { TouchableOpacity } from "react-native";
 import { useIsFocused } from "@react-navigation/native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
-import { registerStep4 } from "../reducers/user";
+import { registerStep5 } from "../reducers/user";
 import { useDispatch, useSelector } from "react-redux";
 import { Modal, PaperProvider, Button, Text, Portal } from "react-native-paper";
 
@@ -15,12 +15,25 @@ export default function VideoScreen({ navigation }) {
 
   const user = useSelector((state) => state.user.value);
   const [visible, setVisible] = useState(false);
+  const [permissionVisible, setPermissionVisible] = useState(true);
 
   // camera states
   const [type, setType] = useState(CameraType.back);
   const isFocused = useIsFocused();
-  const containerStyle = { backgroundColor: "white", padding: 20, width: '80%' };
+  const containerStyle = { padding: 40, margin: 30, borderRadius: 10, backgroundColor: '#F9F0FB' };
   const [video, setVideo] = useState("");
+  const [randomNumbers, setRandomNumbers] = useState(null);
+
+  useEffect(() => {
+    generateRandomNumbers();
+  }, []);
+
+  const generateRandomNumbers = () => {
+    const numbers = Array.from({ length: 5 }, () =>
+      Math.floor(Math.random() * 10) + 1
+    );
+    setRandomNumbers(numbers);
+  };
   
 
   console.log('====================================');
@@ -38,36 +51,55 @@ export default function VideoScreen({ navigation }) {
         // console.log("videoRecordPromise", videoRecordPromise.uri);
         // console.log("====================================");
         setVideo(videoRecordPromise.uri);
-    } catch (error) { 
-      console.log(error);
-    } 
-  }};
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
 
-  
+
   const handlePictures = () => {
-  const formData = new FormData();
-  
-  formData.append("video", video);
-  
-  // send video to server
-  fetch(`${backendAdress}/users/uploadVideo`, {
-    method: "POST",
-    body: formData,
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      dispatch(registerStep4({ validationVideo: data.url }));
-      
-    });
-    setVisible(true);
+    const formData = new FormData();
+
+    formData.append("video", video);
+
+    // send video to server
+    fetch(`${backendAdress}/users/uploadVideo`, {
+      method: "POST",
+      body: formData,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        dispatch(registerStep5({ validationVideo: data.url }));
+        setVisible(true);
+      });
   }
+
+  // if the user don't want to take a video
+
+  const handleNo = () => {
+    dispatch(registerStep5({ validationVideo: null }));
+    navigation.navigate("MyProfile");
+  };
+
+  const modal = (
+    <Modal visible={permissionVisible} contentContainerStyle={containerStyle}>
+      <Text>
+        Would you like to take a video to validate your identity now ?
+        If not, you will be able to do it later in your profile, but you won't be able to use the app until you do it.
+      </Text>
+      <Button onPress={handleNo}>No</Button>
+      <Button onPress={() => setPermissionVisible(false)}>Yes</Button>
+    </Modal>
+  );
+
   // recuperation du son qui marche mais pas de possibilité de speech to text avec ExpoGo
   // Ne pas supprimer SVP
 
   // const playsSound = async () => {
   //   console.log('Loading Sound');
   //   console.log(videoSource.uri);
-  //   const { sound } = await Audio.Sound.createAsync({uri: videoSource.uri});
+  //   const {sound} = await Audio.Sound.createAsync({uri: videoSource.uri});
   //   setSound(sound);
   //   // console.log('Playing Sound');
   //   await sound.playAsync(); }
@@ -109,24 +141,36 @@ export default function VideoScreen({ navigation }) {
             </TouchableOpacity>
             <View style={styles.container}></View>
           </View>
+          <View style={styles.randomNumberContainer}>
+        {randomNumbers.map((number, index) => (
+          <Text key={index} style={styles.randomNumberText}>
+            {number}
+          </Text>
+        ))}
+      </View>
+
           <View style={styles.snapButton}>
             <TouchableOpacity onPress={() => cameraRef && recordVideo()}>
               <FontAwesome name="circle-thin" size={95} color="pink" />
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => cameraRef && cameraRef.current.stopRecording() }>
+              onPress={() => cameraRef && cameraRef.current.stopRecording()}>
               <FontAwesome name="circle" size={85} color="red" />
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => handlePictures(video)}>
               <FontAwesome name="circle" size={85} color="green" />
             </TouchableOpacity>
-
+            {modal}
             <Modal visible={visible} contentContainerStyle={containerStyle}>
-            <Text>
-              An admin will check your identity soon to get access to the Map!
+            <Text style={styles.textModal}>
+              An admin will check your identity soon!
             </Text>
-            <Button onPress={() => navigation.navigate("MyProfile")}>Next</Button>
+            <View style={styles.modalBtn}> 
+            <Button style={styles.validateBtn} onPress={() => navigation.navigate("MyProfile")}>
+            <Text style={styles.textBtn}>See my profile</Text
+            ></Button>
+            </View>
           </Modal>
 
           </View>
@@ -162,5 +206,53 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "flex-end",
     paddingBottom: 25,
+  },
+  textModal: {
+    color: '#350040',
+    alignSelf: 'center',
+    fontSize: 16,
+
+  },
+  validateBtn: {
+
+    height: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#9E15B8',
+    borderRadius: 50,
+  },
+  textBtn: {
+    color: 'white',
+    fontSize: 16,
+    fontFamily: 'Inter'
+  },
+  randomNumberText: {
+    color: 'black',
+    fontSize: 800,
+    fontFamily: 'Inter',
+    marginTop: 20,
+    marginBottom: 20,
+  },
+  modalBtn: { 
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    paddingTop: 20,
+    width: '100%',
+  },
+  randomNumberContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    width: '100%',
+    height: 100,
+    marginTop: 100,
+    backgroundColor: 'rgba(255, 255, 255, 0.8)',
+  },
+  randomNumberText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#000',
+    textAlign: 'center',
   },
 });
