@@ -219,6 +219,25 @@ export default function MapScreen({ navigation }) {
     }
   }
 
+  // create an autocomplete search bar to search for a place
+
+  // travail de Fred
+
+  let googleBar = (
+    <GooglePlacesAutocomplete
+    placeholder='Search'
+    fetchDetails={true}
+    onPress={(data, details = null) => {
+      console.log(data, details);
+    }}
+    query={{
+      key: GOOGLE_PLACES_API_KEY,
+      language: 'en',
+    }}
+  />
+  )
+
+
   return (
     <SafeAreaView>
       <MapView mapType="hybrid" style={styles.map}
@@ -228,19 +247,7 @@ export default function MapScreen({ navigation }) {
           showsCompass={true}
           onLongPress={(e) => { handleLongPress(e) }}
         >
-
-        <GooglePlacesAutocomplete
-          placeholder='Search'
-          fetchDetails={true}
-          onPress={(data, details = null) => {
-            console.log(data, details);
-          }}
-          query={{
-            key: GOOGLE_PLACES_API_KEY,
-            language: 'en',
-          }}
-        />
-      
+  
         {currentPosition && currentPos}
         {safePlacesMarkers}
         {alertsMarkers}
