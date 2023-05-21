@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { View, TextInput, StyleSheet, SafeAreaView, Dimensions, Image, Text, KeyboardAvoidingView } from 'react-native';
+import { View, TextInput, StyleSheet, SafeAreaView, Dimensions, Image, Text, KeyboardAvoidingView, FlatList } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
-// import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import { Button } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
-import { Modal, Button } from 'react-native-paper';
-import Constants from 'expo-constants';
+import { Modal } from 'react-native-paper';
 
 export default function MapScreen({ navigation }) {
 
@@ -72,13 +71,13 @@ export default function MapScreen({ navigation }) {
     );
   });
 
-  const safePlacesMarkers = safePlaces.map((safePlaces, i) => {
+  const safePlacesMarkers = safePlaces.map((safePlace, i) => {
     return (
       <Marker
         key={i}
-        coordinate={safePlaces.coordinate}
-        title={safePlaces.name}
-        description={safePlaces.description}
+        coordinate={safePlace.coordinate}
+        title={safePlace.name}
+        description={safePlace.description}
       >
         <Image source={require('../assets/icons8-location-48.png')} />
       </Marker>
@@ -284,7 +283,7 @@ export default function MapScreen({ navigation }) {
         <View style={styles.modalView}>
           <Text style={styles.modalText}>Safe Places</Text>
           <FlatList
-            data={buddies}
+            data={safePlaces}
             renderItem={({ item }) => (
               <View>
                 <Text style={styles.modalText}>{item.name}</Text>
@@ -330,23 +329,23 @@ export default function MapScreen({ navigation }) {
   return (
     <SafeAreaView>
       <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-          <MapView mapType="hybrid" style={styles.map}
-            initialRegion={initialRegion}
-            showsUserLocation={true}
-            showsMyLocationButton={true}
-            showsCompass={true}
-            onLongPress={(infos) => handleLongPress(infos)}
-          >
+        <MapView mapType="hybrid" style={styles.map}
+          initialRegion={initialRegion}
+          showsUserLocation={true}
+          showsMyLocationButton={true}
+          showsCompass={true}
+          onLongPress={(infos) => handleLongPress(infos)}
+        >
           <GooglePlacesAutocomplete
-          placeholder='Search'
-          fetchDetails={true}
-          onPress={(data, details = null) => {
-            console.log(data, details);
-          }}
-          query={{
-            key: GOOGLE_PLACES_API_KEY,
-            language: 'en',
-          }}
+            placeholder='Search'
+            fetchDetails={true}
+            onPress={(data, details = null) => {
+              console.log(data, details);
+            }}
+            query={{
+              key: GOOGLE_PLACES_API_KEY,
+              language: 'en',
+            }}
           />
 
           {currentPos}
@@ -355,20 +354,19 @@ export default function MapScreen({ navigation }) {
           {buddiesMarkers}
           {modalAlert}
           {infoModal}
-          <View style={styles.buttonsContainer}>
-            <Button
-              title="Alerts"
-              onPress={() => { setInfoModalVisible(true); setAlertsIsSelected(true) }}
-            />
-            <Button
-              title="Safe places"
-              onPress={() => { setInfoModalVisible(true); setSafePlacesIsSelected(true) }}
-            />
-            <Button
-              title="Buddies"
-              onPress={() => { setInfoModalVisible(true); setBuddiesIsSelected(true) }}
-            />
-          </View>
+
+          <Button
+            title="Alerts"
+            onPress={() => { setInfoModalVisible(true); setAlertsIsSelected(true) }}
+          />
+          <Button
+            title="Safe places"
+            onPress={() => { setInfoModalVisible(true); setSafePlacesIsSelected(true) }}
+          />
+          <Button
+            title="Buddies"
+            onPress={() => { setInfoModalVisible(true); setBuddiesIsSelected(true) }}
+          />
         </MapView>
       </KeyboardAvoidingView>
     </SafeAreaView>
