@@ -337,7 +337,7 @@ export default function MapScreen({ navigation }) {
             showsCompass={true}
             onLongPress={(infos) => handleLongPress(infos)}
           >
-          <View style={styles.searchBar}>
+            
           <GooglePlacesAutocomplete
           placeholder='Search'
           fetchDetails={true}
@@ -349,7 +349,6 @@ export default function MapScreen({ navigation }) {
             language: 'en',
           }}
           />
-          </View>
 
           {currentPos}
           {safePlacesMarkers}
