@@ -327,8 +327,6 @@ export default function MapScreen({ navigation }) {
 
 
   return (
-    <SafeAreaView>
-      <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
         <MapView mapType="hybrid" style={styles.map}
           initialRegion={initialRegion}
           showsUserLocation={true}
@@ -354,41 +352,30 @@ export default function MapScreen({ navigation }) {
           {buddiesMarkers}
           {modalAlert}
           {infoModal}
-
-          <Button
-            title="Alerts"
-            onPress={() => { setInfoModalVisible(true); setAlertsIsSelected(true) }}
-          />
-          <Button
-            title="Safe places"
-            onPress={() => { setInfoModalVisible(true); setSafePlacesIsSelected(true) }}
-          />
-          <Button
-            title="Buddies"
-            onPress={() => { setInfoModalVisible(true); setBuddiesIsSelected(true) }}
-          />
+          
+          <View style={styles.buttonsContainer}>
+            <Button
+              title="Alerts"
+              onPress={() => { setInfoModalVisible(true); setAlertsIsSelected(true) }}
+            />
+            <Button
+              title="Safe places"
+              onPress={() => { setInfoModalVisible(true); setSafePlacesIsSelected(true) }}
+            />
+            <Button
+              title="Buddies"
+              onPress={() => { setInfoModalVisible(true); setBuddiesIsSelected(true) }}
+            />
+          </View>
         </MapView>
-      </KeyboardAvoidingView>
-    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   map: {
+    height: Dimensions.get('window').height,
+    width: Dimensions.get('window').width,
     display: 'flex',
-    height: Dimensions.get('window').height * 1,
-    width: Dimensions.get('window').width * 1,
-  },
-  buttonsContainer: {
-    position: 'absolute',
-    bottom: 10,
-    right: 10,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: 100,
-    backgroundColor: 'rgba(0,0,0,0.5)',
-    borderRadius: 10,
-    padding: 5,
   },
   button: {
     backgroundColor: 'rgba(0,0,0,0.5)',
@@ -421,7 +408,18 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 20,
     fontWeight: 'bold'
-  }
+  },
+  buttonsContainer: {
+    position: 'absolute',
+    bottom: 10,
+    right: 10,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: 100,
+    backgroundColor: 'transparent',
+    borderRadius: 10,
+    padding: 5,
+  },
 });
 
   // travail de Fred
