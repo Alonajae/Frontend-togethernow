@@ -41,19 +41,20 @@ export default function MapScreen({ navigation }) {
     }
   });
 
-  
+
   // create markers for buddies, safe places and alerts
 
   const buddiesMarkers = buddies.map((buddy, i) => {
+    if (buddy.currentLocation.latitude === 0 && buddy.currentLocation.longitude === 0) return null;
     return (
       <Marker
         key={i}
-        coordinate={buddy.coordinate}
+        coordinate={buddy.currentLocation}
         title={buddy.firstname}
         description={buddy.firstname}
-        >
-          <Image source={require('../assets/icons8-location-48.png')} />
-        </Marker>
+      >
+        <Image source={require('../assets/icons8-location-48.png')} />
+      </Marker>
     );
   });
 
@@ -106,7 +107,7 @@ export default function MapScreen({ navigation }) {
             })
               .then((response) => response.json())
               .then((data) => {
-                console.log(data);
+                console.log(location);
               }
               )
           });
@@ -135,13 +136,14 @@ export default function MapScreen({ navigation }) {
 
   // handle the long press on the map to create an alert and open the modal
 
-  const handleLongPress = (e) => {
+  const handleLongPress = (infos) => {
+    console.log(infos.nativeEvent.coordinate);
     setAlertModalVisible(true);
     setNewAlertInfos({
       ...newAlertInfos,
       coordinate: {
-        latitude: e.nativeEvent.coordinate.latitude,
-        longitude: e.nativeEvent.coordinate.longitude
+        latitude: infos.nativeEvent.coordinate.latitude,
+        longitude: infos.nativeEvent.coordinate.longitude
       }
     })
   }
@@ -190,7 +192,7 @@ export default function MapScreen({ navigation }) {
 
 
   // handle the position of the user
-  let currentPos = null;
+  let currentPos;
   if (currentPosition) {
     currentPos = (
       <Marker
@@ -199,6 +201,8 @@ export default function MapScreen({ navigation }) {
         description="Your current position"
       />
     )
+  } else {
+    currentPos = null;
   }
 
   // make the initial region of the map the current position of the user
@@ -219,57 +223,156 @@ export default function MapScreen({ navigation }) {
     }
   }
 
+  // create an autocomplete search bar to search for a place
+
+  // travail de Fred
+
+  // let googleBar = (
+  //   <GooglePlacesAutocomplete
+  //   placeholder='Search'
+  //   fetchDetails={true}
+  //   onPress={(data, details = null) => {
+  //     console.log(data, details);
+  //   }}
+  //   query={{
+  //     key: GOOGLE_PLACES_API_KEY,
+  //     language: 'en',
+  //   }}
+  // />
+  // )
+  const modalAlert = (
+    <Modal visible={alertModalVisible} animationType="slide">
+      <View style={styles.modalView}>
+        <Text style={styles.modalText}>Create an alert</Text>
+        <TextInput
+          style={styles.input}
+          onChangeText={(text) => setNewAlertInfos({ ...newAlertInfos, name: text })}
+          value={newAlertInfos.name}
+          placeholder="Name"
+        />
+        <TextInput
+          style={styles.input}
+          onChangeText={(text) => setNewAlertInfos({ ...newAlertInfos, description: text })}
+          value={newAlertInfos.description}
+          placeholder="Description"
+        />
+        <Button
+          title="Create"
+          onPress={handleCreateAlert}
+        />
+        <Button
+          title="Cancel"
+          onPress={handleCancelAlert}
+        />
+      </View>
+    </Modal>
+  )
+
+  // create a modal to display the infos of alerts, safe places and buddies
+
+  let infoModal;
+  if (buddiesIsSelected) {
+    infoModal = (
+      <Modal visible={infoModalVisible} animationType="slide">
+        <View style={styles.modalView}>
+          <Text style={styles.modalText}>Buddies</Text>
+          <FlatList
+            data={buddies}
+            renderItem={({ item }) => (
+              <View>
+                <Text style={styles.modalText}>{item.name}</Text>
+                <Text style={styles.modalText}>{item.description}</Text>
+              </View>
+            )}
+            keyExtractor={item => item._id}
+          />
+          <Button
+            title="Close"
+            onPress={() => { setInfoModalVisible(false); setBuddiesIsSelected(false) }}
+          />
+        </View>
+      </Modal>
+    )
+  } else if (safePlacesIsSelected) {
+    infoModal = (
+      <Modal visible={infoModalVisible} animationType="slide">
+        <View style={styles.modalView}>
+          <Text style={styles.modalText}>Safe Places</Text>
+          <FlatList
+            data={buddies}
+            renderItem={({ item }) => (
+              <View>
+                <Text style={styles.modalText}>{item.name}</Text>
+                <Text style={styles.modalText}>{item.description}</Text>
+              </View>
+            )}
+            keyExtractor={item => item._id}
+          />
+          <Button
+            title="Close"
+            onPress={() => { setInfoModalVisible(false); setSafePlacesIsSelected(false) }}
+          />
+        </View>
+      </Modal>
+    )
+  } else if (alertsIsSelected) {
+    infoModal = (
+      <Modal visible={infoModalVisible} animationType="slide">
+        <View style={styles.modalView}>
+          <Text style={styles.modalText}>Alerts</Text>
+          <FlatList
+            data={alerts}
+            renderItem={({ item }) => (
+              <View>
+                <Text style={styles.modalText}>{item.name}</Text>
+                <Text style={styles.modalText}>{item.description}</Text>
+              </View>
+            )}
+            keyExtractor={item => item._id}
+          />
+          <Button
+            title="Close"
+            onPress={() => { setInfoModalVisible(false); setAlertsIsSelected(false) }}
+          />
+        </View>
+      </Modal>
+    )
+  } else {
+    infoModal = null;
+  }
+
+
+
   return (
     <SafeAreaView>
       <MapView mapType="hybrid" style={styles.map}
-          initialRegion={initialRegion}
-          showsUserLocation={true}
-          showsMyLocationButton={true}
-          showsCompass={true}
-          onLongPress={(e) => { handleLongPress(e) }}
-        >
+        initialRegion={initialRegion}
+        showsUserLocation={true}
+        showsMyLocationButton={true}
+        showsCompass={true}
+        onLongPress={(infos) => handleLongPress(infos)}
+      >
 
-        <GooglePlacesAutocomplete
-          placeholder='Search'
-          fetchDetails={true}
-          onPress={(data, details = null) => {
-            console.log(data, details);
-          }}
-          query={{
-            key: GOOGLE_PLACES_API_KEY,
-            language: 'en',
-          }}
-        />
-      
-        {currentPosition && currentPos}
+        {currentPos}
         {safePlacesMarkers}
         {alertsMarkers}
         {buddiesMarkers}
-        <Modal visible={alertModalVisible} animationType="slide">
-          <View style={styles.modalView}>
-            <Text style={styles.modalText}>Create an alert</Text>
-            <TextInput
-              style={styles.input}
-              onChangeText={(text) => setNewAlertInfos({ ...newAlertInfos, name: text })}
-              value={newAlertInfos.name}
-              placeholder="Name"
-            />
-            <TextInput
-              style={styles.input}
-              onChangeText={(text) => setNewAlertInfos({ ...newAlertInfos, description: text })}
-              value={newAlertInfos.description}
-              placeholder="Description"
-            />
-            <Button
-              title="Create"
-              onPress={handleCreateAlert}
-            />
-            <Button
-              title="Cancel"
-              onPress={handleCancelAlert}
-            />
-          </View>
-        </Modal>
+        {modalAlert}
+        {infoModal}
+        <View style={styles.buttonsContainer}>
+          <Button
+            title="Alerts"
+            onPress={() => { setInfoModalVisible(true); setAlertsIsSelected(true) }}
+          />
+          <Button
+            title="Safe places"
+            onPress={() => { setInfoModalVisible(true); setSafePlacesIsSelected(true) }}
+          />
+          <Button
+            title="Buddies"
+            onPress={() => { setInfoModalVisible(true); setBuddiesIsSelected(true) }}
+          />
+        </View>
       </MapView>
     </SafeAreaView>
   );

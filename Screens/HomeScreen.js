@@ -52,10 +52,10 @@ export default function HomeScreen({ navigation }) {
 
   // Go to the map screen or the profile screen if the access is granted
 
-  const handleAccess = () => {
-    if (user.token && user.accessGranted) {
+  const handleAccess = (access) => {
+    if (access) {
       navigation.navigate('Map');
-    } else if (user.token && !user.accessGranted) {
+    } else {
       navigation.navigate('Profile');
     }
   };

@@ -63,7 +63,7 @@ export default function Signin(props) {
           setSignInEmail('');
           setSignInPassword('');
           setError(null);
-          props.navigate()
+          props.navigate(data.user.accessGranted)
         }
         else {
 
@@ -162,41 +162,41 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   connectionSection: {
-      height: Dimensions.get('window').height * 1,
-  alignItems: "center",
-  justifyContent: "center",
-  width: Dimensions.get("window").width * 1,
+    height: Dimensions.get('window').height * 1,
+    alignItems: "center",
+    justifyContent: "center",
+    width: Dimensions.get("window").width * 1,
   },
   button: {
-      borderColor: "#9E15B8",
-  width: '80%',
-  justifyContent: "center",
-  alignItems: "center",
-  marginTop: '15%',
+    borderColor: "#9E15B8",
+    width: '80%',
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: '15%',
   },
   textButton: {
-     color: "#9E15B8",
-  fontSize: 16,
-  fontWeight: "bold",
+    color: "#9E15B8",
+    fontSize: 16,
+    fontWeight: "bold",
   },
   input: {
-  justifyContent: 'center',
-  width: '80%',
-  height: 56,
-  margin: 10,
-  fontSize: 16,
-  backgroundColor: "#ffffff",
+    justifyContent: 'center',
+    width: '80%',
+    height: 56,
+    margin: 10,
+    fontSize: 16,
+    backgroundColor: "#ffffff",
 
   },
   title: {
-  position: 'absolute',
-  alignSelf: 'center',
-  marginTop: Dimensions.get('window').height * 0.16,
-  top: 0,
-  fontSize: 35,
-  fontWeight: "bold",
-  color: "#9E15B8",
-},
+    position: 'absolute',
+    alignSelf: 'center',
+    marginTop: Dimensions.get('window').height * 0.16,
+    top: 0,
+    fontSize: 35,
+    fontWeight: "bold",
+    color: "#9E15B8",
+  },
   error: {
     color: 'red',
     fontSize: 20,
@@ -208,11 +208,11 @@ const styles = StyleSheet.create({
 //   fontSize: 16,
 //   fontWeight: "bold",
 // },
-// registerContainer: {  
+// registerContainer: {
 //   display: "flex",
 //   flex: 1,
 // },
-// formulaire: { 
+// formulaire: {
 //   height: '100%',
 //   alignItems: "center",
 //   justifyContent: "center",

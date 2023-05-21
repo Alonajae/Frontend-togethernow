@@ -112,7 +112,7 @@ export default function TakepictureScreen({ navigation }) {
     modal = (
       <Modal visible={visible} contentContainerStyle={containerStyle} style={styles.modal}>
         <View style={styles.imageContainer}>
-          <Text style={styles.textModal}>Finish your registration</Text>
+          <Text style={styles.textModal}>Almost done!</Text>
           <Image source={{ uri: user.profilePicture }} style={{ width: 250, height: 250, marginTop: 20 }} />
         </View>
         <View style={styles.modalBtn}>

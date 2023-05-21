@@ -5,7 +5,7 @@ import { useState, useEffect, useRef } from "react";
 import { TouchableOpacity } from "react-native";
 import { useIsFocused } from "@react-navigation/native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
-import { registerStep4 } from "../reducers/user";
+import { registerStep5 } from "../reducers/user";
 import { useDispatch, useSelector } from "react-redux";
 import { Modal, PaperProvider, Button, Text, Portal } from "react-native-paper";
 
@@ -15,6 +15,7 @@ export default function VideoScreen({ navigation }) {
 
   const user = useSelector((state) => state.user.value);
   const [visible, setVisible] = useState(false);
+  const [permissionVisible, setPermissionVisible] = useState(true);
 
   // camera states
   const [type, setType] = useState(CameraType.back);
@@ -50,36 +51,55 @@ export default function VideoScreen({ navigation }) {
         // console.log("videoRecordPromise", videoRecordPromise.uri);
         // console.log("====================================");
         setVideo(videoRecordPromise.uri);
-    } catch (error) { 
-      console.log(error);
-    } 
-  }};
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
 
-  
+
   const handlePictures = () => {
-  const formData = new FormData();
-  
-  formData.append("video", video);
-  
-  // send video to server
-  fetch(`${backendAdress}/users/uploadVideo`, {
-    method: "POST",
-    body: formData,
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      dispatch(registerStep4({ validationVideo: data.url }));
-      
-    });
-    setVisible(true);
+    const formData = new FormData();
+
+    formData.append("video", video);
+
+    // send video to server
+    fetch(`${backendAdress}/users/uploadVideo`, {
+      method: "POST",
+      body: formData,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        dispatch(registerStep5({ validationVideo: data.url }));
+        setVisible(true);
+      });
   }
+
+  // if the user don't want to take a video
+
+  const handleNo = () => {
+    dispatch(registerStep5({ validationVideo: null }));
+    navigation.navigate("MyProfile");
+  };
+
+  const modal = (
+    <Modal visible={permissionVisible} contentContainerStyle={containerStyle}>
+      <Text>
+        Would you like to take a video to validate your identity now ?
+        If not, you will be able to do it later in your profile, but you won't be able to use the app until you do it.
+      </Text>
+      <Button onPress={handleNo}>No</Button>
+      <Button onPress={() => setPermissionVisible(false)}>Yes</Button>
+    </Modal>
+  );
+
   // recuperation du son qui marche mais pas de possibilité de speech to text avec ExpoGo
   // Ne pas supprimer SVP
 
   // const playsSound = async () => {
   //   console.log('Loading Sound');
   //   console.log(videoSource.uri);
-  //   const { sound } = await Audio.Sound.createAsync({uri: videoSource.uri});
+  //   const {sound} = await Audio.Sound.createAsync({uri: videoSource.uri});
   //   setSound(sound);
   //   // console.log('Playing Sound');
   //   await sound.playAsync(); }
@@ -134,14 +154,14 @@ export default function VideoScreen({ navigation }) {
               <FontAwesome name="circle-thin" size={95} color="pink" />
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => cameraRef && cameraRef.current.stopRecording() }>
+              onPress={() => cameraRef && cameraRef.current.stopRecording()}>
               <FontAwesome name="circle" size={85} color="red" />
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => handlePictures(video)}>
               <FontAwesome name="circle" size={85} color="green" />
             </TouchableOpacity>
-
+            {modal}
             <Modal visible={visible} contentContainerStyle={containerStyle}>
             <Text style={styles.textModal}>
               An admin will check your identity soon!
