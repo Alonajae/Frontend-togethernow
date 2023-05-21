@@ -189,18 +189,18 @@ export default function SignUp(props) {
           value={emergencyContact}
         />
         <View style={styles.signup} >
-        <Button
-          style={styles.signupBtn}
-          mode="outlined"
-          onPress={() => {
-            handleRegister2();
-          }}
-        >
-          <Text style={styles.signupBtnText}> Next </Text>
-        </Button>
-        <Button style={styles.signupBtnHome} onPress={() => props.setStep("landing")} mode="outlined">
+          <Button style={styles.signupBtnHome} onPress={() => props.setStep("landing")} mode="outlined">
             <Text style={styles.signupBtnTextBack} >Cancel</Text>
-        </Button> 
+          </Button>
+          <Button
+            style={styles.signupBtn}
+            mode="outlined"
+            onPress={() => {
+              handleRegister2();
+            }}
+          >
+            <Text style={styles.signupBtnText}> Next </Text>
+          </Button>
         </View>
         <ProgressBar progress={0.3} color="green" style={styles.progressBar} />
       </View>
@@ -255,18 +255,18 @@ export default function SignUp(props) {
           value={confirmPassword}
         />
         <View style={styles.signup} >
-        <Button
-          style={styles.signupBtn}
-          mode="outlined"
-          onPress={() => {
-            handleRegister();
-          }}
-        >
-          <Text style={styles.signupBtnText}> Next </Text>
-        </Button>
-        <Button style={styles.signupBtnHome} onPress={() => props.setStep("landing")} mode="outlined">
+          <Button style={styles.signupBtnHome} onPress={() => props.setStep("landing")} mode="outlined">
             <Text style={styles.signupBtnTextBack} >Cancel</Text>
-        </Button> 
+          </Button>
+          <Button
+            style={styles.signupBtn}
+            mode="outlined"
+            onPress={() => {
+              handleRegister();
+            }}
+          >
+            <Text style={styles.signupBtnText}> Next </Text>
+          </Button>
         </View>
         <ProgressBar progress={0.3} color="green" style={styles.progressBar} />
       </View>

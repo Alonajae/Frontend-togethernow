@@ -112,12 +112,12 @@ export default function TakepictureScreen({ navigation }) {
     modal = (
       <Modal visible={visible} contentContainerStyle={containerStyle}>
         <View style={styles.imageContainer}>
-          <Text>Finish your register</Text>
+          <Text>Almost done !</Text>
           <Image source={{ uri: user.profilePicture }} style={{ width: 200, height: 200 }} />
         </View>
-        <Button onPress={handleValidate}>Validate</Button>
+        <Button onPress={handleValidate}>Next</Button>
         <Button onPress={handleBack}>Back</Button>
-        <Button onPress={() => navigation.navigate('Map')}>Next</Button>
+        <Button onPress={() => navigation.navigate('Map')}>Go to Map</Button>
       </Modal>
     ) // test button next to go to the next screen (map)
   } else {
