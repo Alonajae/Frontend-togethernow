@@ -11,7 +11,6 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { registerStep1, registerStep2 } from "../../reducers/user";
-import HomeScreen from "../../Screens/HomeScreen";
 
 export default function SignUp(props) {
   const dispatch = useDispatch();
