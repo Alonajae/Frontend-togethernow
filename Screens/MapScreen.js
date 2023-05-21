@@ -273,7 +273,7 @@ export default function MapScreen({ navigation }) {
   let infoModal;
   if (buddiesIsSelected) {
     infoModal = (
-      <Modal visible={buddyModalVisible} animationType="slide">
+      <Modal visible={infoModalVisible} animationType="slide">
         <View style={styles.modalView}>
           <Text style={styles.modalText}>Buddies</Text>
           <FlatList
@@ -295,7 +295,7 @@ export default function MapScreen({ navigation }) {
     )
   } else if (safePlacesIsSelected) {
     infoModal = (
-      <Modal visible={buddyModalVisible} animationType="slide">
+      <Modal visible={infoModalVisible} animationType="slide">
         <View style={styles.modalView}>
           <Text style={styles.modalText}>Safe Places</Text>
           <FlatList
@@ -317,7 +317,7 @@ export default function MapScreen({ navigation }) {
     )
   } else if (alertsIsSelected) {
     infoModal = (
-      <Modal visible={alertModalVisible} animationType="slide">
+      <Modal visible={infoModalVisible} animationType="slide">
         <View style={styles.modalView}>
           <Text style={styles.modalText}>Alerts</Text>
           <FlatList
