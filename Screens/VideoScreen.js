@@ -168,11 +168,9 @@ export default function VideoScreen({ navigation }) {
             </Text>
             <View style={styles.modalBtn}> 
             <Button style={styles.validateBtn} onPress={() => navigation.navigate("MyProfile")}>
-            <Text style={styles.textBtn}>See my profile</Text
-            ></Button>
+            <Text style={styles.textBtn}>See my profile</Text></Button>
             </View>
           </Modal>
-
           </View>
         </Camera>
       </Portal>
