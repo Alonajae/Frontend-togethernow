@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { View, TextInput, StyleSheet, SafeAreaView, Dimensions, Image, Text, KeyboardAvoidingView } from 'react-native';
+import { View, TextInput, StyleSheet, SafeAreaView, Dimensions, Image, Text, KeyboardAvoidingView, FlatList } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
-// import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import { Button } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
-import { Modal, Button } from 'react-native-paper';
-import Constants from 'expo-constants';
+import { Modal } from 'react-native-paper';
 
 export default function MapScreen({ navigation }) {
 
@@ -72,13 +71,13 @@ export default function MapScreen({ navigation }) {
     );
   });
 
-  const safePlacesMarkers = safePlaces.map((safePlaces, i) => {
+  const safePlacesMarkers = safePlaces.map((safePlace, i) => {
     return (
       <Marker
         key={i}
-        coordinate={safePlaces.coordinate}
-        title={safePlaces.name}
-        description={safePlaces.description}
+        coordinate={safePlace.coordinate}
+        title={safePlace.name}
+        description={safePlace.description}
       >
         <Image source={require('../assets/icons8-location-48.png')} />
       </Marker>
@@ -254,7 +253,7 @@ export default function MapScreen({ navigation }) {
   )
 
   // create a modal to display the infos of alerts, safe places and buddies
-
+  
   let infoModal;
   if (buddiesIsSelected) {
     infoModal = (
@@ -284,7 +283,7 @@ export default function MapScreen({ navigation }) {
         <View style={styles.modalView}>
           <Text style={styles.modalText}>Safe Places</Text>
           <FlatList
-            data={buddies}
+            data={safePlaces}
             renderItem={({ item }) => (
               <View>
                 <Text style={styles.modalText}>{item.name}</Text>
@@ -326,28 +325,25 @@ export default function MapScreen({ navigation }) {
     infoModal = null;
   }
 
-
   return (
     <SafeAreaView>
-      <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-          <MapView mapType="hybrid" style={styles.map}
-            initialRegion={initialRegion}
-            showsUserLocation={true}
-            showsMyLocationButton={true}
-            showsCompass={true}
-            onLongPress={(infos) => handleLongPress(infos)}
-          >
-            
+        <MapView mapType="hybrid" style={styles.map}
+          initialRegion={initialRegion}
+          showsUserLocation={true}
+          showsMyLocationButton={true}
+          showsCompass={true}
+          onLongPress={(infos) => handleLongPress(infos)}
+        >
           <GooglePlacesAutocomplete
-          placeholder='Search'
-          fetchDetails={true}
-          onPress={(data, details = null) => {
-            console.log(data, details);
-          }}
-          query={{
-            key: GOOGLE_PLACES_API_KEY,
-            language: 'en',
-          }}
+            placeholder='Search'
+            fetchDetails={true}
+            onPress={(data, details = null) => {
+              console.log(data, details);
+            }}
+            query={{
+              key: GOOGLE_PLACES_API_KEY,
+              language: 'en',
+            }}
           />
 
           {currentPos}
@@ -356,7 +352,7 @@ export default function MapScreen({ navigation }) {
           {buddiesMarkers}
           {modalAlert}
           {infoModal}
-
+          
           <View style={styles.buttonsContainer}>
             <Button
               title="Alerts"
@@ -372,27 +368,15 @@ export default function MapScreen({ navigation }) {
             />
           </View>
         </MapView>
-      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   map: {
+    height: Dimensions.get('window').height,
+    width: Dimensions.get('window').width,
     display: 'flex',
-    height: Dimensions.get('window').height * 1,
-    width: Dimensions.get('window').width * 1,
-  },
-  buttonsContainer: {
-    position: 'absolute',
-    bottom: 10,
-    right: 10,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: 100,
-    backgroundColor: 'rgba(0,0,0,0.5)',
-    borderRadius: 10,
-    padding: 5,
   },
   button: {
     backgroundColor: 'rgba(0,0,0,0.5)',
@@ -425,7 +409,18 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 20,
     fontWeight: 'bold'
-  }
+  },
+  buttonsContainer: {
+    position: 'absolute',
+    bottom: 10,
+    right: 10,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: 100,
+    backgroundColor: 'transparent',
+    borderRadius: 10,
+    padding: 5,
+  },
 });
 
   // travail de Fred
