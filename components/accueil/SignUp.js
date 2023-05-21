@@ -189,6 +189,9 @@ export default function SignUp(props) {
           value={emergencyContact}
         />
         <View style={styles.signup} >
+        <Button style={styles.signupBtnHome} onPress={() => props.setStep("landing")} mode="outlined">
+            <Text style={styles.signupBtnTextBack} >Cancel</Text>
+        </Button> 
         <Button
           style={styles.signupBtn}
           mode="outlined"
@@ -198,9 +201,6 @@ export default function SignUp(props) {
         >
           <Text style={styles.signupBtnText}> Next </Text>
         </Button>
-        <Button style={styles.signupBtnHome} onPress={() => props.setStep("landing")} mode="outlined">
-            <Text style={styles.signupBtnTextBack} >Cancel</Text>
-        </Button> 
         </View>
         <ProgressBar progress={0.3} color="green" style={styles.progressBar} />
       </View>
@@ -255,6 +255,9 @@ export default function SignUp(props) {
           value={confirmPassword}
         />
         <View style={styles.signup} >
+        <Button style={styles.signupBtnHome} onPress={() => props.setStep("landing")} mode="outlined">
+            <Text style={styles.signupBtnTextBack} >Cancel</Text>
+        </Button> 
         <Button
           style={styles.signupBtn}
           mode="outlined"
@@ -264,9 +267,6 @@ export default function SignUp(props) {
         >
           <Text style={styles.signupBtnText}> Next </Text>
         </Button>
-        <Button style={styles.signupBtnHome} onPress={() => props.setStep("landing")} mode="outlined">
-            <Text style={styles.signupBtnTextBack} >Cancel</Text>
-        </Button> 
         </View>
         <ProgressBar progress={0.3} color="green" style={styles.progressBar} />
       </View>

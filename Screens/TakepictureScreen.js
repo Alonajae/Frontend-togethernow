@@ -21,7 +21,7 @@ export default function TakepictureScreen({ navigation }) {
 
   const isFocused = useIsFocused();
   const dispatch = useDispatch();
-  const containerStyle = { backgroundColor: 'white', padding: 20 };
+  const containerStyle = { padding: 20, margin: 30, borderRadius: 10, backgroundColor: '#F9F0FB' };
 
   let cameraRef = useRef(null);
 
@@ -110,14 +110,20 @@ export default function TakepictureScreen({ navigation }) {
   // if the user has already taken a picture, show the modal to validate the picture
   if (user.photoId && user.profilePicture) {
     modal = (
-      <Modal visible={visible} contentContainerStyle={containerStyle}>
+      <Modal visible={visible} contentContainerStyle={containerStyle} style={styles.modal}>
         <View style={styles.imageContainer}>
-          <Text>Finish your register</Text>
-          <Image source={{ uri: user.profilePicture }} style={{ width: 200, height: 200 }} />
+          <Text style={styles.textModal}>Finish your registration</Text>
+          <Image source={{ uri: user.profilePicture }} style={{ width: 250, height: 250, marginTop: 20 }} />
         </View>
-        <Button onPress={handleValidate}>Validate</Button>
-        <Button onPress={handleBack}>Back</Button>
-        <Button onPress={() => navigation.navigate('Map')}>Next</Button>
+        <View style={styles.modalBtn}>
+        <Button onPress={handleBack} style={styles.backBtn}>
+        <Text style={styles.textBtn}>Cancel</Text>
+        </Button>
+        <Button onPress={handleValidate}  style={styles.validateBtn} >
+        <Text style={styles.textBtn}>Validate</Text>
+        </Button>
+        </View>
+        {/* <Button onPress={() => navigation.navigate('Map')}>Next</Button> */}
       </Modal>
     ) // test button next to go to the next screen (map)
   } else {
@@ -125,11 +131,17 @@ export default function TakepictureScreen({ navigation }) {
     modal = (
       <Modal visible={visible} contentContainerStyle={containerStyle}>
         <View style={styles.imageContainer}>
-          <Text>Valid your ID picture</Text>
-          <Image source={{ uri: user.photoId }} style={{ width: 200, height: 200 }} />
+          <Text style={styles.textModal}>Valid your ID picture</Text>
+          <Image source={{ uri: user.photoId }} style={{ width: 250, height: 250, marginTop: 20}} />
         </View>
-        <Button onPress={handleValidateId}>Validate</Button>
-        <Button onPress={handleBack}>Back</Button>
+        <View style={styles.modalBtn}> 
+        <Button onPress={handleBack} style={styles.backBtn}>
+          <Text style={styles.textBtn}>Cancel</Text>
+        </Button>
+        <Button onPress={handleValidateId} style={styles.validateBtn}>
+        <Text style={styles.textBtn}>Validate</Text>
+        </Button>
+        </View>
       </Modal>
     )
   }
@@ -193,6 +205,41 @@ const styles = StyleSheet.create({
   imageContainer: {
     alignItems: 'center',
     justifyContent: 'center',
+    margin: 20,
+  },
+  backBtn: {
+    width: 100,
+    height: 40,
+    alignItems: 'center', 
+    justifyContent: 'center',
+    backgroundColor: '#FB8C7C',
+    borderRadius: 50,
+  },
+  validateBtn: {
+    width: 100,
+    height: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#9E15B8',
+    borderRadius: 50,
+  },
+  modalBtn: { 
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    paddingTop: 20,
+    width: '100%',
+  },
+
+  textBtn: {
+    color: 'white',
+    fontSize: 16,
+    fontFamily: 'Inter'
+  },
+  textModal: {
+    color: '#350040',
+    fontSize: 16,
+    fontFamily: 'Inter'
   },
 });
 

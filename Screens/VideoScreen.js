@@ -19,8 +19,20 @@ export default function VideoScreen({ navigation }) {
   // camera states
   const [type, setType] = useState(CameraType.back);
   const isFocused = useIsFocused();
-  const containerStyle = { backgroundColor: "white", padding: 20, width: '80%' };
+  const containerStyle = { padding: 40, margin: 30, borderRadius: 10, backgroundColor: '#F9F0FB' };
   const [video, setVideo] = useState("");
+  const [randomNumbers, setRandomNumbers] = useState(null);
+
+  useEffect(() => {
+    generateRandomNumbers();
+  }, []);
+
+  const generateRandomNumbers = () => {
+    const numbers = Array.from({ length: 5 }, () =>
+      Math.floor(Math.random() * 10) + 1
+    );
+    setRandomNumbers(numbers);
+  };
   
 
   console.log('====================================');
@@ -109,6 +121,14 @@ export default function VideoScreen({ navigation }) {
             </TouchableOpacity>
             <View style={styles.container}></View>
           </View>
+          <View style={styles.randomNumberContainer}>
+        {randomNumbers.map((number, index) => (
+          <Text key={index} style={styles.randomNumberText}>
+            {number}
+          </Text>
+        ))}
+      </View>
+
           <View style={styles.snapButton}>
             <TouchableOpacity onPress={() => cameraRef && recordVideo()}>
               <FontAwesome name="circle-thin" size={95} color="pink" />
@@ -123,10 +143,14 @@ export default function VideoScreen({ navigation }) {
             </TouchableOpacity>
 
             <Modal visible={visible} contentContainerStyle={containerStyle}>
-            <Text>
-              An admin will check your identity soon to get access to the Map!
+            <Text style={styles.textModal}>
+              An admin will check your identity soon!
             </Text>
-            <Button onPress={() => navigation.navigate("MyProfile")}>Next</Button>
+            <View style={styles.modalBtn}> 
+            <Button style={styles.validateBtn} onPress={() => navigation.navigate("MyProfile")}>
+            <Text style={styles.textBtn}>See my profile</Text
+            ></Button>
+            </View>
           </Modal>
 
           </View>
@@ -162,5 +186,53 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "flex-end",
     paddingBottom: 25,
+  },
+  textModal: {
+    color: '#350040',
+    alignSelf: 'center',
+    fontSize: 16,
+
+  },
+  validateBtn: {
+
+    height: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#9E15B8',
+    borderRadius: 50,
+  },
+  textBtn: {
+    color: 'white',
+    fontSize: 16,
+    fontFamily: 'Inter'
+  },
+  randomNumberText: {
+    color: 'black',
+    fontSize: 800,
+    fontFamily: 'Inter',
+    marginTop: 20,
+    marginBottom: 20,
+  },
+  modalBtn: { 
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    paddingTop: 20,
+    width: '100%',
+  },
+  randomNumberContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    width: '100%',
+    height: 100,
+    marginTop: 100,
+    backgroundColor: 'rgba(255, 255, 255, 0.8)',
+  },
+  randomNumberText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#000',
+    textAlign: 'center',
   },
 });

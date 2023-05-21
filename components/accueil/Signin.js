@@ -105,6 +105,9 @@ export default function Signin(props) {
           />
           <Text style={styles.error}>{error}</Text>
           <View style={styles.signin} >
+          <Button style={styles.signinBtnHome} onPress={() => props.setStep("landing")} mode="outlined">
+            <Text style={styles.signinBtnTextBack} >Back Home</Text>
+        </Button> 
         <Button
           style={styles.signinBtn}
           mode="outlined"
@@ -112,9 +115,6 @@ export default function Signin(props) {
         >
           <Text style={styles.signinBtnText}> Go! </Text>
         </Button>
-        <Button style={styles.signinBtnHome} onPress={() => props.setStep("landing")} mode="outlined">
-            <Text style={styles.signinBtnTextBack} >Back Home</Text>
-        </Button> 
         </View>
         </View>
       </View>
