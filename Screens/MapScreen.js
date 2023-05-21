@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { View, TextInput, StyleSheet, SafeAreaView, Dimensions, Image, Text } from 'react-native';
+import { View, TextInput, StyleSheet, SafeAreaView, Dimensions, Image, Text, KeyboardAvoidingView } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
 // import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { useDispatch, useSelector } from 'react-redux';
-// import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import { Modal, Button } from 'react-native-paper';
 import Constants from 'expo-constants';
 
@@ -225,21 +225,6 @@ export default function MapScreen({ navigation }) {
 
   // create an autocomplete search bar to search for a place
 
-  // travail de Fred
-
-  // let googleBar = (
-  //   <GooglePlacesAutocomplete
-  //   placeholder='Search'
-  //   fetchDetails={true}
-  //   onPress={(data, details = null) => {
-  //     console.log(data, details);
-  //   }}
-  //   query={{
-  //     key: GOOGLE_PLACES_API_KEY,
-  //     language: 'en',
-  //   }}
-  // />
-  // )
   const modalAlert = (
     <Modal visible={alertModalVisible} animationType="slide">
       <View style={styles.modalView}>
@@ -345,24 +330,24 @@ export default function MapScreen({ navigation }) {
   return (
     <SafeAreaView>
       <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-        <MapView mapType="hybrid" style={styles.map}
-          initialRegion={initialRegion}
-          showsUserLocation={true}
-          showsMyLocationButton={true}
-          showsCompass={true}
-          onLongPress={(infos) => handleLongPress(infos)}
-        >
-        <GooglePlacesAutocomplete
-        placeholder='Search'
-        fetchDetails={true}
-        onPress={(data, details = null) => {
-          console.log(data, details);
-        }}
-        query={{
-          key: GOOGLE_PLACES_API_KEY,
-          language: 'en',
-        }}
-        />
+          <MapView mapType="hybrid" style={styles.map}
+            initialRegion={initialRegion}
+            showsUserLocation={true}
+            showsMyLocationButton={true}
+            showsCompass={true}
+            onLongPress={(infos) => handleLongPress(infos)}
+          >
+          <GooglePlacesAutocomplete
+          placeholder='Search'
+          fetchDetails={true}
+          onPress={(data, details = null) => {
+            console.log(data, details);
+          }}
+          query={{
+            key: GOOGLE_PLACES_API_KEY,
+            language: 'en',
+          }}
+          />
 
           {currentPos}
           {safePlacesMarkers}
@@ -441,3 +426,18 @@ const styles = StyleSheet.create({
   }
 });
 
+  // travail de Fred
+
+  // let googleBar = (
+  //   <GooglePlacesAutocomplete
+  //   placeholder='Search'
+  //   fetchDetails={true}
+  //   onPress={(data, details = null) => {
+  //     console.log(data, details);
+  //   }}
+  //   query={{
+  //     key: GOOGLE_PLACES_API_KEY,
+  //     language: 'en',
+  //   }}
+  // />
+  // )
