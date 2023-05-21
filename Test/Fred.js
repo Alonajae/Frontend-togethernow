@@ -1,3 +1,5 @@
+// Test MAPSCREEN AVEC AutocompleteDropdown DE REACT
+
 import { useState } from 'react';
 import { ImageBackground, Platform, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { AutocompleteDropdown } from 'react-native-autocomplete-dropdown';

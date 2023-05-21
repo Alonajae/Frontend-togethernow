@@ -54,7 +54,7 @@ export default function TakepictureScreen({ navigation }) {
 
   // handle validation of the register
 
-  const handlePictures = (photo) => {
+  const handlePictures = (photo, registerStep) => {
     const formData = new FormData();
 
     formData.append(`picture`, {
@@ -69,12 +69,10 @@ export default function TakepictureScreen({ navigation }) {
       body: formData,
     }).then((response) => response.json())
       .then((data) => {
-        if (user.photoId) {
-          dispatch(registerStep4({ profilePicture: data.url }));
-        } else if (user.token) {
-          dispatch(registerStep4({ profilePicture: data.url }));
-        } else {
-          dispatch(registerStep3({ photoId: data.url }));
+        if(registerStep === 'registerStep3'){
+          dispatch(registerStep3({ photoId: data.picture }));
+        } else if(registerStep === 'registerStep4'){
+          dispatch(registerStep4({ profilePicture: data.picture }));
         }
       });
   }
@@ -82,9 +80,8 @@ export default function TakepictureScreen({ navigation }) {
   // handle validation of the register
 
   const handleValidate = () => {
-    console.log('test');
-    handlePictures(user.photoId);
-    handlePictures(user.profilePicture);
+    handlePictures(user.photoId, 'registerStep3');
+    handlePictures(user.profilePicture, 'registerStep4');
     fetch(`${backendAdress}/signup`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

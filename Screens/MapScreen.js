@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, TextInput, StyleSheet, SafeAreaView, Dimensions, Image, Text } from 'react-native';
+import { View, TextInput, StyleSheet, SafeAreaView, Dimensions, Image, Text, KeyboardAvoidingView } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
 // import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -51,7 +51,7 @@ export default function MapScreen({ navigation }) {
         title={buddy.firstname}
         description={buddy.firstname}
         >
-          <Image source={require('../assets/icons8-utilisateur-sexe.png')} />
+          <Image source={require('../assets/icons8-utilisateur.png')} />
         </Marker>
     );
   });
@@ -220,56 +220,59 @@ export default function MapScreen({ navigation }) {
 
   return (
     <SafeAreaView>
-      <MapView mapType="hybrid" style={styles.map}
-          initialRegion={initialRegion}
-          showsUserLocation={true}
-          showsMyLocationButton={true}
-          showsCompass={true}
-          onLongPress={(e) => { handleLongPress(e) }}
-        >
+      <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+        <MapView mapType="hybrid" style={styles.map}
+            initialRegion={initialRegion}
+            showsUserLocation={true}
+            showsMyLocationButton={true}
+            showsCompass={true}
+            onLongPress={(e) => { handleLongPress(e) }}
+          >
 
-        <GooglePlacesAutocomplete
-          placeholder='Search'
-          fetchDetails={true}
-          onPress={(data, details = null) => {
-            console.log(data, details);
-          }}
-          query={{
-            key: GOOGLE_PLACES_API_KEY,
-            language: 'en',
-          }}
-        />
-      
-        {currentPosition && currentPos}
-        {safePlacesMarkers}
-        {alertsMarkers}
-        {buddiesMarkers}
-        <Modal visible={alertModalVisible} animationType="slide">
-          <View style={styles.modalView}>
-            <Text style={styles.modalText}>Create an alert</Text>
-            <TextInput
-              style={styles.input}
-              onChangeText={(text) => setNewAlertInfos({ ...newAlertInfos, name: text })}
-              value={newAlertInfos.name}
-              placeholder="Name"
-            />
-            <TextInput
-              style={styles.input}
-              onChangeText={(text) => setNewAlertInfos({ ...newAlertInfos, description: text })}
-              value={newAlertInfos.description}
-              placeholder="Description"
-            />
-            <Button
-              title="Create"
-              onPress={handleCreateAlert}
-            />
-            <Button
-              title="Cancel"
-              onPress={handleCancelAlert}
-            />
-          </View>
-        </Modal>
-      </MapView>
+          <GooglePlacesAutocomplete
+            placeholder='Search'
+            fetchDetails={true}
+            onPress={(data, details = null) => {
+              console.log(data, details);
+            }}
+            query={{
+              key: GOOGLE_PLACES_API_KEY,
+              language: 'en',
+              components: 'country:fr',
+            }}
+          />
+        
+          {currentPosition && currentPos}
+          {safePlacesMarkers}
+          {alertsMarkers}
+          {buddiesMarkers}
+          <Modal visible={alertModalVisible} animationType="slide">
+            <View style={styles.modalView}>
+              <Text style={styles.modalText}>Create an alert</Text>
+              <TextInput
+                style={styles.input}
+                onChangeText={(text) => setNewAlertInfos({ ...newAlertInfos, name: text })}
+                value={newAlertInfos.name}
+                placeholder="Name"
+              />
+              <TextInput
+                style={styles.input}
+                onChangeText={(text) => setNewAlertInfos({ ...newAlertInfos, description: text })}
+                value={newAlertInfos.description}
+                placeholder="Description"
+              />
+              <Button
+                title="Create"
+                onPress={handleCreateAlert}
+              />
+              <Button
+                title="Cancel"
+                onPress={handleCancelAlert}
+              />
+            </View>
+          </Modal>
+        </MapView>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 }
