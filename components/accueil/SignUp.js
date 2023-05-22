@@ -282,7 +282,6 @@ export default function SignUp(props) {
       style={styles.container}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
-      <Text style={styles.title}>Create an account</Text>
       {formulaire}
     </SafeAreaView>
   );
