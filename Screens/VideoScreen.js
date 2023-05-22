@@ -88,8 +88,10 @@ export default function VideoScreen({ navigation }) {
         Would you like to take a video to validate your identity now ?
         If not, you will be able to do it later in your profile, but you won't be able to use the app until you do it.
       </Text>
-      <Button onPress={handleNo}>No</Button>
-      <Button onPress={() => setPermissionVisible(false)}>Yes</Button>
+      <View style={styles.modalBtn}>
+      <Button onPress={handleNo} style={styles.noBtn}>No</Button>
+      <Button onPress={() => setPermissionVisible(false)} style={styles.yesBtn}>Yes</Button>
+      </View>
     </Modal>
   );
 
@@ -157,12 +159,13 @@ export default function VideoScreen({ navigation }) {
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => handlePictures(video)}>
-              <FontAwesome name="circle" size={85} color="green" />
+              <Text>Finish registration</Text>
             </TouchableOpacity>
             {modal}
             <Modal visible={visible} contentContainerStyle={containerStyle}>
               <Text style={styles.textModal}>
-                An admin will check your identity soon!
+                You've done it! 🎊
+                An admin will check your identity soon! 
               </Text>
               <View style={styles.modalBtn}>
                 <Button style={styles.validateBtn} onPress={() => navigation.navigate("MyProfile")}>
@@ -250,5 +253,28 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#000',
     textAlign: 'center',
+  },
+  noBtn: {
+    width: 100,
+    height: 40,
+    alignItems: 'center', 
+    justifyContent: 'center',
+    backgroundColor: '#FB8C7C',
+    borderRadius: 50,
+  },
+  yesBtn: {
+    width: 100,
+    height: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#9E15B8',
+    borderRadius: 50,
+  },
+  modalBtn: { 
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    paddingTop: 20,
+    width: '100%',
   },
 });
