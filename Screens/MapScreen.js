@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from 'react';
 import { View, TextInput, StyleSheet, SafeAreaView, Dimensions, Image, Text, KeyboardAvoidingView, FlatList } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
@@ -437,4 +438,3 @@ const styles = StyleSheet.create({
     padding: 5,
   },
 });
-
