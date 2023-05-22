@@ -85,7 +85,7 @@ export default function MapScreen({ navigation }) {
         title={safePlace.name}
         description={safePlace.description}
       >
-        <Image source={require('../assets/icons8-location-48.png')} />
+        <Image source={require('../assets/SafePlaces.png')} style={{ width: 40, height: 40 }} />
       </Marker>
     );
   });
@@ -138,7 +138,7 @@ export default function MapScreen({ navigation }) {
         setAlerts(data.alerts);
       })
 
-      fetch(`https://backend-together-mvp.vercel.app/users/upload`)
+    fetch(`https://backend-together-mvp.vercel.app/users/upload`)
       .then((response) => response.json())
       .then((data) => {
         setProfilePicture(data.image);
@@ -269,7 +269,7 @@ export default function MapScreen({ navigation }) {
       <Modal visible={modalVisible} animationType="slide">
         <View style={styles.modalView}>
           <Text style={styles.modalText}>Profile Picture</Text>
-          <Image source={{url: profilePicture}} style={styles.profilePicture} />
+          <Image source={{ url: profilePicture }} style={styles.profilePicture} />
           <Button
             title="Close"
             onPress={() => setModalVisible(false)}
@@ -304,9 +304,9 @@ export default function MapScreen({ navigation }) {
           <Button
             title="Close"
             onPress={() => { setInfoModalVisible(false); setBuddiesIsSelected(false) }}
-            >
-              <Text>Close</Text>
-             </Button>
+          >
+            <Text>Close</Text>
+          </Button>
         </View>
       </Modal>
     )
@@ -366,7 +366,7 @@ export default function MapScreen({ navigation }) {
     <SafeAreaView>
       {modalAlert}
       {infoModal}
-      <MapView mapType="hybrid" style={styles.map}
+      <MapView mapType="mutedStandard" style={styles.map}
         initialRegion={initialRegion}
         showsUserLocation={true}
         showsMyLocationButton={true}
@@ -380,8 +380,8 @@ export default function MapScreen({ navigation }) {
 
       </MapView>
 
-      <GooglePlacesAutocomplete 
-      // style={styles.searchBar}>
+      <GooglePlacesAutocomplete
+        // style={styles.searchBar}>
         placeholder='Search'
         fetchDetails={true}
         onPress={(data, details = null) => {
@@ -396,7 +396,7 @@ export default function MapScreen({ navigation }) {
       <View style={styles.profile}>
         {profilModal}
         <TouchableOpacity onPress={handleProfile}>
-         <Image source={{url: profilePicture}} style={styles.profilePicture} />
+          <Image source={{ url: profilePicture }} style={styles.profilePicture} />
         </TouchableOpacity>
       </View>
 
@@ -431,7 +431,7 @@ const styles = StyleSheet.create({
     width: Dimensions.get('window').width,
     display: 'flex',
   },
-  profilePicture : {
+  profilePicture: {
     width: 50,
     height: 50,
     borderRadius: 50,
@@ -472,12 +472,11 @@ const styles = StyleSheet.create({
   buttonsContainer: {
     display: 'flex',
     position: 'absolute',
-    top: 80,
-    left: 60,
+    top: 90,
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: '100%',
-    height: 48,
+    height: 60,
     backgroundColor: 'white',
     borderRadius: 10,
     padding: 5,
@@ -485,7 +484,7 @@ const styles = StyleSheet.create({
   searchBar: {
     position: 'absolute',
     display: 'flex',
-    top: 80,
+    top: 10,
     left: 60,
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -495,3 +494,16 @@ const styles = StyleSheet.create({
     padding: 5,
   },
 });
+
+// profile: {
+//   position: 'absolute',
+//   display: 'flex',
+//   top: 10,
+//   left: 10,
+//   flexDirection: 'row',
+//   justifyContent: 'space-between',
+//   width: 100,
+//   backgroundColor: 'white',
+//   borderRadius: 10,
+//   padding: 5,
+// }
