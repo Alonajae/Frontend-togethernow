@@ -5,7 +5,7 @@ import { KeyboardAvoidingView } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { addPhoto, removePhoto } from '../reducers/user';
 
-export default function MyProfileScreen() {
+export default function MyProfileScreen({ navigation }) {
   const [sharePositions, setSharePositions] = useState(false);
   const [editProfil, setEditProfil] = useState(false);
   const [email, setEmail] = useState('');
@@ -24,7 +24,7 @@ export default function MyProfileScreen() {
     (async () => {
       const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
       if (permissionResult.granted === false) {
-        alert("La permission d'accéder à la galerie est requise pour choisir une image de profil.");
+        alert("You have to allow the app to access your camera roll.");
       }
     })();
   }, []);
@@ -80,7 +80,7 @@ export default function MyProfileScreen() {
                   <Text style={styles.modalButtonText}>Delete the photo</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.modalButton} onPress={pickImage}>
-                  <Text style={styles.modalButtonText}>Choose a new picture</Text>
+                  <Text style={styles.modalButtonText}>Pick an image from your camera roll</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.modalButton} onPress={() => setModalVisible(false)}>
                   <Text style={styles.modalButtonText}>Cancel</Text>
@@ -113,7 +113,7 @@ export default function MyProfileScreen() {
           </View>
 
           <View>
-            <Text>Share My Position:</Text>
+            <Text>Share my position:</Text>
             <Switch
               trackColor={{ false: 'FB8C7C', true: '#9E15B8' }}
               thumbColor={sharePositions ? '#9E15B8' : '#FB8C7C'}
