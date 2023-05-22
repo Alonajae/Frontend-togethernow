@@ -16,6 +16,22 @@ export default function MapScreen({ navigation }) {
 
   const [socket, setSocket] = useState(null);
 
+  // useEffect(() => {
+  //   // Establish the socket connection
+  //   const socket = io('https://backend-together-mvp.vercel.app'); // Update with your Vercel deployment URL
+  //   setSocket(socket);
+
+  //   // Clean up the socket connection on component unmount
+  //   return () => {
+  //     socket.disconnect();
+  //   };
+  // }, []);
+
+  // const handleItinerarySubmit = (itinerary) => {
+  //   // Emit the itinerary data to the server
+  //   socket.emit('itinerary', itinerary);
+  // };
+
   const dispatch = useDispatch();
   const token = useSelector((state) => state.user.value.token);
   const user = useSelector((state) => state.user.value);
