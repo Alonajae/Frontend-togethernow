@@ -6,10 +6,15 @@ import { Button } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import { Modal } from 'react-native-paper';
+import io from 'socket.io-client';
 
 export default function MapScreen({ navigation }) {
 
   const GOOGLE_PLACES_API_KEY = 'AIzaSyD_qcRhN9VzJWseMGcv6zzsqCwAZ40s5P';
+
+  const backendAdress = 'https://backend-together-mvp.vercel.app';
+
+  const [socket, setSocket] = useState(null);
 
   const dispatch = useDispatch();
   const token = useSelector((state) => state.user.value.token);
@@ -101,7 +106,7 @@ export default function MapScreen({ navigation }) {
         Location.watchPositionAsync({ distanceInterval: 10 },
           (location) => {
             setCurrentPosition(location);
-            fetch(`http://192.168.10.173:3000/users/location`, {
+            fetch(`${backendAdress}/users/location`, {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({
@@ -122,13 +127,13 @@ export default function MapScreen({ navigation }) {
     })();
 
     // get the safe places, buddies and alerts from the backend
-    fetch(`http://192.168.10.173:3000/safeplaces`)
+    fetch(`${backendAdress}/safeplaces`)
       .then((response) => response.json())
       .then((data) => {
         setSafePlaces(data.safeplaces);
       })
 
-    fetch(`http://192.168.10.173:3000/users/buddies`, {
+    fetch(`${backendAdress}/users/buddies`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -140,7 +145,7 @@ export default function MapScreen({ navigation }) {
         setBuddies(data.users);
       })
 
-    fetch(`http://192.168.10.173:3000/alerts`)
+    fetch(`${backendAdress}/alerts`)
       .then((response) => response.json())
       .then((data) => {
         setAlerts(data.alerts);
@@ -164,7 +169,7 @@ export default function MapScreen({ navigation }) {
   // handle the creation of an alert
 
   const handleCreateAlert = () => {
-    fetch(`http://192.168.10.173:3000/alerts/add`, {
+    fetch(`${backendAdress}/alerts/add`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
