@@ -59,7 +59,7 @@ export default function TakepictureScreen({ navigation }) {
 
     formData.append(`picture`, {
       uri: photo,
-      name: `${photo}.jpg`,
+      name: `photo.jpg`,
       type: 'image/jpeg',
     });
 
@@ -70,9 +70,9 @@ export default function TakepictureScreen({ navigation }) {
     }).then((response) => response.json())
       .then((data) => {
         if(registerStep === 'registerStep3'){
-          dispatch(registerStep3({ photoId: data.picture }));
+          dispatch(registerStep3({ photoId: data.url }));
         } else if(registerStep === 'registerStep4'){
-          dispatch(registerStep4({ profilePicture: data.picture }));
+          dispatch(registerStep4({ profilePicture: data.url }));
         }
       });
   }
