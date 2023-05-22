@@ -243,17 +243,17 @@ export default function MapScreen({ navigation }) {
         <Button
           title="Create"
           onPress={handleCreateAlert}
-        />
+        > Create </Button>
         <Button
           title="Cancel"
           onPress={handleCancelAlert}
-        />
+        > Cancel </Button>
       </View>
     </Modal>
   )
 
   // create a modal to display the infos of alerts, safe places and buddies
-  
+
   let infoModal;
   if (buddiesIsSelected) {
     infoModal = (
@@ -273,7 +273,7 @@ export default function MapScreen({ navigation }) {
           <Button
             title="Close"
             onPress={() => { setInfoModalVisible(false); setBuddiesIsSelected(false) }}
-          />
+          > Close </Button>
         </View>
       </Modal>
     )
@@ -295,7 +295,7 @@ export default function MapScreen({ navigation }) {
           <Button
             title="Close"
             onPress={() => { setInfoModalVisible(false); setSafePlacesIsSelected(false) }}
-          />
+          > Close </Button>
         </View>
       </Modal>
     )
@@ -317,7 +317,7 @@ export default function MapScreen({ navigation }) {
           <Button
             title="Close"
             onPress={() => { setInfoModalVisible(false); setAlertsIsSelected(false) }}
-          />
+          > Close </Button>
         </View>
       </Modal>
     )
@@ -327,47 +327,49 @@ export default function MapScreen({ navigation }) {
 
   return (
     <SafeAreaView>
-        <MapView mapType="hybrid" style={styles.map}
-          initialRegion={initialRegion}
-          showsUserLocation={true}
-          showsMyLocationButton={true}
-          showsCompass={true}
-          onLongPress={(infos) => handleLongPress(infos)}
-        >
-          <GooglePlacesAutocomplete
-            placeholder='Search'
-            fetchDetails={true}
-            onPress={(data, details = null) => {
-              console.log(data, details);
-            }}
-            query={{
-              key: GOOGLE_PLACES_API_KEY,
-              language: 'en',
-            }}
-          />
+      {modalAlert}
+      {infoModal}
+      <MapView mapType="hybrid" style={styles.map}
+        initialRegion={initialRegion}
+        showsUserLocation={true}
+        showsMyLocationButton={true}
+        showsCompass={true}
+        onLongPress={(infos) => handleLongPress(infos)}
+      >
+        {buddiesMarkers}
+        {currentPos}
+        {safePlacesMarkers}
+        {alertsMarkers}
 
-          {currentPos}
-          {safePlacesMarkers}
-          {alertsMarkers}
-          {buddiesMarkers}
-          {modalAlert}
-          {infoModal}
-          
-          <View style={styles.buttonsContainer}>
-            <Button
-              title="Alerts"
-              onPress={() => { setInfoModalVisible(true); setAlertsIsSelected(true) }}
-            />
-            <Button
-              title="Safe places"
-              onPress={() => { setInfoModalVisible(true); setSafePlacesIsSelected(true) }}
-            />
-            <Button
-              title="Buddies"
-              onPress={() => { setInfoModalVisible(true); setBuddiesIsSelected(true) }}
-            />
-          </View>
-        </MapView>
+      </MapView>
+
+      <GooglePlacesAutocomplete
+        placeholder='Search'
+        fetchDetails={true}
+        onPress={(data, details = null) => {
+          console.log(data, details);
+        }}
+        query={{
+          key: GOOGLE_PLACES_API_KEY,
+          language: 'en',
+        }}
+      />
+
+      <View style={styles.buttonsContainer}>
+        <Button
+          title="Alerts"
+          onPress={() => { setInfoModalVisible(true); setAlertsIsSelected(true) }}
+        > Alerts </Button>
+        <Button
+          title="Safe places"
+          onPress={() => { setInfoModalVisible(true); setSafePlacesIsSelected(true) }}
+        > Safe places </Button>
+        <Button
+          title="Buddies"
+          onPress={() => { setInfoModalVisible(true); setBuddiesIsSelected(true) }}
+        > Buddies </Button>
+      </View>
+
     </SafeAreaView>
   );
 }
