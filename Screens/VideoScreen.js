@@ -8,6 +8,7 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { registerStep5, clean, logout } from "../reducers/user";
 import { useDispatch, useSelector } from "react-redux";
 import { Modal, PaperProvider, Button, Text, Portal } from "react-native-paper";
+import { Permissions } from 'expo';
 
 export default function VideoScreen({ navigation }) {
   const backendAdress = "https://backend-together-mvp.vercel.app";
@@ -26,6 +27,14 @@ export default function VideoScreen({ navigation }) {
 
   useEffect(() => {
     generateRandomNumbers();
+    const getAudioPermission = async () => {
+      const { status } = await Permissions.askAsync(Permissions.AUDIO_RECORDING);
+      if (status !== 'granted') {
+        console.log('Audio permission not granted');
+      }
+    };
+
+    getAudioPermission();
   }, []);
 
   const generateRandomNumbers = () => {
@@ -73,8 +82,12 @@ export default function VideoScreen({ navigation }) {
     })
       .then((response) => response.json())
       .then((data) => {
-        dispatch(registerStep5({ validationVideo: data.url }));
-        setVisible(true);
+        if (data.result) {
+          dispatch(registerStep5({ validationVideo: data.url }));
+          setVisible(true);
+        } else {
+          alert("Something went wrong");
+        }
       });
     }
   }
