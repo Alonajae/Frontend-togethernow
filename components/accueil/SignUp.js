@@ -273,7 +273,7 @@ export default function SignUp(props) {
               handleRegister();
             }}
           >
-            <Text style={styles.signupBtnText}> Next</Text>
+            <Text style={styles.signupBtnText}>Next</Text>
           </Button>
         </View>
         <View style={styles.progressBar}>
