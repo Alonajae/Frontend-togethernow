@@ -6,7 +6,6 @@ import { Button } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import { Modal } from 'react-native-paper';
-import ProfilePicture from '../components/accueil/ProfilPicture';
 
 export default function MapScreen({ navigation }) {
 
