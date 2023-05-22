@@ -6,7 +6,6 @@ import { Button } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import { Modal } from 'react-native-paper';
-import ProfilePicture from '../components/accueil/ProfilPicture';
 
 export default function MapScreen({ navigation }) {
 
@@ -14,6 +13,7 @@ export default function MapScreen({ navigation }) {
 
   const dispatch = useDispatch();
   const token = useSelector((state) => state.user.value.token);
+  const user = useSelector((state) => state.user.value);
 
   // states for the search bar and the current position
   const [search, setSearch] = useState('');
@@ -30,6 +30,7 @@ export default function MapScreen({ navigation }) {
   const [safePlaces, setSafePlaces] = useState([]);
 
   // states for the modals
+  const [modalVisible, setModalVisible] = useState(false);
   const [infoModalVisible, setInfoModalVisible] = useState(false);
   const [alertModalVisible, setAlertModalVisible] = useState(false);
   const [newAlertInfos, setNewAlertInfos] = useState({
@@ -45,7 +46,7 @@ export default function MapScreen({ navigation }) {
   const [profilePicture, setProfilePicture] = useState(null);
 
   const handleProfile = () => {
-    navigation.navigate('MyProfile');
+    setModalVisible(true);
   }
 
   // create markers for buddies, safe places and alerts
@@ -100,7 +101,7 @@ export default function MapScreen({ navigation }) {
         Location.watchPositionAsync({ distanceInterval: 10 },
           (location) => {
             setCurrentPosition(location);
-            fetch(`https://backend-together-mvp.vercel.app/users/location`, {
+            fetch(`http://192.168.10.173:3000/users/location`, {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({
@@ -121,28 +122,22 @@ export default function MapScreen({ navigation }) {
     })();
 
     // get the safe places, buddies and alerts from the backend
-    fetch(`https://backend-together-mvp.vercel.app/safeplaces`)
+    fetch(`http://192.168.10.173:3000/safeplaces`)
       .then((response) => response.json())
       .then((data) => {
         setSafePlaces(data.safeplaces);
       })
 
-    fetch(`https://backend-together-mvp.vercel.app/users/buddies`)
+    fetch(`http://192.168.10.173:3000/users/buddies`)
       .then((response) => response.json())
       .then((data) => {
         setBuddies(data.users);
       })
 
-    fetch(`https://backend-together-mvp.vercel.app/alerts`)
+    fetch(`http://192.168.10.173:3000/alerts`)
       .then((response) => response.json())
       .then((data) => {
         setAlerts(data.alerts);
-      })
-
-      fetch(`https://backend-together-mvp.vercel.app/users/upload`)
-      .then((response) => response.json())
-      .then((data) => {
-        setProfilePicture(data.image);
       })
   }, []);
 
@@ -163,7 +158,7 @@ export default function MapScreen({ navigation }) {
   // handle the creation of an alert
 
   const handleCreateAlert = () => {
-    fetch(`https://backend-together-mvp.vercel.app/alerts/add`, {
+    fetch(`http://192.168.10.173:3000/alerts/add`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -202,7 +197,7 @@ export default function MapScreen({ navigation }) {
     })
   }
 
-
+console.log('user',user.profilePicture);
   // handle the position of the user
   // let currentPos;
   // if (currentPosition) {
@@ -264,13 +259,10 @@ export default function MapScreen({ navigation }) {
   )
   // create a modal to display the profile picture
 
-  let profilModal;
-  if (profilePicture) {
-    profilModal = (
+  let profilModal = (
       <Modal visible={modalVisible} animationType="slide">
         <View style={styles.modalView}>
-          <Text style={styles.modalText}>Profile Picture</Text>
-          <Image source={{url: profilePicture}} style={styles.profilePicture} />
+          <Image source={{uri: user.profilePicture}} style={styles.profilePicture} />
           <Button
             title="Close"
             onPress={() => setModalVisible(false)}
@@ -280,9 +272,7 @@ export default function MapScreen({ navigation }) {
         </View>
       </Modal>
     )
-  } else {
-    profilModal = null;
-  }
+  
 
   // create a modal to display the infos of alerts, safe places and buddies
 
@@ -395,27 +385,30 @@ export default function MapScreen({ navigation }) {
       />
 
       <View style={styles.profile}>
-        {profilModal}
-        <TouchableOpacity onPress={handleProfile}>
-         <Image source={{url: profilePicture}} style={styles.profilePicture} />
-        </TouchableOpacity>
+       {profilModal}
       </View>
 
       <View style={styles.buttonsContainer}>
+      <TouchableOpacity onPress={handleProfile}>
+         <Image source={{uri: user.profilePicture}} style={styles.profilePicture} />
+        </TouchableOpacity>
         <Button
           title="Alerts"
+          style={styles.alerts}
           onPress={() => { setInfoModalVisible(true); setAlertsIsSelected(true) }}
         >
           <Text> Alerts </Text>
         </Button>
         <Button
           title="Safe places"
+          style={styles.safeplaces}
           onPress={() => { setInfoModalVisible(true); setSafePlacesIsSelected(true) }}
         >
           <Text> Safe Places </Text>
         </Button>
         <Button
           title="Buddies"
+          style={styles.buddies}
           onPress={() => { setInfoModalVisible(true); setBuddiesIsSelected(true) }}
         >
           <Text> Buddies </Text>
@@ -441,6 +434,41 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.5)',
     borderRadius: 10,
     padding: 5,
+  },
+  alerts: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 1,
+    borderRadius: 50,
+    borderColor: '#9E15B8',
+    backgroundColor: 'white',
+    fontcolor: '#350040',
+    width: 100,
+    height: 48,
+    marginTop: 30,
+  },
+  safeplaces: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 1,
+    borderRadius: 50,
+    borderColor: '#9E15B8',
+    backgroundColor: 'white',
+    fontcolor: '#9E15B8',
+    width: 150,
+    height: 48,
+    marginTop: 30,
+  },
+  buddies: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 1,
+    borderRadius: 50,
+    borderColor: '#9E15B8',
+    fontcolor: '#9E15B8',
+    width: 50,
+    height: 48,
+    marginTop: 30,
   },
   input: {
     height: 40,
@@ -474,12 +502,11 @@ const styles = StyleSheet.create({
     display: 'flex',
     position: 'absolute',
     top: 80,
-    left: 60,
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: '100%',
     height: 48,
-    backgroundColor: 'white',
+    backgroundColor: 'Transparent',
     borderRadius: 10,
     padding: 5,
   },
