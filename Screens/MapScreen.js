@@ -87,7 +87,7 @@ export default function MapScreen({ navigation }) {
         title={safePlace.name}
         description={safePlace.description}
       >
-        <Image source={require('../assets/icons8-location-48.png')} />
+        <Image source={require('../assets/SafePlaces.png')} style={{ width: 40, height: 40 }} />
       </Marker>
     );
   });
@@ -295,9 +295,9 @@ console.log('user',user.profilePicture);
           <Button
             title="Close"
             onPress={() => { setInfoModalVisible(false); setBuddiesIsSelected(false) }}
-            >
-              <Text>Close</Text>
-             </Button>
+          >
+            <Text>Close</Text>
+          </Button>
         </View>
       </Modal>
     )
@@ -357,7 +357,7 @@ console.log('user',user.profilePicture);
     <SafeAreaView>
       {modalAlert}
       {infoModal}
-      <MapView mapType="hybrid" style={styles.map}
+      <MapView mapType="mutedStandard" style={styles.map}
         initialRegion={initialRegion}
         showsUserLocation={true}
         showsMyLocationButton={true}
@@ -371,8 +371,8 @@ console.log('user',user.profilePicture);
 
       </MapView>
 
-      <GooglePlacesAutocomplete 
-      // style={styles.searchBar}>
+      <GooglePlacesAutocomplete
+        // style={styles.searchBar}>
         placeholder='Search'
         fetchDetails={true}
         onPress={(data, details = null) => {
@@ -425,7 +425,7 @@ const styles = StyleSheet.create({
     width: Dimensions.get('window').width,
     display: 'flex',
   },
-  profilePicture : {
+  profilePicture: {
     width: 50,
     height: 50,
     borderRadius: 50,
@@ -501,19 +501,19 @@ const styles = StyleSheet.create({
   buttonsContainer: {
     display: 'flex',
     position: 'absolute',
-    top: 80,
+    top: 90,
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: '100%',
-    height: 48,
-    backgroundColor: 'Transparent',
+    height: 60,
+    backgroundColor: 'white',
     borderRadius: 10,
     padding: 5,
   },
   searchBar: {
     position: 'absolute',
     display: 'flex',
-    top: 80,
+    top: 10,
     left: 60,
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -523,3 +523,16 @@ const styles = StyleSheet.create({
     padding: 5,
   },
 });
+
+// profile: {
+//   position: 'absolute',
+//   display: 'flex',
+//   top: 10,
+//   left: 10,
+//   flexDirection: 'row',
+//   justifyContent: 'space-between',
+//   width: 100,
+//   backgroundColor: 'white',
+//   borderRadius: 10,
+//   padding: 5,
+// }
