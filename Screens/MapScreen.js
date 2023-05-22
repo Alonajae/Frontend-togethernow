@@ -11,16 +11,7 @@ import { Input } from 'react-native-elements';
 
 export default function MapScreen({ navigation }) {
 
-  // const GOOGLE_PLACES_API_KEY = 'AIzaSyD_qcRhN9VzJWseMGcv6zzsqCwAZ40s5P';
-
-  // const API = `https://api-adresse.data.gouv.fr/search/?q=${query}`;
-
-  // const searchAddress = (query) => {
-  //   // Prevent search with an empty query
-  //   if (query === '') {
-  //     return;
-  //   }
-  
+  const backendAdress = 'http://192.168.10.173:3000';
   const [dataSet, setDataSet] = useState([]);
   const [citiesData, setCitiesData] = useState([]);
 
@@ -453,21 +444,7 @@ export default function MapScreen({ navigation }) {
           {cities}
         </View>
 
-
-
-        {/* <Autocomplete
-          style={styles.searchBar}
-          data={results}
-          defaultValue={""}
-          onChangeText={text => setSearch(text)}
-          placeholder="Search"
-          // renderItem={({ item }) => (
-          //   <TouchableOpacity onPress={() => setSearch(item.name)}>
-          //     <Text>{item.name}</Text>
-          //   </TouchableOpacity>
-          // )}
-        />   */}
-      </View>
+        </View>
 
       <View style={styles.profile}>
        {profilModal}
