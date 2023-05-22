@@ -191,18 +191,18 @@ export default function MapScreen({ navigation }) {
 
 
   // handle the position of the user
-  let currentPos;
-  if (currentPosition) {
-    currentPos = (
-      <Marker
-        coordinate={{ latitude: currentPosition.coords.latitude, longitude: currentPosition.coords.longitude }}
-        title="You are here"
-        description="Your current position"
-      />
-    )
-  } else {
-    currentPos = null;
-  }
+  // let currentPos;
+  // if (currentPosition) {
+  //   currentPos = (
+  //     <Marker
+  //       coordinate={{ latitude: currentPosition.coords.latitude, longitude: currentPosition.coords.longitude }}
+  //       title="You are here"
+  //       description="Your current position"
+  //     />
+  //   )
+  // } else {
+  //   currentPos = null;
+  // }
 
   // make the initial region of the map the current position of the user
   let initialRegion;
@@ -273,7 +273,9 @@ export default function MapScreen({ navigation }) {
           <Button
             title="Close"
             onPress={() => { setInfoModalVisible(false); setBuddiesIsSelected(false) }}
-          > Close </Button>
+            >
+              <Text>Close</Text>
+             </Button>
         </View>
       </Modal>
     )
@@ -295,7 +297,9 @@ export default function MapScreen({ navigation }) {
           <Button
             title="Close"
             onPress={() => { setInfoModalVisible(false); setSafePlacesIsSelected(false) }}
-          > Close </Button>
+          >
+            <Text>Close</Text>
+          </Button>
         </View>
       </Modal>
     )
@@ -317,7 +321,9 @@ export default function MapScreen({ navigation }) {
           <Button
             title="Close"
             onPress={() => { setInfoModalVisible(false); setAlertsIsSelected(false) }}
-          > Close </Button>
+          >
+            <Text>Close</Text>
+          </Button>
         </View>
       </Modal>
     )
@@ -337,7 +343,7 @@ export default function MapScreen({ navigation }) {
         onLongPress={(infos) => handleLongPress(infos)}
       >
         {buddiesMarkers}
-        {currentPos}
+        {/* {currentPos} */}
         {safePlacesMarkers}
         {alertsMarkers}
 
@@ -359,15 +365,21 @@ export default function MapScreen({ navigation }) {
         <Button
           title="Alerts"
           onPress={() => { setInfoModalVisible(true); setAlertsIsSelected(true) }}
-        > Alerts </Button>
+        >
+          <Text> Alerts </Text>
+        </Button>
         <Button
           title="Safe places"
           onPress={() => { setInfoModalVisible(true); setSafePlacesIsSelected(true) }}
-        > Safe places </Button>
+        >
+          <Text> Safe Places </Text>
+        </Button>
         <Button
           title="Buddies"
           onPress={() => { setInfoModalVisible(true); setBuddiesIsSelected(true) }}
-        > Buddies </Button>
+        >
+          <Text> Buddies </Text>
+        </Button>
       </View>
 
     </SafeAreaView>
@@ -391,6 +403,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   modalView: {
+    position: 'absolute',
     margin: 20,
     backgroundColor: "white",
     borderRadius: 20,
