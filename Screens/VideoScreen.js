@@ -34,7 +34,7 @@ export default function VideoScreen({ navigation }) {
     );
     setRandomNumbers(numbers);
   };
-  
+
 
   console.log('====================================');
   console.log(video);
@@ -142,12 +142,10 @@ export default function VideoScreen({ navigation }) {
             <View style={styles.container}></View>
           </View>
           <View style={styles.randomNumberContainer}>
-        {randomNumbers.map((number, index) => (
-          <Text key={index} style={styles.randomNumberText}>
-            {number}
-          </Text>
-        ))}
-      </View>
+            {randomNumbers && randomNumbers.map((number) => (
+              <Text style={styles.randomNumber}>{number}</Text>
+            ))}
+          </View>
 
           <View style={styles.snapButton}>
             <TouchableOpacity onPress={() => cameraRef && recordVideo()}>
@@ -163,14 +161,14 @@ export default function VideoScreen({ navigation }) {
             </TouchableOpacity>
             {modal}
             <Modal visible={visible} contentContainerStyle={containerStyle}>
-            <Text style={styles.textModal}>
-              An admin will check your identity soon!
-            </Text>
-            <View style={styles.modalBtn}> 
-            <Button style={styles.validateBtn} onPress={() => navigation.navigate("MyProfile")}>
-            <Text style={styles.textBtn}>See my profile</Text></Button>
-            </View>
-          </Modal>
+              <Text style={styles.textModal}>
+                An admin will check your identity soon!
+              </Text>
+              <View style={styles.modalBtn}>
+                <Button style={styles.validateBtn} onPress={() => navigation.navigate("MyProfile")}>
+                  <Text style={styles.textBtn}>See my profile</Text></Button>
+              </View>
+            </Modal>
           </View>
         </Camera>
       </Portal>
@@ -231,7 +229,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginBottom: 20,
   },
-  modalBtn: { 
+  modalBtn: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-around',
