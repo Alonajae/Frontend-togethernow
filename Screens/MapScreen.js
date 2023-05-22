@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { View, TextInput, StyleSheet, SafeAreaView, Dimensions, Image, Text, KeyboardAvoidingView, FlatList } from 'react-native';
+import { View, TextInput, StyleSheet, SafeAreaView, Dimensions, Image, Text, TouchableOpacity, FlatList } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
 import { Button } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import { Modal } from 'react-native-paper';
+import ProfilePicture from '../components/accueil/ProfilPicture';
 
 export default function MapScreen({ navigation }) {
 
@@ -40,6 +41,12 @@ export default function MapScreen({ navigation }) {
     }
   });
 
+  // states for the profile picture
+  const [profilePicture, setProfilePicture] = useState(null);
+
+  const handleProfile = () => {
+    navigation.navigate('MyProfile');
+  }
 
   // create markers for buddies, safe places and alerts
 
@@ -130,6 +137,12 @@ export default function MapScreen({ navigation }) {
       .then((response) => response.json())
       .then((data) => {
         setAlerts(data.alerts);
+      })
+
+      fetch(`https://backend-together-mvp.vercel.app/users/upload`)
+      .then((response) => response.json())
+      .then((data) => {
+        setProfilePicture(data.image);
       })
   }, []);
 
@@ -222,8 +235,6 @@ export default function MapScreen({ navigation }) {
     }
   }
 
-  // create an autocomplete search bar to search for a place
-
   const modalAlert = (
     <Modal visible={alertModalVisible} animationType="slide">
       <View style={styles.modalView}>
@@ -251,6 +262,27 @@ export default function MapScreen({ navigation }) {
       </View>
     </Modal>
   )
+  // create a modal to display the profile picture
+
+  let profilModal;
+  if (profilePicture) {
+    profilModal = (
+      <Modal visible={modalVisible} animationType="slide">
+        <View style={styles.modalView}>
+          <Text style={styles.modalText}>Profile Picture</Text>
+          <Image source={{url: profilePicture}} style={styles.profilePicture} />
+          <Button
+            title="Close"
+            onPress={() => setModalVisible(false)}
+          >
+            <Text>Close</Text>
+          </Button>
+        </View>
+      </Modal>
+    )
+  } else {
+    profilModal = null;
+  }
 
   // create a modal to display the infos of alerts, safe places and buddies
 
@@ -349,7 +381,8 @@ export default function MapScreen({ navigation }) {
 
       </MapView>
 
-      <GooglePlacesAutocomplete
+      <GooglePlacesAutocomplete 
+      // style={styles.searchBar}>
         placeholder='Search'
         fetchDetails={true}
         onPress={(data, details = null) => {
@@ -360,6 +393,13 @@ export default function MapScreen({ navigation }) {
           language: 'en',
         }}
       />
+
+      <View style={styles.profile}>
+        {profilModal}
+        <TouchableOpacity onPress={handleProfile}>
+         <Image source={{url: profilePicture}} style={styles.profilePicture} />
+        </TouchableOpacity>
+      </View>
 
       <View style={styles.buttonsContainer}>
         <Button
@@ -391,6 +431,11 @@ const styles = StyleSheet.create({
     height: Dimensions.get('window').height,
     width: Dimensions.get('window').width,
     display: 'flex',
+  },
+  profilePicture : {
+    width: 50,
+    height: 50,
+    borderRadius: 50,
   },
   button: {
     backgroundColor: 'rgba(0,0,0,0.5)',
@@ -432,10 +477,22 @@ const styles = StyleSheet.create({
     left: 60,
     flexDirection: 'row',
     justifyContent: 'space-between',
+    width: '100%',
+    height: 48,
+    backgroundColor: 'white',
+    borderRadius: 10,
+    padding: 5,
+  },
+  searchBar: {
+    position: 'absolute',
+    display: 'flex',
+    top: 80,
+    left: 60,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     width: 100,
-    backgroundColor: 'transparent',
+    backgroundColor: 'white',
     borderRadius: 10,
     padding: 5,
   },
 });
-
