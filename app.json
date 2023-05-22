@@ -11,8 +11,13 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
+      "infoPlist": {
+        "NSMicrophoneUsageDescription": "This app requires access to the microphone for audio recording."
+      },
       "supportsTablet": true
     },
     "android": {
