@@ -81,13 +81,15 @@ export default function HomeScreen({ navigation }) {
       <View style={styles.landingpage}>
       <Image source={require('../assets/EllipseHome.png')} style={styles.ellipse} />
       <Text style={styles.title}>Together Now</Text>
+      <View style={styles.welcomeBack}>
+      <Text style={styles.welcome}>Welcome back {user.firstname}!</Text>
       <Button style={styles.button} onPress={handleAccess} mode="contained">
         <Text style={styles.textButton}>Enter the App</Text>
       </Button>
       <Button style={styles.buttonUp} onPress={handleSignout} mode="outlined">
         <Text style={styles.textButtonUp}>Sign out</Text>
       </Button>
-      <Text style={styles.welcome}>Welcome {user.firstname}</Text>
+      </View>
     </View>
     )
   }
@@ -139,7 +141,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     lineHeight: 110,
     textAlign: 'center',
-    marginBottom: 50,
+    marginBottom: 30,
   },
   inputContainer: {
     width: '85%',
@@ -160,7 +162,7 @@ const styles = StyleSheet.create({
     width: 270,
     height: 48,
     borderRadius: 50,
-    marginTop: 30,
+    marginTop: 10,
   },
   buttonUp: {
     alignItems: 'center',
@@ -204,9 +206,14 @@ const styles = StyleSheet.create({
   welcome: {
     fontFamily: 'Jomhuria',
     color: 'black',
+    alignSelf: 'center',
     fontSize: 40,
     fontWeight: '400',
-    marginBottom: 10,
+    // marginBottom: 5,
+    // marginTop: 10,
     textAlign: 'center',
+  },
+  welcomeBack: {
+    marginTop: 30,
   },
 });
