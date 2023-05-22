@@ -5,7 +5,7 @@ import { useState, useEffect, useRef } from "react";
 import { TouchableOpacity } from "react-native";
 import { useIsFocused } from "@react-navigation/native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
-import { registerStep5 } from "../reducers/user";
+import { registerStep5, clean } from "../reducers/user";
 import { useDispatch, useSelector } from "react-redux";
 import { Modal, PaperProvider, Button, Text, Portal } from "react-native-paper";
 
@@ -78,6 +78,7 @@ export default function VideoScreen({ navigation }) {
   // if the user don't want to take a video
 
   const handleNo = () => {
+    dispatch(clean());
     dispatch(registerStep5({ validationVideo: null }));
     navigation.navigate("MyProfile");
   };
@@ -89,7 +90,7 @@ export default function VideoScreen({ navigation }) {
         If not, you will be able to do it later in your profile, but you won't be able to use the app until you do it.
       </Text>
       <Button onPress={handleNo}>No</Button>
-      <Button onPress={() => setPermissionVisible(false)}>Yes</Button>
+      <Button onPress={() => { setPermissionVisible(false); dispatch(clean()) }}>Yes</Button>
     </Modal>
   );
 
