@@ -59,6 +59,9 @@ export default function VideoScreen({ navigation }) {
 
 
   const handlePictures = () => {
+
+    if (cameraRef)  {
+      cameraRef.current.stopRecording();
     const formData = new FormData();
 
     formData.append("video", video);
@@ -73,6 +76,7 @@ export default function VideoScreen({ navigation }) {
         dispatch(registerStep5({ validationVideo: data.url }));
         setVisible(true);
       });
+    }
   }
 
   // if the user don't want to take a video
@@ -90,8 +94,8 @@ export default function VideoScreen({ navigation }) {
         If not, you will be able to do it later in your profile, but you won't be able to use the app until you do it.
       </Text>
       <View style={styles.modalBtn}>
-      <Button onPress={handleNo} style={styles.noBtn}>No</Button>
-      <Button onPress={() => { setPermissionVisible(false); dispatch(clean()) }} style={styles.yesBtn}>Yes</Button>
+      <Button onPress={handleNo} style={styles.noBtn}> <Text style={styles.textBtn}>No</Text></Button>
+      <Button onPress={() => { setPermissionVisible(false); dispatch(clean()) }} style={styles.yesBtn}><Text style={styles.textBtn}>Yes</Text></Button>
       </View>
     </Modal>
   );
@@ -193,12 +197,8 @@ export default function VideoScreen({ navigation }) {
               <FontAwesome name="circle-thin" size={95} color="pink" />
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => cameraRef && cameraRef.current.stopRecording()}>
+              onPress={() => handlePictures()}>
               <FontAwesome name="circle" size={85} color="red" />
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => handlePictures(video)}>
-              <Text>Finish registration</Text>
             </TouchableOpacity>
             {modal}
             <Modal visible={visible} contentContainerStyle={containerStyle}>
@@ -256,7 +256,6 @@ const styles = StyleSheet.create({
 
   },
   validateBtn: {
-
     height: 40,
     alignItems: 'center',
     justifyContent: 'center',
@@ -319,5 +318,10 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     paddingTop: 20,
     width: '100%',
+  },
+  textBtn: {
+    color: 'white',
+    fontSize: 16,
+    fontFamily: 'Inter'
   },
 });
