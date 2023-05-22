@@ -40,6 +40,12 @@ export default function MapScreen({ navigation }) {
     }
   });
 
+  // states for the profile picture
+  const [profilePicture, setProfilePicture] = useState(null);
+
+  const handleProfile = () => {
+    navigation.navigate('MyProfile');
+  }
 
   // create markers for buddies, safe places and alerts
 
@@ -348,6 +354,10 @@ export default function MapScreen({ navigation }) {
         {alertsMarkers}
 
       </MapView>
+{/* 
+      <Image>
+        <Button onPress={handleProfile} style={styles.profilePicture}> <Image source={require('../assets/icons8-user-48.png')} /> </Button>
+      </Image> */}
 
       <GooglePlacesAutocomplete
         placeholder='Search'
