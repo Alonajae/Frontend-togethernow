@@ -523,7 +523,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     width: '100%',
     height: 60,
-    backgroundColor: 'white',
+    backgroundColor: 'transparent',
     borderRadius: 10,
     padding: 5,
   },
