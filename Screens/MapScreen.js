@@ -1,23 +1,81 @@
 import React, { useState, useEffect } from 'react';
-import { View, TextInput, StyleSheet, SafeAreaView, Dimensions, Image, Text, TouchableOpacity, FlatList } from 'react-native';
+import {ScrollView, View, TextInput, StyleSheet, SafeAreaView, Dimensions, Image, Text, TouchableOpacity, FlatList } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
 import { Button } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
-import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+import { AutocompleteDropdown } from 'react-native-autocomplete-dropdown';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Modal } from 'react-native-paper';
+import { Input } from 'react-native-elements';
 
 export default function MapScreen({ navigation }) {
 
-  const GOOGLE_PLACES_API_KEY = 'AIzaSyD_qcRhN9VzJWseMGcv6zzsqCwAZ40s5P';
+  // const GOOGLE_PLACES_API_KEY = 'AIzaSyD_qcRhN9VzJWseMGcv6zzsqCwAZ40s5P';
+
+  // const API = `https://api-adresse.data.gouv.fr/search/?q=${query}`;
+
+  // const searchAddress = (query) => {
+  //   // Prevent search with an empty query
+  //   if (query === '') {
+  //     return;
+  //   }
+  
+  const [dataSet, setDataSet] = useState([]);
+  const [citiesData, setCitiesData] = useState([]);
+
+  console.log("citiesData", citiesData);
+  console.log(dataSet);
+
+  const searchCity = (query) => {
+    // Prevent search with an empty query
+    if (query === '') {
+      return;
+    }
+
+    fetch(`https://api-adresse.data.gouv.fr/search/?q=${query}`)
+      .then((response) => response.json())
+      .then(({ features }) => {
+        const suggestions = features.map((data, i) => {
+          return { id: i, title: data.properties.name, context: data.properties.context };
+        });
+        setDataSet(suggestions);
+      });
+  };
+
+  const cities = dataSet.map((data, i) => {
+    console.log("data", i);
+    return (
+      <View key={i} style={styles.resultContainer}>
+        <MaterialCommunityIcons name="map-marker-check" size={30} color="#51e181" />
+        <View>
+          <Text style={{ ...styles.resultText, ...styles.resultTitle }}>{data.title}</Text>
+          <Text style={styles.resultText}>{data.context}</Text>
+        </View>
+      </View>
+    );
+  });
+
+  // fetch(`https://api-adresse.data.gouv.fr/search/?q=${"52 rue du général leclerc"}`)
+  //   .then((response) => response.json())
+  //   .then((features) => {
+  //     console.log(features);
+  //     const suggestions = features.map((data, i) => {
+  //       return { key: i, name: data.properties.label };
+  //     });
+  //     setResults(suggestions);
+  //   });
+
 
   const dispatch = useDispatch();
   const token = useSelector((state) => state.user.value.token);
   const user = useSelector((state) => state.user.value);
 
-  // states for the search bar and the current position
-  const [search, setSearch] = useState('');
+  // state for the current position
   const [currentPosition, setCurrentPosition] = useState(null);
+
+  // states for the search bar
+  const [address, setAddress] = useState('');
 
   // states for the buttons
   const [buddiesIsSelected, setBuddiesIsSelected] = useState(false);
@@ -114,7 +172,7 @@ export default function MapScreen({ navigation }) {
             })
               .then((response) => response.json())
               .then((data) => {
-                console.log(location);
+                console.log("location");
               }
               )
           });
@@ -150,7 +208,7 @@ export default function MapScreen({ navigation }) {
   // handle the long press on the map to create an alert and open the modal
 
   const handleLongPress = (infos) => {
-    console.log(infos.nativeEvent.coordinate);
+    // console.log(infos.nativeEvent.coordinate);
     setAlertModalVisible(true);
     setNewAlertInfos({
       ...newAlertInfos,
@@ -203,7 +261,7 @@ export default function MapScreen({ navigation }) {
     })
   }
 
-console.log('user',user.profilePicture);
+// console.log('user',user.profilePicture);
   // handle the position of the user
   // let currentPos;
   // if (currentPosition) {
@@ -374,26 +432,41 @@ console.log('user',user.profilePicture);
         {/* {currentPos} */}
         {safePlacesMarkers}
         {alertsMarkers}
-
       </MapView>
 
-      <View style={styles.searcheBar}>
+      <View style={styles.containersearchebar}>
       <TouchableOpacity onPress={handleProfile}>
          <Image source={{uri: user.profilePicture}} style={styles.profilePicture} />
         </TouchableOpacity>
 
-      <GooglePlacesAutocomplete
-        // style={styles.searchBar}>
-        placeholder='Search'
-        fetchDetails={true}
-        onPress={(data, details = null) => {
-          console.log(data, details);
-        }}
-        query={{
-          key: GOOGLE_PLACES_API_KEY,
-          language: 'en',
-        }}
-      />
+        <AutocompleteDropdown
+          onChangeText={(value) => searchCity(value)}
+          onSelectItem={(item) => item && setCitiesData([...citiesData, item])}
+          dataSet={dataSet}
+          textInputProps={{ placeholder: 'Search city' }}
+          inputContainerStyle={styles.inputContainer}
+          containerStyle={styles.dropdownContainer}
+          suggestionsListContainerStyle={styles.suggestionListContainer}
+          closeOnSubmit
+        />
+        <View style={styles.scrollContainer}>
+          {cities}
+        </View>
+
+
+
+        {/* <Autocomplete
+          style={styles.searchBar}
+          data={results}
+          defaultValue={""}
+          onChangeText={text => setSearch(text)}
+          placeholder="Search"
+          // renderItem={({ item }) => (
+          //   <TouchableOpacity onPress={() => setSearch(item.name)}>
+          //     <Text>{item.name}</Text>
+          //   </TouchableOpacity>
+          // )}
+        />   */}
       </View>
 
       <View style={styles.profile}>
@@ -440,10 +513,13 @@ const styles = StyleSheet.create({
     height: 50,
     borderRadius: 50,
   },
-  searcheBar: {
+  containersearchebar: {
     position: 'absolute',
-    display: 'flex',
+    top: 0,
+    alignSelf: 'center',
+    width: '70%',
     justifyContent: 'space-between',
+    marginTop: 10,
   },
   button: {
     backgroundColor: 'rgba(0,0,0,0.5)',
@@ -538,6 +614,50 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 5,
   },
+  scrollContainer: {
+    width: '100%',
+    backgroundColor: "red",
+    position: 'absolute',
+    top: 100,
+  },
+  dropdownContainer: {
+    width: '100%',
+  },
+  inputContainer: {
+    borderWidth: 1,
+    borderColor: '#51e181',
+    backgroundColor: '#ffffff',
+  },
+  title: {
+    fontSize: 50,
+    color: '#51e181',
+    fontWeight: 'bold',
+    alignSelf: 'flex-start',
+    fontFamily: Platform.select({ ios: 'Georgia', android: 'serif' }),
+    marginBottom: 15,
+  },
+  suggestionListContainer: {
+    borderRadius: 3,
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+  },
+  resultContainer: {
+    backgroundColor: '#ffffff',
+    width: '100%',
+    borderRadius: 6,
+    padding: 20,
+    marginBottom: 10,
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    borderColor: '#51e181',
+    borderWidth: 1,
+  },
+  resultText: {
+    textAlign: 'right',
+  },
+  resultTitle: {
+    fontWeight: 'bold',
+  },
 });
 
 // profile: {
@@ -552,3 +672,16 @@ const styles = StyleSheet.create({
 //   borderRadius: 10,
 //   padding: 5,
 // }
+
+// import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+// <GooglePlacesAutocomplete
+//         placeholder='Search'
+//         fetchDetails={true}
+//         onPress={(data, details) => {
+//           console.log("coucou !!!", data, details);
+//         }}
+//         query={{
+//           key: `https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&?key=${GOOGLE_PLACES_API_KEY}`,
+//           language: 'en',
+//         }}
+//       />
