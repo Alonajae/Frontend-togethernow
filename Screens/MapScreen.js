@@ -62,7 +62,7 @@ export default function MapScreen({ navigation }) {
       <Marker
         key={i}
         coordinate={alert.coordinate}
-        title={alert.name}
+        title={alert.type}
         description={alert.description}
       >
         <Image source={require('../assets/Alerts.png')} />
@@ -425,9 +425,10 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   },
   buttonsContainer: {
+    display: 'flex',
     position: 'absolute',
-    bottom: 10,
-    right: 10,
+    top: 80,
+    left: 60,
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: 100,
@@ -437,18 +438,3 @@ const styles = StyleSheet.create({
   },
 });
 
-  // travail de Fred
-
-  // let googleBar = (
-  //   <GooglePlacesAutocomplete
-  //   placeholder='Search'
-  //   fetchDetails={true}
-  //   onPress={(data, details = null) => {
-  //     console.log(data, details);
-  //   }}
-  //   query={{
-  //     key: GOOGLE_PLACES_API_KEY,
-  //     language: 'en',
-  //   }}
-  // />
-  // )
