@@ -159,7 +159,7 @@ export default function MapScreen({ navigation }) {
         Location.watchPositionAsync({ distanceInterval: 10 },
           (location) => {
             setCurrentPosition(location);
-            fetch(`http://192.168.10.173:3000/users/location`, {
+            fetch(`${backendAdress}/users/location`, {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({
@@ -180,13 +180,13 @@ export default function MapScreen({ navigation }) {
     })();
 
     // get the safe places, buddies and alerts from the backend
-    fetch(`http://192.168.10.173:3000/safeplaces`)
+    fetch(`${backendAdress}/safeplaces`)
       .then((response) => response.json())
       .then((data) => {
         setSafePlaces(data.safeplaces);
       })
 
-    fetch(`http://192.168.10.173:3000/users/buddies`, {
+    fetch(`${backendAdress}/users/buddies`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -198,7 +198,7 @@ export default function MapScreen({ navigation }) {
         setBuddies(data.users);
       })
 
-    fetch(`http://192.168.10.173:3000/alerts`)
+    fetch(`${backendAdress}/alerts`)
       .then((response) => response.json())
       .then((data) => {
         setAlerts(data.alerts);
@@ -222,7 +222,7 @@ export default function MapScreen({ navigation }) {
   // handle the creation of an alert
 
   const handleCreateAlert = () => {
-    fetch(`http://192.168.10.173:3000/alerts/add`, {
+    fetch(`${backendAdress}/alerts/add`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
