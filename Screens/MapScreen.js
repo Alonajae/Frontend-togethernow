@@ -128,7 +128,13 @@ export default function MapScreen({ navigation }) {
         setSafePlaces(data.safeplaces);
       })
 
-    fetch(`http://192.168.10.173:3000/users/buddies`)
+    fetch(`http://192.168.10.173:3000/users/buddies`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        token: token
+        })
+      })
       .then((response) => response.json())
       .then((data) => {
         setBuddies(data.users);
