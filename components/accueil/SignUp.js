@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { TextInput, Button, ProgressBar, List } from "react-native-paper";
+import { TextInput, Button, ProgressBar, MD3Colors, List } from "react-native-paper";
 import { useDispatch, useSelector } from "react-redux";
 import {
   View,
@@ -107,6 +107,7 @@ export default function SignUp(props) {
     formulaire = (
       <View style={styles.formulaire}>
         <View style={styles.menu}>
+        <Text style={styles.title}>Create an account!</Text>
           <List.Section>
             <List.Accordion
               id="reasons"
@@ -206,12 +207,15 @@ export default function SignUp(props) {
             <Text style={styles.signupBtnText}> Next </Text>
           </Button>
         </View>
-        <ProgressBar progress={0.3} color="green" style={styles.progressBar} />
+        <View style={styles.progressBar}>
+          <ProgressBar progress={0.5} color={'#9E15B8'} visible={true} />
+        </View>
       </View>
     );
   } else {
     formulaire = (
       <View style={styles.formulaire}>
+       <Text style={styles.title}>Create an account!</Text>
         <TextInput
           style={styles.input}
           mode="outlined"
@@ -221,7 +225,6 @@ export default function SignUp(props) {
           onChangeText={(e) => setsignUpEmail(e)}
           value={signUpEmail}
         />
-        <Text>{error}</Text>
         <TextInput
           style={styles.input}
           mode="outlined"
@@ -258,6 +261,7 @@ export default function SignUp(props) {
           onChangeText={(e) => setConfirmPassword(e)}
           value={confirmPassword}
         />
+        <Text>{error}</Text>
         <View style={styles.signup} >
           <Button style={styles.signupBtnHome} onPress={() => props.setStep("landing")} mode="outlined">
             <Text style={styles.signupBtnTextBack} >Cancel</Text>
@@ -272,7 +276,9 @@ export default function SignUp(props) {
             <Text style={styles.signupBtnText}> Next</Text>
           </Button>
         </View>
-        <ProgressBar progress={0.3} color="green" style={styles.progressBar} />
+        <View style={styles.progressBar}>
+          <ProgressBar progress={0.25} color={'#9E15B8'} visible={true} />
+        </View>
       </View>
     );
   }
@@ -327,7 +333,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   formulaire: {
-    height: "100%",
+    height: "90%",
     alignItems: "center",
     justifyContent: "center",
     width: Dimensions.get("window").width * 1,
@@ -340,17 +346,18 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffffff",
   },
   title: {
-    position: "absolute",
     alignSelf: "center",
-    marginTop: Dimensions.get("window").height * 0.16,
+    marginBottom: Dimensions.get("window").height * 0.05,
     top: 0,
     fontSize: 35,
     fontWeight: "bold",
     color: "#9E15B8",
   },
   progressBar: {
-    width: "80%",
-    marginTop: 10,
+    height: 10,
+    width: '60%',
+    alignSelf: 'center', 
+    marginTop: Dimensions.get("window").height * 0.05,
   },
   accordion: {
     marginBottom: 8,

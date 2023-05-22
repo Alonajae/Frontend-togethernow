@@ -255,7 +255,7 @@ export default function VideoScreen({ navigation }) {
                 <Button style={styles.validateBtn} onPress={handleSeeProfile}>
                   <Text style={styles.textBtn}>See my profile</Text>
                 </Button>
-                <Button style={styles.validateBtn} onPress={handleLogOut}>
+                <Button style={styles.noBtn} onPress={handleLogOut}>
                   <Text style={styles.textBtn}>Log Out</Text>
                 </Button>
               </View>
