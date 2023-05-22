@@ -402,21 +402,18 @@ export default function MapScreen({ navigation }) {
 
       <View style={styles.buttonsContainer}>
         <Button
-          style={styles.button}
           title="Alerts"
           onPress={() => { setInfoModalVisible(true); setAlertsIsSelected(true) }}
         >
           <Text> Alerts </Text>
         </Button>
         <Button
-          style={styles.button}
           title="Safe places"
           onPress={() => { setInfoModalVisible(true); setSafePlacesIsSelected(true) }}
         >
           <Text> Safe Places </Text>
         </Button>
         <Button
-          style={styles.button}
           title="Buddies"
           onPress={() => { setInfoModalVisible(true); setBuddiesIsSelected(true) }}
         >
@@ -443,11 +440,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.5)',
     borderRadius: 10,
     padding: 5,
-    margin: 5,
-    width: 100,
-    height: 50,
-    justifyContent: 'center',
-    alignItems: 'center',
   },
   input: {
     height: 40,
