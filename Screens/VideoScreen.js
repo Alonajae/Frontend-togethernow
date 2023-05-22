@@ -5,7 +5,7 @@ import { useState, useEffect, useRef } from "react";
 import { TouchableOpacity } from "react-native";
 import { useIsFocused } from "@react-navigation/native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
-import { registerStep5 } from "../reducers/user";
+import { registerStep5, clean, logout } from "../reducers/user";
 import { useDispatch, useSelector } from "react-redux";
 import { Modal, PaperProvider, Button, Text, Portal } from "react-native-paper";
 
@@ -78,6 +78,7 @@ export default function VideoScreen({ navigation }) {
   // if the user don't want to take a video
 
   const handleNo = () => {
+    dispatch(clean());
     dispatch(registerStep5({ validationVideo: null }));
     navigation.navigate("MyProfile");
   };
@@ -90,10 +91,48 @@ export default function VideoScreen({ navigation }) {
       </Text>
       <View style={styles.modalBtn}>
       <Button onPress={handleNo} style={styles.noBtn}>No</Button>
-      <Button onPress={() => setPermissionVisible(false)} style={styles.yesBtn}>Yes</Button>
+      <Button onPress={() => { setPermissionVisible(false); dispatch(clean()) }} style={styles.yesBtn}>Yes</Button>
       </View>
     </Modal>
   );
+
+  // if the user took a video and want to leave the app waiting for the admin to validate his identity
+
+  const handleLogOut = () => {
+    fetch(`${backendAdress}/users/grantAccess`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ token: user.token, validationVideo: user.validationVideo }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.result) {
+          dispatch(logout());
+          navigation.navigate("Home");
+        } else {
+          alert("Something went wrong");
+        }
+      });
+  };
+
+  // if the user took a video and want to go to the profile
+
+  const handleSeeProfile = () => {
+    fetch(`${backendAdress}/users/grantAccess`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ token: user.token, validationVideo: user.validationVideo }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.result) {
+          dispatch(clean());
+          navigation.navigate("MyProfile");
+        } else {
+          alert("Something went wrong");
+        }
+      });
+  };
 
   // recuperation du son qui marche mais pas de possibilité de speech to text avec ExpoGo
   // Ne pas supprimer SVP
@@ -168,8 +207,12 @@ export default function VideoScreen({ navigation }) {
                 An admin will check your identity soon! 
               </Text>
               <View style={styles.modalBtn}>
-                <Button style={styles.validateBtn} onPress={() => navigation.navigate("MyProfile")}>
-                  <Text style={styles.textBtn}>See my profile</Text></Button>
+                <Button style={styles.validateBtn} onPress={handleSeeProfile}>
+                  <Text style={styles.textBtn}>See my profile</Text>
+                </Button>
+                <Button style={styles.validateBtn} onPress={handleLogOut}>
+                  <Text style={styles.textBtn}>Log Out</Text>
+                </Button>
               </View>
             </Modal>
           </View>

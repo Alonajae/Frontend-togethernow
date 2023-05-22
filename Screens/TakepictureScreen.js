@@ -5,7 +5,7 @@ import { useState, useEffect, useRef } from 'react';
 import { TouchableOpacity } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import { registerStep3, registerStep4, logout, login } from '../reducers/user';
+import { registerStep3, registerStep4, login, } from '../reducers/user';
 import { useDispatch, useSelector } from 'react-redux';
 import { Modal, PaperProvider, Button, Text, Portal } from 'react-native-paper';
 
