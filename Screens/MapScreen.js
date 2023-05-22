@@ -371,6 +371,11 @@ console.log('user',user.profilePicture);
 
       </MapView>
 
+      <View style={styles.searcheBar}>
+      <TouchableOpacity onPress={handleProfile}>
+         <Image source={{uri: user.profilePicture}} style={styles.profilePicture} />
+        </TouchableOpacity>
+
       <GooglePlacesAutocomplete
         // style={styles.searchBar}>
         placeholder='Search'
@@ -383,6 +388,7 @@ console.log('user',user.profilePicture);
           language: 'en',
         }}
       />
+      </View>
 
       <View style={styles.profile}>
        {profilModal}
@@ -429,6 +435,11 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 50,
+  },
+  searcheBar: {
+    position: 'absolute',
+    display: 'flex',
+    justifyContent: 'space-between',
   },
   button: {
     backgroundColor: 'rgba(0,0,0,0.5)',
