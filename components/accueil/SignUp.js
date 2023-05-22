@@ -25,6 +25,8 @@ export default function SignUp(props) {
   const [emergencyContact, setEmergencyContact] = useState("");
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
+  const [error, setError] = useState(null);
+  const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
   const handleRegister = () => {
     // Send the registration data to verify if the email is not already in use
@@ -33,6 +35,9 @@ export default function SignUp(props) {
       return;
     } else if (signUpPassword !== confirmPassword) {
       alert("Passwords don't match")
+      return;
+    } else if (!EMAIL_REGEX.test(signUpEmail)) {
+      setError("Please enter a valid email address.")
       return;
     }
 
@@ -188,18 +193,18 @@ export default function SignUp(props) {
           value={emergencyContact}
         />
         <View style={styles.signup} >
-        <Button style={styles.signupBtnHome} onPress={() => props.setStep("landing")} mode="outlined">
+          <Button style={styles.signupBtnHome} onPress={() => props.setStep("landing")} mode="outlined">
             <Text style={styles.signupBtnTextBack} >Cancel</Text>
-        </Button> 
-        <Button
-          style={styles.signupBtn}
-          mode="outlined"
-          onPress={() => {
-            handleRegister2();
-          }}
-        >
-          <Text style={styles.signupBtnText}> Next </Text>
-        </Button>
+          </Button>
+          <Button
+            style={styles.signupBtn}
+            mode="outlined"
+            onPress={() => {
+              handleRegister2();
+            }}
+          >
+            <Text style={styles.signupBtnText}> Next </Text>
+          </Button>
         </View>
         <ProgressBar progress={0.3} color="green" style={styles.progressBar} />
       </View>
@@ -216,7 +221,7 @@ export default function SignUp(props) {
           onChangeText={(e) => setsignUpEmail(e)}
           value={signUpEmail}
         />
-
+        <Text>{error}</Text>
         <TextInput
           style={styles.input}
           mode="outlined"
@@ -254,18 +259,18 @@ export default function SignUp(props) {
           value={confirmPassword}
         />
         <View style={styles.signup} >
-        <Button style={styles.signupBtnHome} onPress={() => props.setStep("landing")} mode="outlined">
+          <Button style={styles.signupBtnHome} onPress={() => props.setStep("landing")} mode="outlined">
             <Text style={styles.signupBtnTextBack} >Cancel</Text>
-        </Button> 
-        <Button
-          style={styles.signupBtn}
-          mode="outlined"
-          onPress={() => {
-            handleRegister();
-          }}
-        >
-          <Text style={styles.signupBtnText}> Next </Text>
-        </Button>
+          </Button>
+          <Button
+            style={styles.signupBtn}
+            mode="outlined"
+            onPress={() => {
+              handleRegister();
+            }}
+          >
+            <Text style={styles.signupBtnText}> Next </Text>
+          </Button>
         </View>
         <ProgressBar progress={0.3} color="green" style={styles.progressBar} />
       </View>
