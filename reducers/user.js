@@ -73,7 +73,6 @@ export const userSlice = createSlice({
       state.value.accessGranted = null;
     },
     clean: (state) => {
-      state.value.photoId = null;
       state.value.validationVideo = null;
       state.value.password = null;
     },
