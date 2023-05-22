@@ -401,9 +401,7 @@ console.log('user',user.profilePicture);
       </View>
 
       <View style={styles.buttonsContainer}>
-      <TouchableOpacity onPress={handleProfile}>
-         <Image source={{uri: user.profilePicture}} style={styles.profilePicture} />
-        </TouchableOpacity>
+      
         <Button
           title="Alerts"
           style={styles.alerts}
@@ -482,8 +480,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 50,
     borderColor: '#9E15B8',
+    backgroundColor: 'white',
     fontcolor: '#9E15B8',
-    width: 50,
+    width: 75,
     height: 48,
     marginTop: 30,
   },
