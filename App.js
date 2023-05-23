@@ -5,6 +5,7 @@ import VideoScreen from './Screens/VideoScreen';
 import MapScreen from './Screens/MapScreen';
 import TakepictureScreen from './Screens/TakepictureScreen';
 import MyprofileScreen from './Screens/MyprofileScreen';
+import ChatScreen from './Screens/ChatScreen';
 
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
@@ -18,6 +19,7 @@ import map from './reducers/map';
 import { useCallback, useEffect, useState } from "react";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
+
 
 const persistConfig = {
   key: 'TogetherNow',
@@ -68,6 +70,7 @@ export default function App() {
             <Stack.Screen name="TakePicture" component={TakepictureScreen} />
             <Stack.Screen name="Video" component={VideoScreen} />
             <Stack.Screen name="MyProfile" component={MyprofileScreen} />
+            <Stack.Screen name="Chat" component={ChatScreen} />
           </Stack.Navigator>
         </NavigationContainer>
       </PersistGate>
