@@ -109,7 +109,7 @@ export default function TakepictureScreen({ navigation }) {
   let modal;
 
   // if the user has already taken a picture, show the modal to validate the picture
-  if (user.photoId && user.profilePicture) {
+  if ((user.photoId && user.profilePicture) || user.token) {
     modal = (
       <Modal visible={visible} contentContainerStyle={containerStyle} style={styles.modal}>
         <View style={styles.imageContainer}>

@@ -8,19 +8,18 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { registerStep5, clean, logout } from "../reducers/user";
 import { useDispatch, useSelector } from "react-redux";
 import { Modal, PaperProvider, Button, Text, Portal } from "react-native-paper";
-import { Permissions } from "expo";
 
 export default function VideoScreen({ navigation }) {
   const backendAdress = "https://backend-together-mvp.vercel.app";
   const dispatch = useDispatch();
   const formData = new FormData();
   const user = useSelector((state) => state.user.value);
+  const [hasPermission, setHasPermission] = useState(null);
+  const [audioPermission, setAudioPermission] = useState(null);
   const [visible, setVisible] = useState(false);
   const [permissionVisible, setPermissionVisible] = useState(true);
 
   // camera states
-  const [type, setType] = useState(CameraType.back);
-  const isFocused = useIsFocused();
   const containerStyle = {
     padding: 40,
     margin: 30,
@@ -30,17 +29,19 @@ export default function VideoScreen({ navigation }) {
   const [video, setVideo] = useState(null);
   const [randomNumbers, setRandomNumbers] = useState(null);
 
+  // ask for permission
   useEffect(() => {
     generateRandomNumbers();
-    // const getAudioPermission = async () => {
-    //   const { status } = await Permissions.askAsync(Permissions.AUDIO_RECORDING);
-    //   if (status !== 'granted') {
-    //     console.log('Audio permission not granted');
-    //   }
-    // };
-
-    // getAudioPermission();
-  }, []);
+    (async () => {
+      const { status } = await Camera.requestCameraPermissionsAsync();
+      setHasPermission(status === 'granted');
+    })();
+    (async () => {
+      const { status } = await Permissions.askAsync(Permissions.AUDIO_RECORDING);
+      setAudioPermission(status === 'granted');
+    }
+    )();
+  }, [])
 
   useEffect(() => {
     if (video) {
@@ -76,6 +77,10 @@ export default function VideoScreen({ navigation }) {
     );
     setRandomNumbers(numbers);
   };
+
+  if (hasPermission === null || audioPermission === null) {
+    return <View />;
+  }
 
   console.log("====================================");
   console.log(video);
@@ -130,15 +135,12 @@ export default function VideoScreen({ navigation }) {
   const modal = (
     <Modal visible={permissionVisible} contentContainerStyle={containerStyle}>
       <Text>
-        We'll need to verify your identity before you can use the app. Would you
-        like to finish the process now ? You'll need to read the numbers on the
-        screen while taking a video of yourself. If not, you will be able to do
-        it later but you won't be able to use the app.
+      Almost done! Please read the numbers on the screen to verify your identity. 
       </Text>
       <View style={styles.modalBtn}>
         <Button onPress={handleNo} style={styles.noBtn}>
           {" "}
-          <Text style={styles.textBtn}>No</Text>
+          <Text style={styles.textBtn}>Later</Text>
         </Button>
         <Button
           onPress={() => {
@@ -157,7 +159,6 @@ export default function VideoScreen({ navigation }) {
 
   const handleLogOut = () => {
     dispatch(logout());
-    setStep("landing");
     dispatch(clean());
   };
 
@@ -182,6 +183,8 @@ export default function VideoScreen({ navigation }) {
         }
       });
   };
+
+  
 
   // recuperation du son qui marche mais pas de possibilité de speech to text avec ExpoGo
   // Ne pas supprimer SVP
