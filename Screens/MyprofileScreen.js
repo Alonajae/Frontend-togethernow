@@ -7,6 +7,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addPhoto, removePhoto } from '../reducers/user';
 
 export default function MyProfileScreen({ navigation }) {
+
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user.value);
+  const containerStyle = { padding: 20, margin: 30, borderRadius: 10, backgroundColor: '#F9F0FB' };
   
   const [sharePositions, setSharePositions] = useState(false);
   const [email, setEmail] = useState(user.email);
