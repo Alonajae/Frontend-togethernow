@@ -588,7 +588,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     borderRadius: 10,
     padding: 5,
-    zIndex: -1,
   },
   searchBar: {
     position: 'absolute',
