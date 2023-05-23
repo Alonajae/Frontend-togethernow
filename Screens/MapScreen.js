@@ -115,6 +115,7 @@ export default function MapScreen({ navigation }) {
   });
 
   const handleTrack = () => {
+    console.log(address);
     fetch(`${backendAdress}/trips/start`, {
       method: 'POST',
       headers: {
