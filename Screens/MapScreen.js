@@ -230,6 +230,10 @@ export default function MapScreen({ navigation }) {
     })
   }
 
+  const handleFictif = () => {
+    navigation.navigate('MyProfile');
+  }
+
   // handle the creation of an alert
 
   const handleCreateAlert = () => {
@@ -327,6 +331,12 @@ export default function MapScreen({ navigation }) {
           onPress={() => setModalVisible(false)}
         >
           <Text>Close</Text>
+        </Button>
+        <Button
+          title="Close"
+          onPress={handleFictif}
+        >
+          <Text>lien fictife profile</Text>
         </Button>
       </View>
     </Modal>
