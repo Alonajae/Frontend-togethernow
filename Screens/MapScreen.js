@@ -31,7 +31,7 @@ export default function MapScreen({ navigation }) {
   const [safePlaces, setSafePlaces] = useState([]);
 
   // states for the modals
-  const [modalVisible, setModalVisible] = useState(false);
+  const [error, setError] = useState(false);
   const [infoModalVisible, setInfoModalVisible] = useState(false);
   const [alertModalVisible, setAlertModalVisible] = useState(false);
   const [newAlertInfos, setNewAlertInfos] = useState({
@@ -233,7 +233,6 @@ export default function MapScreen({ navigation }) {
   // handle the long press on the map to create an alert and open the modal
 
   const handleLongPress = (infos) => {
-    // console.log(infos.nativeEvent.coordinate);
     setAlertModalVisible(true);
     setNewAlertInfos({
       ...newAlertInfos,
@@ -251,6 +250,10 @@ export default function MapScreen({ navigation }) {
   // handle the creation of an alert
 
   const handleCreateAlert = () => {
+    if (newAlertInfos.name === '' || newAlertInfos.description === '') {
+      setError('Veuillez remplir tous les champs')
+      return;
+    }
     fetch(`${backendAdress}/alerts/add`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -307,22 +310,56 @@ export default function MapScreen({ navigation }) {
     }
   }
 
+  let styleModal;
+  if (alertModalVisible) {
+    styleModal =
+    {
+      position: 'absolute',
+      top: 250,
+      height: '30%',
+      width: '100%',
+      backgroundColor: 'transparent',
+      zIndex: 1,
+    }
+  } else if (buddiesIsSelected || alertsIsSelected || safePlacesIsSelected) {
+    styleModal =
+    {
+      position: 'absolute',
+      bottom: 0,
+      height: '35%',
+      width: '100%',
+      backgroundColor: 'transparent',
+      zIndex: 1,
+    }
+  } else {
+    styleModal =
+    {
+      height: '0%',
+      width: '0%',
+      backgroundColor: 'transparent',
+      zIndex: -1,
+    }
+  }
+
   const modalAlert = (
     <Modal visible={alertModalVisible} animationType="slide">
       <View style={styles.modalView}>
         <Text style={styles.modalText}>Create an alert</Text>
         <TextInput
-          style={styles.input}
+          style={styles.inputName}
           onChangeText={(text) => setNewAlertInfos({ ...newAlertInfos, name: text })}
           value={newAlertInfos.name}
-          placeholder="Name"
+          label='Name'
+          mode="outlined"
         />
         <TextInput
-          style={styles.input}
+          style={styles.inputDescription}
           onChangeText={(text) => setNewAlertInfos({ ...newAlertInfos, description: text })}
           value={newAlertInfos.description}
-          placeholder="Description"
+          label='Description'
+          mode="outlined"
         />
+        <Text style={styles.modalText}>{error}</Text>
         <Button
           title="Create"
           onPress={handleCreateAlert}
@@ -479,7 +516,7 @@ export default function MapScreen({ navigation }) {
         </Button>
       </View>
 
-      <View style={styles.ModalContainer}>
+      <View style={styleModal}>
         {modalAlert}
         {infoModal}
       </View>
@@ -553,7 +590,7 @@ const styles = StyleSheet.create({
   modalView: {
     backgroundColor: "white",
     borderRadius: 20,
-    padding: 35,
+    padding: 5,
     width: '100%',
     height: 300,
     alignItems: "center",
@@ -640,12 +677,27 @@ const styles = StyleSheet.create({
   resultTitle: {
     fontWeight: 'bold',
   },
-  ModalContainer: {
-    position: 'absolute',
-    height: '30%',
-    bottom: 0,
+  inputName: {
+    height: 40,
     width: '100%',
-    backgroundColor: 'transparent',
-    zIndex: 1,
+    borderRadius: 10,
+    borderColor: '#9E15B8',
+    backgroundColor: 'white',
+    marginBottom: 10,
+  },
+  inputDescription: {
+    height: 80,
+    width: '100%',
+    borderRadius: 10,
+    borderColor: '#9E15B8',
+    backgroundColor: 'white',
+    marginBottom: 10,
+  },
+  inputContainer: {
+    width: '100%',
+    borderRadius: 10,
+    borderColor: '#9E15B8',
+    backgroundColor: 'white',
+    marginBottom: 10,
   },
 });
