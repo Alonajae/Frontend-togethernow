@@ -135,15 +135,12 @@ export default function VideoScreen({ navigation }) {
   const modal = (
     <Modal visible={permissionVisible} contentContainerStyle={containerStyle}>
       <Text>
-        We'll need to verify your identity before you can use the app. Would you
-        like to finish the process now ? You'll need to read the numbers on the
-        screen while taking a video of yourself. If not, you will be able to do
-        it later but you won't be able to use the app.
+      Almost done! Please read the numbers on the screen to verify your identity. 
       </Text>
       <View style={styles.modalBtn}>
         <Button onPress={handleNo} style={styles.noBtn}>
           {" "}
-          <Text style={styles.textBtn}>No</Text>
+          <Text style={styles.textBtn}>Later</Text>
         </Button>
         <Button
           onPress={() => {
