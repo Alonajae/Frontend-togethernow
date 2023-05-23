@@ -1,24 +1,43 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Button, Switch, TextInput, StyleSheet, TouchableOpacity, Image, Modal, SafeAreaView } from 'react-native';
+import { View, Text, Switch, TextInput, StyleSheet, TouchableOpacity, Image, Modal, SafeAreaView } from 'react-native';
+import { Button, PaperProvider, Portal } from 'react-native-paper';
 import * as ImagePicker from 'expo-image-picker';
 import { KeyboardAvoidingView } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { addPhoto, removePhoto } from '../reducers/user';
 
 export default function MyProfileScreen({ navigation }) {
-  const [sharePositions, setSharePositions] = useState(false);
-  const [editProfil, setEditProfil] = useState(false);
-  const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
-  const [address, setAddress] = useState('');
-  const [firstname, setFirstname] = useState('');
-  const [history, setHistory] = useState('');
-  const [profileImage, setProfileImage] = useState(null);
-  const [modalVisible, setModalVisible] = useState(false);
-  const [emergencyContact, setEmergencyContact] = useState(17);
+
+
+  // token: null,
+  // firstname: null,
+  // lastname: null,
+  // inscriptionDate: null,
+  // email: null,
+  // password: null,
+  // emergencyContact: null,
+  // age: null,
+  // reasons: null,
+  // visibleOnMap: null,
+  // photoId: null,
+  // profilePicture: null,
+  // validationVideo: null,
+  // accessGranted: null,
 
   const user = useSelector((state) => state.user.value);
   const dispatch = useDispatch();
+  const containerStyle = { padding: 20, margin: 30, borderRadius: 10, backgroundColor: '#F9F0FB' };
+
+
+  const [sharePositions, setSharePositions] = useState(false);
+  const [email, setEmail] = useState(user.email);
+  const [age, setAge] = useState(user.age);
+  const [firstname, setFirstname] = useState(user.firstname);
+  const [name, setName] = useState(user.lastname);
+  const [profileImage, setProfileImage] = useState(user.profilePicture);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [emergencyContact, setEmergencyContact] = useState(17);
+
 
   useEffect(() => {
     (async () => {
@@ -29,17 +48,14 @@ export default function MyProfileScreen({ navigation }) {
     })();
   }, []);
 
+  if(emergencyContact != 17) {
+    setEmergencyContact(user.emergencyContact);
+  }
+
   const handleSharePosition = () => {
     setSharePositions(!sharePositions);
   };
 
-  const handleEditProfil = () => {
-    setEditProfil(!editProfil);
-  };
-
-  const handleHistory = () => {
-    setHistory(!history);
-  };
 
   const toggleSwitch = () => {
     setSharePositions((previousState) => !previousState);
@@ -67,28 +83,48 @@ export default function MyProfileScreen({ navigation }) {
     setModalVisible(false);
   };
 
+  let modal = (
+    <Modal visible={modalVisible}  contentContainerStyle={containerStyle} style={styles.modal}>
+      <View style={styles.imageContainer}>
+        <Text style={styles.textModal}>Almost done!</Text>
+        <Image source={{ uri: user.profilePicture }} style={{ width: 250, height: 250, marginTop: 20, borderRadius: '500%' }} />
+      </View>
+      <View style={styles.modalBtn}>
+        <Button style={styles.modalButton} onPress={deletePicture}>
+          <Text style={styles.modalButtonText}>Delete the photo</Text>
+        </Button>
+        <Button style={styles.modalButton} onPress={pickImage}>
+          <Text style={styles.modalButtonText}>Pick an image from your camera roll</Text>
+        </Button>
+        <Button style={styles.modalButton} onPress={() => setModalVisible(false)}>
+          <Text style={styles.modalButtonText}>Cancel</Text>
+        </Button>
+      </View>
+    
+  </Modal>
+  )
+
+//   <Modal visible={visible} contentContainerStyle={containerStyle} style={styles.modal}>
+//   <View style={styles.imageContainer}>
+//     <Text style={styles.textModal}>Almost done!</Text>
+//     <Image source={{ uri: user.profilePicture }} style={{ width: 250, height: 250, marginTop: 20 }} />
+//   </View>
+//   <View style={styles.modalBtn}>
+//   <Button onPress={handleBack} style={styles.backBtn}>
+//   <Text style={styles.textBtn}>Cancel</Text>
+//   </Button>
+//   <Button onPress={handleValidate}  style={styles.validateBtn} >
+//   <Text style={styles.textBtn}>Validate</Text>
+//   </Button>
+//   </View>
+//   {/* <Button onPress={() => navigation.navigate('Map')}>Next</Button> */}
+// </Modal>
+
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-        <View style={styles.container}>
+      <PaperProvider>
+        <Portal >
+        <View style={styles.container} >
           <Text style={styles.title}>My Profile</Text>
-
-          <Modal visible={modalVisible} animationType="slide" transparent={true}>
-            <View style={styles.modalContainer}>
-              <View style={styles.modalContent}>
-                <TouchableOpacity style={styles.modalButton} onPress={deletePicture}>
-                  <Text style={styles.modalButtonText}>Delete the photo</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.modalButton} onPress={pickImage}>
-                  <Text style={styles.modalButtonText}>Pick an image from your camera roll</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.modalButton} onPress={() => setModalVisible(false)}>
-                  <Text style={styles.modalButtonText}>Cancel</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </Modal>
-
           <TouchableOpacity style={styles.profileImageContainer} onPress={handleImageUpload}>
             {user.picture ? (
               <Image source={{ uri: user.picture }} style={styles.profileImage} />
@@ -96,22 +132,17 @@ export default function MyProfileScreen({ navigation }) {
               <Text style={styles.uploadText}>Choose a picture</Text>
             )}
           </TouchableOpacity>
-
-          <TextInput>Firstname: {firstname}</TextInput>
-
+          <TextInput>{firstname}</TextInput>
           <Text>Shared Routes:</Text>
           <Text>counter avec la BDD</Text>
-
           <View style={styles.personalInfos}>
             <Text style={styles.subtitle}>Personal Informations</Text>
-
             <TextInput>Firstname: {firstname}</TextInput>
+            <TextInput>Name: {name}</TextInput>
             <TextInput>Email: {email}</TextInput>
-            <TextInput>Phone: {phone}</TextInput>
-            <TextInput>Address: {address}</TextInput>
+            <TextInput>Age: {age}</TextInput>
             <TextInput>Emergency Contact: {emergencyContact}</TextInput>
           </View>
-
           <View>
             <Text>Share my position:</Text>
             <Switch
@@ -122,18 +153,16 @@ export default function MyProfileScreen({ navigation }) {
               value={sharePositions}
             />
           </View>
-          
-          <Button onPress={() => navigation.navigate('Map')}>Next</Button>
-          <Button onPress={handleEditProfil}>Edit my profil</Button>
-          <Button onPress={handleHistory}>History</Button>
-        </View>
-      </KeyboardAvoidingView>
-    </SafeAreaView>
+        </View>   
+        {modal} 
+        </Portal>
+        </PaperProvider>   
   );
 }
 
 const styles = StyleSheet.create({
   container: {
+    display: 'flex',
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
@@ -146,6 +175,7 @@ const styles = StyleSheet.create({
   profileImageContainer: {
     alignItems: 'left',
     marginBottom: 20,
+    
   },
   profileImage: {
     width: 80,
@@ -164,26 +194,34 @@ const styles = StyleSheet.create({
     fontWeight: 'regular',
     marginBottom: 10,
   },
-  modalContainer: {
-    flex: 1,
-    justifyContent: 'center',
+  modalBtn: { 
+    flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-  },
-  modalContent: {
-    backgroundColor: 'white',
-    padding: 20,
-    borderRadius: 10,
-  },
-  modalButton: {
-    padding: 10,
-    marginBottom: 10,
-    borderRadius: 5,
-    backgroundColor: 'white',
-    alignItems: 'center',
+    justifyContent: 'space-around',
+    paddingTop: 20,
+    width: '100%',
+    height: '50%',
   },
   modalButtonText: {
     color: 'white',
     fontWeight: 'regular',
+  },
+  modalButton: {
+    backgroundColor: '#9E15B8',
+    borderRadius: 10,
+    padding: 10,
+    width: '30%',
+  },
+  imageContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#F9F0FB',
+    margin: 20,
+  },
+  modalContent: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '80%',
+    height: '80%',
   },
 });
