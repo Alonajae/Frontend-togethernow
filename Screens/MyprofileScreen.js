@@ -7,28 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addPhoto, removePhoto } from '../reducers/user';
 
 export default function MyProfileScreen({ navigation }) {
-
-
-  // token: null,
-  // firstname: null,
-  // lastname: null,
-  // inscriptionDate: null,
-  // email: null,
-  // password: null,
-  // emergencyContact: null,
-  // age: null,
-  // reasons: null,
-  // visibleOnMap: null,
-  // photoId: null,
-  // profilePicture: null,
-  // validationVideo: null,
-  // accessGranted: null,
-
-  const user = useSelector((state) => state.user.value);
-  const dispatch = useDispatch();
-  const containerStyle = { padding: 20, margin: 30, borderRadius: 10, backgroundColor: '#F9F0FB' };
-
-
+  
   const [sharePositions, setSharePositions] = useState(false);
   const [email, setEmail] = useState(user.email);
   const [age, setAge] = useState(user.age);
