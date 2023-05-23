@@ -467,6 +467,7 @@ export default function MapScreen({ navigation }) {
         {profilModal}
       </View>
 
+
       <View style={styles.buttonsContainer}>
 
         <Button
@@ -476,6 +477,7 @@ export default function MapScreen({ navigation }) {
         >
           <Text> Alerts </Text>
         </Button>
+        
         <Button
           title="Safe places"
           style={styles.safeplaces}
@@ -491,11 +493,11 @@ export default function MapScreen({ navigation }) {
           <Text> Buddies </Text>
         </Button>
       </View>
+  
       <View style={styles.ModalContainer}>
         {modalAlert}
         {infoModal}
       </View>
-
     </SafeAreaView>
   );
 }

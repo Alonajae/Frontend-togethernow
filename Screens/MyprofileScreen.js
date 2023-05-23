@@ -1,17 +1,31 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, Switch, TextInput, StyleSheet, TouchableOpacity, Image, Modal, SafeAreaView } from 'react-native';
-import { Button, PaperProvider, Portal } from 'react-native-paper';
-import * as ImagePicker from 'expo-image-picker';
-import { KeyboardAvoidingView } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
-import { addPhoto, removePhoto } from '../reducers/user';
+import React, { useState, useEffect } from "react";
+import {
+  View,
+  Text,
+  Switch,
+  TextInput,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  Modal,
+  SafeAreaView,
+} from "react-native";
+import { Button, PaperProvider, Portal } from "react-native-paper";
+import * as ImagePicker from "expo-image-picker";
+import { KeyboardAvoidingView } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
+import { addPhoto, removePhoto } from "../reducers/user";
 
 export default function MyProfileScreen({ navigation }) {
-
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.value);
-  const containerStyle = { padding: 20, margin: 30, borderRadius: 10, backgroundColor: '#F9F0FB' };
-  
+  const containerStyle = {
+    padding: 20,
+    margin: 30,
+    borderRadius: 10,
+    backgroundColor: "#F9F0FB",
+  };
+
   const [sharePositions, setSharePositions] = useState(false);
   const [email, setEmail] = useState(user.email);
   const [age, setAge] = useState(user.age);
@@ -21,24 +35,23 @@ export default function MyProfileScreen({ navigation }) {
   const [visible, setVisible] = useState(false);
   const [emergencyContact, setEmergencyContact] = useState(17);
 
-
   useEffect(() => {
     (async () => {
-      const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
+      const permissionResult =
+        await ImagePicker.requestMediaLibraryPermissionsAsync();
       if (permissionResult.granted === false) {
         alert("You have to allow the app to access your camera roll.");
       }
     })();
   }, []);
 
-  if(emergencyContact != 17) {
+  if (emergencyContact != 17) {
     setEmergencyContact(user.emergencyContact);
   }
 
   const handleSharePosition = () => {
     setSharePositions(!sharePositions);
   };
-
 
   const toggleSwitch = () => {
     setSharePositions((previousState) => !previousState);
@@ -61,39 +74,45 @@ export default function MyProfileScreen({ navigation }) {
     }
   };
 
-  const deletePicture = () => {
-    dispatch(removePhoto());
-    setVisible(false);
-  };
-
   let modal = (
-    <Modal visible={visible} contentContainerStyle={containerStyle} >
-    <View style={styles.imageContainer}>
-      <Image source={{ uri: user.profilePicture }} style={{ width: 250, height: 250, marginTop: 20, borderRadius: '500%' }} />
-    </View>
-    <View style={styles.modalBtn}>
-    <Button onPress={pickImage}  style={styles.validateBtn} >
-    <Text style={styles.textBtn}>Change</Text>
-    </Button>
-   <Button style={styles.backBtn} onPress={() => setModalVisible(false)}>
-            <Text style={styles.textBtn}>Cancel</Text>
-          </Button> 
-    </View>
-  </Modal>
-  )
-
+    <Modal visible={visible} contentContainerStyle={containerStyle} transparent={true}>
+      <View style={styles.imageContainer}>
+        <Image
+          source={{ uri: user.profilePicture }}
+          style={{
+            width: 250,
+            height: 250,
+            marginTop: 20,
+            borderRadius: "500%",
+          }}
+        />
+      </View>
+      <View style={styles.modalBtn}>
+        <Button onPress={pickImage} style={styles.validateBtn}>
+          <Text style={styles.textBtn}>Change</Text>
+        </Button>
+        <Button style={styles.backBtn} onPress={() => setVisible(false)}>
+          <Text style={styles.textBtn}>Cancel</Text>
+        </Button>
+      </View>
+    </Modal>
+  );
 
   return (
-      <PaperProvider>
-        <Portal >
-        <View style={styles.container} >
+    <PaperProvider>
+      <Portal>
+        <View style={styles.container}>
           <Text style={styles.title}>My Profile</Text>
-          <TouchableOpacity style={styles.profileImageContainer} onPress={handleImageUpload}>
-            {user.picture ? (
-              <Image source={{ uri: user.picture }} style={styles.profileImage} />
-            ) : (
-              <Text style={styles.uploadText}>Choose a picture</Text>
-            )}
+          <TouchableOpacity
+            style={styles.profileImageContainer}
+            onPress={handleImageUpload}
+          >
+            <Image
+              source={{ uri: user.profilePicture }}
+              style={styles.profileImage}
+            />
+
+            <Button style={styles.uploadText}>+</Button>
           </TouchableOpacity>
           <TextInput>{firstname}</TextInput>
           <Text>Shared Routes:</Text>
@@ -109,91 +128,92 @@ export default function MyProfileScreen({ navigation }) {
           <View>
             <Text>Share my position:</Text>
             <Switch
-              trackColor={{ false: 'FB8C7C', true: '#9E15B8' }}
-              thumbColor={sharePositions ? '#9E15B8' : '#FB8C7C'}
+              trackColor={{ false: "FB8C7C", true: "#9E15B8" }}
+              thumbColor={sharePositions ? "#9E15B8" : "#FB8C7C"}
               ios_backgroundColor="white"
               onValueChange={toggleSwitch}
               value={sharePositions}
             />
           </View>
-          { modal}
-        </View>   
-         
-        </Portal>
-        </PaperProvider>   
+          {modal}
+        </View>
+      </Portal>
+    </PaperProvider>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    display: 'flex',
+    display: "flex",
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
   title: {
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 20,
   },
   profileImageContainer: {
-    alignItems: 'left',
+    alignItems: "left",
     marginBottom: 20,
-    
   },
   profileImage: {
-    width: 80,
-    height: 80,
+    width: 100,
+    height: 100,
     borderRadius: 50,
   },
   uploadText: {
     fontSize: 16,
-    color: '#9E15B8',
+    color: "#9E15B8",
+    backgroundColor: "pink",
   },
   personalInfos: {
     marginBottom: 20,
   },
   subtitle: {
     fontSize: 18,
-    fontWeight: 'regular',
+    fontWeight: "regular",
     marginBottom: 10,
   },
   imageContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     margin: 20,
+    height: 300,
+    width: 300,
   },
   backBtn: {
     width: 100,
     height: 40,
-    alignItems: 'center', 
-    justifyContent: 'center',
-    backgroundColor: '#FB8C7C',
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#FB8C7C",
     borderRadius: 50,
   },
   validateBtn: {
     width: 100,
     height: 40,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#9E15B8',
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#9E15B8",
     borderRadius: 50,
   },
-  modalBtn: { 
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-around',
+  modalBtn: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-around",
     paddingTop: 20,
-    width: '100%',
+    width: "100%",
   },
   textBtn: {
-    color: 'white',
+    color: "white",
     fontSize: 16,
-    fontFamily: 'Inter'
+    fontFamily: "Inter",
   },
   textModal: {
-    color: '#350040',
+    color: "#350040",
     fontSize: 16,
-    fontFamily: 'Inter'
+    fontFamily: "Inter",
   },
 });
