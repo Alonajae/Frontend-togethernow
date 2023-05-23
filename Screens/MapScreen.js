@@ -1,16 +1,47 @@
-import React, { useState, useEffect } from 'react';
-import { ScrollView, View, TextInput, StyleSheet, SafeAreaView, Dimensions, Image, Text, TouchableOpacity, FlatList } from 'react-native';
+import React, { useState, useEffect, useRef } from 'react';
+import { ScrollView, View, StyleSheet, SafeAreaView, Dimensions, Image, Text, TouchableOpacity, FlatList } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
 import { Button } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
 import { AutocompleteDropdown } from 'react-native-autocomplete-dropdown';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { Modal } from 'react-native-paper';
-import { Input } from 'react-native-elements';
-import { Svg } from 'react-native-svg';
+import { Modal, TextInput } from 'react-native-paper';
 
 export default function MapScreen({ navigation }) {
+
+  const dispatch = useDispatch();
+  const token = useSelector((state) => state.user.value.token);
+  const user = useSelector((state) => state.user.value);
+
+  // state for the current position
+  const [currentPosition, setCurrentPosition] = useState(null);
+
+  // states for the search bar
+  const [address, setAddress] = useState(null);
+
+  // states for the buttons
+  const [buddiesIsSelected, setBuddiesIsSelected] = useState(false);
+  const [safePlacesIsSelected, setSafePlacesIsSelected] = useState(false);
+  const [alertsIsSelected, setAlertsIsSelected] = useState(false);
+
+  // states for the map
+  const [alerts, setAlerts] = useState([]);
+  const [buddies, setBuddies] = useState([]);
+  const [safePlaces, setSafePlaces] = useState([]);
+
+  // states for the modals
+  const [modalVisible, setModalVisible] = useState(false);
+  const [infoModalVisible, setInfoModalVisible] = useState(false);
+  const [alertModalVisible, setAlertModalVisible] = useState(false);
+  const [newAlertInfos, setNewAlertInfos] = useState({
+    name: '',
+    description: '',
+    coordinate: {
+      latitude: 0,
+      longitude: 0
+    }
+  });
 
   const backendAdress = 'https://backend-together-mvp.vercel.app';
   const [dataSet, setDataSet] = useState([]);
@@ -18,6 +49,8 @@ export default function MapScreen({ navigation }) {
   const searchCity = (query) => {
     // if the query is empty, do not fetch
     if (query === '' || query.length < 5) {
+      setDataSet([]);
+      setAddress(null);
       return;
     }
     const formattedPlace = query.replace(/ /g, '+');
@@ -36,9 +69,13 @@ export default function MapScreen({ navigation }) {
 
   // create markers for cities
 
-  let mapRef = null; // Create a reference to the map
+  const [mapRef, setMapRef] = useState(null);
 
-  const getMapReference = (ref) => (mapRef = ref); // Create a function to get the reference
+  useEffect(() => {
+    if (mapRef) {
+      // Use the mapRef here or perform any other operations
+    }
+  }, [mapRef]);
 
   const handleAddSearchMarker = (element) => {
     const { coordinates } = element;
@@ -50,10 +87,8 @@ export default function MapScreen({ navigation }) {
       longitudeDelta: 0.1,
     };
 
-    const mapInstance = getMapReference();
-
-    if (mapInstance) {
-      mapInstance.animateToRegion(region, 1000);
+    if (mapRef) {
+      mapRef.animateToRegion(region, 1000);
     }
 
     setAddress({
@@ -79,46 +114,23 @@ export default function MapScreen({ navigation }) {
     );
   });
 
-  const dispatch = useDispatch();
-  const token = useSelector((state) => state.user.value.token);
-  const user = useSelector((state) => state.user.value);
+  const handleTrack = () => {
+    fetch(`${backendAdress}/trips/start`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ token: token, currentPosition: currentPosition, address: address.coordinates }),
+    })
+      .then((response) => response.json())
+      .then((json) => {
+        console.log(json);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
 
-  // state for the current position
-  const [currentPosition, setCurrentPosition] = useState(null);
-
-  // states for the search bar
-  const [address, setAddress] = useState(null);
-  console.log(address);
-
-  // states for the buttons
-  const [buddiesIsSelected, setBuddiesIsSelected] = useState(false);
-  const [safePlacesIsSelected, setSafePlacesIsSelected] = useState(false);
-  const [alertsIsSelected, setAlertsIsSelected] = useState(false);
-
-  // states for the map
-  const [alerts, setAlerts] = useState([]);
-  const [buddies, setBuddies] = useState([]);
-  const [safePlaces, setSafePlaces] = useState([]);
-
-  // states for the modals
-  const [modalVisible, setModalVisible] = useState(false);
-  const [infoModalVisible, setInfoModalVisible] = useState(false);
-  const [alertModalVisible, setAlertModalVisible] = useState(false);
-  const [newAlertInfos, setNewAlertInfos] = useState({
-    name: '',
-    description: '',
-    coordinate: {
-      latitude: 0,
-      longitude: 0
-    }
-  });
-
-  // states for the profile picture
-  const [profilePicture, setProfilePicture] = useState(null);
-
-  const handleProfile = () => {
-    setModalVisible(true);
-  }
 
   // create markers for buddies, safe places and alerts
 
@@ -322,21 +334,6 @@ export default function MapScreen({ navigation }) {
       </View>
     </Modal>
   )
-  // create a modal to display the profile picture
-
-  let profilModal = (
-    <Modal visible={modalVisible} animationType="slide">
-      <View style={styles.modalView}>
-        <Image source={{ uri: user.profilePicture }} style={styles.profilePicture} />
-        <Button
-          title="Close"
-          onPress={() => setModalVisible(false)}
-        >
-          <Text>Close</Text>
-        </Button>
-      </View>
-    </Modal>
-  )
 
   fakeProfileBtn = () => {
     navigation.navigate('MyProfile');
@@ -430,10 +427,10 @@ export default function MapScreen({ navigation }) {
         followsUserLocation={true}
         showsMyLocationButton={true}
         showsCompass={true}
-        ref={getMapReference} // Assign the reference to mapRef using getMapReference function
+        ref={(ref) => setMapRef(ref)} // Assign the reference to mapRef
         onLongPress={(infos) => handleLongPress(infos)}
       >
-        {address ? <Marker coordinate={address.coordinates} title={address.title} /> : null}
+        {address ? <Marker coordinate={address.coordinates} title={address.title} onPress={handleTrack} /> : null}
         {buddiesMarkers}
         {safePlacesMarkers}
         {alertsMarkers}
@@ -456,11 +453,6 @@ export default function MapScreen({ navigation }) {
           {cities}
         </View>
       </View>
-      <View style={styles.profile} >
-        {profilModal}
-      </View>
-
-
       <View style={styles.buttonsContainer}>
 
         <Button
@@ -470,7 +462,7 @@ export default function MapScreen({ navigation }) {
         >
           <Text>Alerts</Text>
         </Button>
-        
+
         <Button
           title="Safe places"
           style={styles.safeplaces}
@@ -486,7 +478,7 @@ export default function MapScreen({ navigation }) {
           <Text> Buddies </Text>
         </Button>
       </View>
-  
+
       <View style={styles.ModalContainer}>
         {modalAlert}
         {infoModal}
@@ -558,11 +550,6 @@ const styles = StyleSheet.create({
     height: 48,
     marginTop: 30,
   },
-  input: {
-    height: 40,
-    margin: 12,
-    borderWidth: 1,
-  },
   modalView: {
     backgroundColor: "white",
     borderRadius: 20,
@@ -580,7 +567,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   modalText: {
-    marginBottom: 15,
+    marginBottom: 5,
     textAlign: "center",
     fontSize: 20,
     fontWeight: 'bold'
@@ -623,11 +610,6 @@ const styles = StyleSheet.create({
   dropdownContainer: {
     width: '100%',
   },
-  inputContainer: {
-    borderWidth: 1,
-    borderColor: '#9E15B8',
-    backgroundColor: '#ffffff',
-  },
   title: {
     fontSize: 50,
     color: '#9E15B8',
@@ -660,22 +642,10 @@ const styles = StyleSheet.create({
   },
   ModalContainer: {
     position: 'absolute',
-    height: '100%',
+    height: '30%',
     bottom: 0,
     width: '100%',
     backgroundColor: 'transparent',
+    zIndex: 1,
   },
 });
-
-// profile: {
-//   position: 'absolute',
-//   display: 'flex',
-//   top: 10,
-//   left: 10,
-//   flexDirection: 'row',
-//   justifyContent: 'space-between',
-//   width: 100,
-//   backgroundColor: 'white',
-//   borderRadius: 10,
-//   padding: 5,
-// }
