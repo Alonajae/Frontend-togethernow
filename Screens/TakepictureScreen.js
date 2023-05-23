@@ -240,6 +240,6 @@ const styles = StyleSheet.create({
   textModal: {
     color: '#350040',
     fontSize: 16,
-    fontFamily: 'Inter'
+    fontFamily: 'Inter',
   },
 });

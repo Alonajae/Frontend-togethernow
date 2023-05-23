@@ -3,13 +3,12 @@ import {
   View,
   Text,
   Switch,
-  TextInput,
   StyleSheet,
   TouchableOpacity,
   Image,
   SafeAreaView,
 } from "react-native";
-import { Button, PaperProvider, Portal, Modal } from "react-native-paper";
+import { Button, PaperProvider, Portal, Modal,   TextInput } from "react-native-paper";
 import * as ImagePicker from "expo-image-picker";
 import { KeyboardAvoidingView } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
@@ -18,7 +17,7 @@ import { addPhoto, removePhoto } from "../reducers/user";
 export default function MyProfileScreen({ navigation }) {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.value);
-  const containerStyle = { padding: 20, margin: 30, borderRadius: 10, backgroundColor: '#F9F0FB' };
+  const containerStyle = {padding: 50, margin: 30, borderRadius: 10, backgroundColor: '#F9F0FB' };
 
   const [sharePositions, setSharePositions] = useState(false);
   const [email, setEmail] = useState(user.email);
@@ -28,6 +27,7 @@ export default function MyProfileScreen({ navigation }) {
   const [profileImage, setProfileImage] = useState(user.profilePicture);
   const [visible, setVisible] = useState(false);
   const [emergencyContact, setEmergencyContact] = useState(17);
+  const [disabled, setDisabled] = useState(true);
 
   useEffect(() => {
     (async () => {
@@ -55,6 +55,10 @@ export default function MyProfileScreen({ navigation }) {
     setVisible(true);
   };
 
+  handleBackToMap = () => {
+    navigation.navigate("Map");
+  };
+
   const pickImage = async () => {
     let _image = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -77,7 +81,7 @@ export default function MyProfileScreen({ navigation }) {
           style={{
             width: 250,
             height: 250,
-            marginTop: 20,
+            marginTop: 10,
             borderRadius: "500%",
           }}
         />
@@ -97,7 +101,11 @@ export default function MyProfileScreen({ navigation }) {
     <PaperProvider>
       <Portal>
         <View style={styles.container}>
+        <Button style={styles.backMapBtn} onPress={handleBackToMap}>
+          <Text style={styles.textBackBtn}>Back</Text>
+        </Button>
           <Text style={styles.title}>My Profile</Text>
+          <View style={styles.headerInfo}>
           <TouchableOpacity
             style={styles.profileImageContainer}
             onPress={handleImageUpload}
@@ -106,21 +114,21 @@ export default function MyProfileScreen({ navigation }) {
               source={{ uri: user.profilePicture }}
               style={styles.profileImage}
             />
-
             <Button style={styles.uploadText}>+</Button>
           </TouchableOpacity>
-          <TextInput>{firstname}</TextInput>
-          <Text>Shared Routes:</Text>
-          <Text>counter avec la BDD</Text>
-          <View style={styles.personalInfos}>
-            <Text style={styles.subtitle}>Personal Informations</Text>
-            <TextInput>Firstname: {firstname}</TextInput>
-            <TextInput>Name: {name}</TextInput>
-            <TextInput>Email: {email}</TextInput>
-            <TextInput>Age: {age}</TextInput>
-            <TextInput>Emergency Contact: {emergencyContact}</TextInput>
+          <View style={styles.mainInfo}>
+          <Text style={styles.name}>{firstname}</Text>
+          <Text>Shared Routes: counter BDD</Text>
           </View>
-          <View>
+          </View>
+          <View style={styles.personalInfos}>
+            <TextInput label={'Firstname:'} mode={"flat"} disabled={disabled} style={styles.input}> {firstname}</TextInput>
+            <TextInput label={'Name:'} mode="flat" disabled={disabled} style={styles.input}> {name} </TextInput>
+            <TextInput label={'Email:'} mode="flat" disabled={disabled} style={styles.input}>{email}</TextInput>
+            <TextInput label={'Age:'} mode="flat" disabled={disabled} style={styles.input}>{age}</TextInput>
+            <TextInput label={'Emergency Contact:'} mode="flat" disabled={disabled} style={styles.input}>{emergencyContact}</TextInput>
+          </View>
+          <View style={styles.sharePosition}>
             <Text>Share my position:</Text>
             <Switch
               trackColor={{ false: "FB8C7C", true: "#9E15B8" }}
@@ -131,6 +139,14 @@ export default function MyProfileScreen({ navigation }) {
             />
           </View>
           {modal}
+          <View style={styles.btnEditHistory}>
+          <Button style={styles.editBtn} onPress={handleBackToMap}>
+          <Text style={styles.textBackBtn}>Fake edit</Text>
+        </Button>
+        <Button style={styles.historyBtn} onPress={handleBackToMap}>
+          <Text style={styles.textBackBtn}>Fake history</Text>
+        </Button>
+        </View>
         </View>
       </Portal>
     </PaperProvider>
@@ -143,11 +159,12 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+    backgroundColor: "white",
   },
   title: {
     fontSize: 20,
     fontWeight: "bold",
-    marginBottom: 20,
+    marginBottom: 21,
   },
   profileImageContainer: {
     alignItems: "left",
@@ -164,19 +181,17 @@ const styles = StyleSheet.create({
     backgroundColor: "pink",
   },
   personalInfos: {
-    marginBottom: 20,
-  },
-  subtitle: {
-    fontSize: 18,
-    fontWeight: "regular",
     marginBottom: 10,
+    marginTop: 0,
+    width: "90%",
   },
   imageContainer: {
-    alignItems: "center",
-    justifyContent: "center",
+    alignSelf: "center",
     margin: 20,
     height: 300,
     width: 300,
+    padding: 20,
+    backgroundColor: "#F9F0FB",
   },
   backBtn: {
     width: 100,
@@ -210,6 +225,46 @@ const styles = StyleSheet.create({
     color: "#350040",
     fontSize: 16,
     fontFamily: "Inter",
+    textAlign: 'center',
   },
-  
+  textBackBtn: {
+    color: 'black',
+    fontSize: 16,
+    fontFamily: "Inter",
+    textDecorationLine: 'underline',
+  },
+  backMapBtn: {
+    position: 'absolute',
+    top: 60,
+    left: 20,
+  },
+  btnEditHistory: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    width: '100%',
+    marginTop: 20,
+  },
+  headerInfo: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    width: '80%',
+    marginBottom: 10,
+    marginTop: '5%',
+    alignItems: 'center',
+  },
+  name: {
+    fontSize: 40,
+    fontFamily: 'Jomhuria',
+  },
+  input: {
+    height: 44,
+    margin: 10,
+    fontSize: 16,
+    backgroundColor: "#ffffff",
+  },
+  sharePosition: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '80%',
+  }
 });
