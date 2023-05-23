@@ -588,6 +588,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     borderRadius: 10,
     padding: 5,
+    zIndex: -1,
   },
   searchBar: {
     position: 'absolute',
@@ -603,8 +604,9 @@ const styles = StyleSheet.create({
   },
   scrollContainer: {
     width: '100%',
-    backgroundColor: "red",
+    backgroundColor: 'red',
     position: 'absolute',
+    zIndex: 1,
     top: 100,
   },
   dropdownContainer: {
@@ -612,12 +614,12 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     borderWidth: 1,
-    borderColor: '#51e181',
+    borderColor: '#9E15B8',
     backgroundColor: '#ffffff',
   },
   title: {
     fontSize: 50,
-    color: '#51e181',
+    color: '#9E15B8',
     fontWeight: 'bold',
     alignSelf: 'flex-start',
     fontFamily: Platform.select({ ios: 'Georgia', android: 'serif' }),
@@ -636,7 +638,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    borderColor: '#51e181',
+    borderColor: '#9E15B8',
     borderWidth: 1,
   },
   resultText: {

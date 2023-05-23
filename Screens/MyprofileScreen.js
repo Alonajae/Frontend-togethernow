@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addPhoto, removePhoto } from '../reducers/user';
 
 export default function MyProfileScreen({ navigation }) {
+  
   const [sharePositions, setSharePositions] = useState(false);
   const [editProfil, setEditProfil] = useState(false);
   const [email, setEmail] = useState('');
