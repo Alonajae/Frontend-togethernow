@@ -87,7 +87,7 @@ export default function HomeScreen({ navigation }) {
         <Text style={styles.textButton}>Enter the App</Text>
       </Button>
       <Button style={styles.buttonUp} onPress={handleSignout} mode="outlined">
-        <Text style={styles.textButtonUp}>Sign out</Text>
+        <Text style={styles.textButtonUp}>Log out</Text>
       </Button>
       </View>
     </View>
