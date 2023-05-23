@@ -12,6 +12,39 @@ import { Svg } from 'react-native-svg';
 
 export default function MapScreen({ navigation }) {
 
+  const dispatch = useDispatch();
+  const token = useSelector((state) => state.user.value.token);
+  const user = useSelector((state) => state.user.value);
+
+  // state for the current position
+  const [currentPosition, setCurrentPosition] = useState(null);
+
+  // states for the search bar
+  const [address, setAddress] = useState(null);
+
+  // states for the buttons
+  const [buddiesIsSelected, setBuddiesIsSelected] = useState(false);
+  const [safePlacesIsSelected, setSafePlacesIsSelected] = useState(false);
+  const [alertsIsSelected, setAlertsIsSelected] = useState(false);
+
+  // states for the map
+  const [alerts, setAlerts] = useState([]);
+  const [buddies, setBuddies] = useState([]);
+  const [safePlaces, setSafePlaces] = useState([]);
+
+  // states for the modals
+  const [modalVisible, setModalVisible] = useState(false);
+  const [infoModalVisible, setInfoModalVisible] = useState(false);
+  const [alertModalVisible, setAlertModalVisible] = useState(false);
+  const [newAlertInfos, setNewAlertInfos] = useState({
+    name: '',
+    description: '',
+    coordinate: {
+      latitude: 0,
+      longitude: 0
+    }
+  });
+
   const backendAdress = 'https://backend-together-mvp.vercel.app';
   const [dataSet, setDataSet] = useState([]);
 
@@ -81,45 +114,23 @@ export default function MapScreen({ navigation }) {
     );
   });
 
-  const dispatch = useDispatch();
-  const token = useSelector((state) => state.user.value.token);
-  const user = useSelector((state) => state.user.value);
+  const handleTrack = () => {
+    fetch(`${backendAdress}/trips/start`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ token: token, currentPosition: currentPosition, address: address.coordinates }),
+    })
+      .then((response) => response.json())
+      .then((json) => {
+        console.log(json);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
 
-  // state for the current position
-  const [currentPosition, setCurrentPosition] = useState(null);
-
-  // states for the search bar
-  const [address, setAddress] = useState(null);
-
-  // states for the buttons
-  const [buddiesIsSelected, setBuddiesIsSelected] = useState(false);
-  const [safePlacesIsSelected, setSafePlacesIsSelected] = useState(false);
-  const [alertsIsSelected, setAlertsIsSelected] = useState(false);
-
-  // states for the map
-  const [alerts, setAlerts] = useState([]);
-  const [buddies, setBuddies] = useState([]);
-  const [safePlaces, setSafePlaces] = useState([]);
-
-  // states for the modals
-  const [modalVisible, setModalVisible] = useState(false);
-  const [infoModalVisible, setInfoModalVisible] = useState(false);
-  const [alertModalVisible, setAlertModalVisible] = useState(false);
-  const [newAlertInfos, setNewAlertInfos] = useState({
-    name: '',
-    description: '',
-    coordinate: {
-      latitude: 0,
-      longitude: 0
-    }
-  });
-
-  // states for the profile picture
-  const [profilePicture, setProfilePicture] = useState(null);
-
-  const handleProfile = () => {
-    setModalVisible(true);
-  }
 
   // create markers for buddies, safe places and alerts
 
@@ -434,7 +445,7 @@ export default function MapScreen({ navigation }) {
         ref={(ref) => setMapRef(ref)} // Assign the reference to mapRef
         onLongPress={(infos) => handleLongPress(infos)}
       >
-        {address ? <Marker coordinate={address.coordinates} title={address.title} /> : null}
+        {address ? <Marker coordinate={address.coordinates} title={address.title} onPress={handleTrack} /> : null}
         {buddiesMarkers}
         {safePlacesMarkers}
         {alertsMarkers}
