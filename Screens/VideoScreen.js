@@ -15,12 +15,12 @@ export default function VideoScreen({ navigation }) {
   const dispatch = useDispatch();
   const formData = new FormData();
   const user = useSelector((state) => state.user.value);
+  const [hasPermission, setHasPermission] = useState(null);
+  const [audioPermission, setAudioPermission] = useState(null);
   const [visible, setVisible] = useState(false);
   const [permissionVisible, setPermissionVisible] = useState(true);
 
   // camera states
-  const [type, setType] = useState(CameraType.back);
-  const isFocused = useIsFocused();
   const containerStyle = {
     padding: 40,
     margin: 30,
@@ -30,17 +30,19 @@ export default function VideoScreen({ navigation }) {
   const [video, setVideo] = useState(null);
   const [randomNumbers, setRandomNumbers] = useState(null);
 
+  // ask for permission
   useEffect(() => {
     generateRandomNumbers();
-    // const getAudioPermission = async () => {
-    //   const { status } = await Permissions.askAsync(Permissions.AUDIO_RECORDING);
-    //   if (status !== 'granted') {
-    //     console.log('Audio permission not granted');
-    //   }
-    // };
-
-    // getAudioPermission();
-  }, []);
+    (async () => {
+      const { status } = await Camera.requestCameraPermissionsAsync();
+      setHasPermission(status === 'granted');
+    })();
+    (async () => {
+      const { status } = await Permissions.askAsync(Permissions.AUDIO_RECORDING);
+      setAudioPermission(status === 'granted');
+    }
+    )();
+  }, [])
 
   useEffect(() => {
     if (video) {
@@ -76,6 +78,10 @@ export default function VideoScreen({ navigation }) {
     );
     setRandomNumbers(numbers);
   };
+
+  if (hasPermission === null || audioPermission === null) {
+    return <View />;
+  }
 
   console.log("====================================");
   console.log(video);

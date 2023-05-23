@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {ScrollView, View, TextInput, StyleSheet, SafeAreaView, Dimensions, Image, Text, TouchableOpacity, FlatList } from 'react-native';
+import { ScrollView, View, TextInput, StyleSheet, SafeAreaView, Dimensions, Image, Text, TouchableOpacity, FlatList } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
 import { Button } from 'react-native-paper';
@@ -8,6 +8,7 @@ import { AutocompleteDropdown } from 'react-native-autocomplete-dropdown';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Modal } from 'react-native-paper';
 import { Input } from 'react-native-elements';
+import { Svg } from 'react-native-svg';
 
 export default function MapScreen({ navigation }) {
 
@@ -46,17 +47,6 @@ export default function MapScreen({ navigation }) {
       </View>
     );
   });
-
-  // fetch(`https://api-adresse.data.gouv.fr/search/?q=${"52 rue du général leclerc"}`)
-  //   .then((response) => response.json())
-  //   .then((features) => {
-  //     console.log(features);
-  //     const suggestions = features.map((data, i) => {
-  //       return { key: i, name: data.properties.label };
-  //     });
-  //     setResults(suggestions);
-  //   });
-
 
   const dispatch = useDispatch();
   const token = useSelector((state) => state.user.value.token);
@@ -182,8 +172,8 @@ export default function MapScreen({ navigation }) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         token: token
-        })
       })
+    })
       .then((response) => response.json())
       .then((data) => {
         setBuddies(data.users);
@@ -251,22 +241,6 @@ export default function MapScreen({ navigation }) {
       }
     })
   }
-
-// console.log('user',user.profilePicture);
-  // handle the position of the user
-  // let currentPos;
-  // if (currentPosition) {
-  //   currentPos = (
-  //     <Marker
-  //       coordinate={{ latitude: currentPosition.coords.latitude, longitude: currentPosition.coords.longitude }}
-  //       title="You are here"
-  //       description="Your current position"
-  //     />
-  //   )
-  // } else {
-  //   currentPos = null;
-  // }
-
   // make the initial region of the map the current position of the user
   let initialRegion;
   if (currentPosition) {
@@ -315,19 +289,19 @@ export default function MapScreen({ navigation }) {
   // create a modal to display the profile picture
 
   let profilModal = (
-      <Modal visible={modalVisible} animationType="slide">
-        <View style={styles.modalView}>
-          <Image source={{uri: user.profilePicture}} style={styles.profilePicture} />
-          <Button
-            title="Close"
-            onPress={() => setModalVisible(false)}
-          >
-            <Text>Close</Text>
-          </Button>
-        </View>
-      </Modal>
-    )
-  
+    <Modal visible={modalVisible} animationType="slide">
+      <View style={styles.modalView}>
+        <Image source={{ uri: user.profilePicture }} style={styles.profilePicture} />
+        <Button
+          title="Close"
+          onPress={() => setModalVisible(false)}
+        >
+          <Text>Close</Text>
+        </Button>
+      </View>
+    </Modal>
+  )
+
 
   // create a modal to display the infos of alerts, safe places and buddies
 
@@ -420,14 +394,13 @@ export default function MapScreen({ navigation }) {
         onLongPress={(infos) => handleLongPress(infos)}
       >
         {buddiesMarkers}
-        {/* {currentPos} */}
         {safePlacesMarkers}
         {alertsMarkers}
       </MapView>
 
       <View style={styles.containersearchebar}>
-      <TouchableOpacity onPress={handleProfile}>
-         <Image source={{uri: user.profilePicture}} style={styles.profilePicture} />
+        <TouchableOpacity onPress={handleProfile}>
+          <Image source={{ uri: user.profilePicture }} style={styles.profilePicture} />
         </TouchableOpacity>
 
         <AutocompleteDropdown
@@ -444,14 +417,14 @@ export default function MapScreen({ navigation }) {
           {cities}
         </View>
 
-        </View>
+      </View>
 
       <View style={styles.profile}>
-       {profilModal}
+        {profilModal}
       </View>
 
       <View style={styles.buttonsContainer}>
-      
+
         <Button
           title="Alerts"
           style={styles.alerts}
@@ -649,16 +622,3 @@ const styles = StyleSheet.create({
 //   borderRadius: 10,
 //   padding: 5,
 // }
-
-// import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
-// <GooglePlacesAutocomplete
-//         placeholder='Search'
-//         fetchDetails={true}
-//         onPress={(data, details) => {
-//           console.log("coucou !!!", data, details);
-//         }}
-//         query={{
-//           key: `https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&?key=${GOOGLE_PLACES_API_KEY}`,
-//           language: 'en',
-//         }}
-//       />
