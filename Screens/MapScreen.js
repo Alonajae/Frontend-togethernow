@@ -335,16 +335,13 @@ export default function MapScreen({ navigation }) {
         >
           <Text>Close</Text>
         </Button>
-        <Button
-          title="Close"
-          onPress={handleFictif}
-        >
-          <Text>lien fictife profile</Text>
-        </Button>
       </View>
     </Modal>
   )
 
+  fakeProfileBtn = () => {
+    navigation.navigate('MyProfile');
+  }
 
   // create a modal to display the infos of alerts, safe places and buddies
 
@@ -444,10 +441,9 @@ export default function MapScreen({ navigation }) {
       </MapView>
 
       <View style={styles.containersearchebar}>
-        <TouchableOpacity onPress={handleProfile}>
+        <TouchableOpacity onPress={fakeProfileBtn} >
           <Image source={{ uri: user.profilePicture }} style={styles.profilePicture} />
         </TouchableOpacity>
-
         <AutocompleteDropdown
           onChangeText={(value) => searchCity(value)}
           dataSet={dataSet}
@@ -460,10 +456,8 @@ export default function MapScreen({ navigation }) {
         <View style={styles.scrollContainer}>
           {cities}
         </View>
-
       </View>
-
-      <View style={styles.profile}>
+      <View style={styles.profile} >
         {profilModal}
       </View>
 
@@ -475,7 +469,7 @@ export default function MapScreen({ navigation }) {
           style={styles.alerts}
           onPress={() => { setInfoModalVisible(true); setAlertsIsSelected(true) }}
         >
-          <Text> Alerts </Text>
+          <Text>Alerts</Text>
         </Button>
         
         <Button
