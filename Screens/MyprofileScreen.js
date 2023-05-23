@@ -7,10 +7,9 @@ import {
   StyleSheet,
   TouchableOpacity,
   Image,
-  Modal,
   SafeAreaView,
 } from "react-native";
-import { Button, PaperProvider, Portal } from "react-native-paper";
+import { Button, PaperProvider, Portal, Modal } from "react-native-paper";
 import * as ImagePicker from "expo-image-picker";
 import { KeyboardAvoidingView } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
@@ -19,12 +18,7 @@ import { addPhoto, removePhoto } from "../reducers/user";
 export default function MyProfileScreen({ navigation }) {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.value);
-  const containerStyle = {
-    padding: 20,
-    margin: 30,
-    borderRadius: 10,
-    backgroundColor: "#F9F0FB",
-  };
+  const containerStyle = { padding: 20, margin: 30, borderRadius: 10, backgroundColor: '#F9F0FB' };
 
   const [sharePositions, setSharePositions] = useState(false);
   const [email, setEmail] = useState(user.email);
@@ -76,6 +70,7 @@ export default function MyProfileScreen({ navigation }) {
 
   let modal = (
     <Modal visible={visible} contentContainerStyle={containerStyle} transparent={true}>
+      <Text style={styles.textModal}>Update your profile picture 📸</Text>
       <View style={styles.imageContainer}>
         <Image
           source={{ uri: user.profilePicture }}
@@ -216,4 +211,5 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: "Inter",
   },
+  
 });
