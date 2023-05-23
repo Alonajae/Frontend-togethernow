@@ -51,7 +51,7 @@ export default function VideoScreen({ navigation }) {
       });
 
       console.log("video mise a jour", video);
-      fetch(`http://192.168.10.192:3000/users/uploadVideo`, {
+      fetch(`${backendAdress}/users/uploadVideo`, {
         method: "POST",
         body: formData,
       })
