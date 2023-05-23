@@ -17,7 +17,7 @@ export default function MapScreen({ navigation }) {
 
   const searchCity = (query) => {
     // if the query is empty, do not fetch
-    if (query === '') {
+    if (query === '' || query.length < 5) {
       return;
     }
     const formattedPlace = query.replace(/ /g, '+');
@@ -65,8 +65,6 @@ export default function MapScreen({ navigation }) {
     setDataSet([]); // Clear the dataset to close the autocomplete dropdown
   };
 
-
-
   const cities = dataSet.map((data, i) => {
     return (
       <TouchableOpacity key={i} onPress={() => handleAddSearchMarker(data)}>
@@ -90,6 +88,7 @@ export default function MapScreen({ navigation }) {
 
   // states for the search bar
   const [address, setAddress] = useState(null);
+  console.log(address);
 
   // states for the buttons
   const [buddiesIsSelected, setBuddiesIsSelected] = useState(false);
