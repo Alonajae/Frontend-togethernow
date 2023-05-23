@@ -121,7 +121,7 @@ export default function MapScreen({ navigation }) {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ token: token, currentPosition: currentPosition, address: address.coordinates }),
+      body: JSON.stringify({ token: token, currentPosition: {latitude: currentPosition.coords.latitude, longitude: currentPosition.coords.longitude}, address: address.coordinates }),
     })
       .then((response) => response.json())
       .then((json) => {
