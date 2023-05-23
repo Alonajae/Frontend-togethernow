@@ -10,7 +10,6 @@ import {
 } from "react-native";
 import { Button, PaperProvider, Portal, Modal,   TextInput } from "react-native-paper";
 import * as ImagePicker from "expo-image-picker";
-import { KeyboardAvoidingView } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { addPhoto, removePhoto } from "../reducers/user";
 
@@ -55,7 +54,11 @@ export default function MyProfileScreen({ navigation }) {
     setVisible(true);
   };
 
-  handleBackToMap = () => {
+  const handleEdit = () => {
+    setDisabled(false);
+  };
+
+  const handleBackToMap = () => {
     navigation.navigate("Map");
   };
 
@@ -140,11 +143,11 @@ export default function MyProfileScreen({ navigation }) {
           </View>
           {modal}
           <View style={styles.btnEditHistory}>
-          <Button style={styles.editBtn} onPress={handleBackToMap}>
-          <Text style={styles.textBackBtn}>Fake edit</Text>
+          <Button style={styles.editBtn} onPress={handleEdit}>
+          <Text style={styles.textBackBtn}>Edit</Text>
         </Button>
-        <Button style={styles.historyBtn} onPress={handleBackToMap}>
-          <Text style={styles.textBackBtn}>Fake history</Text>
+        <Button style={styles.historyBtn}>
+          <Text style={styles.textBackBtn}>History</Text>
         </Button>
         </View>
         </View>
@@ -176,6 +179,8 @@ const styles = StyleSheet.create({
     borderRadius: 50,
   },
   uploadText: {
+    width: 24,
+    height: 24,
     fontSize: 16,
     color: "#9E15B8",
     backgroundColor: "pink",
