@@ -25,6 +25,9 @@ export default function MapScreen({ navigation }) {
       .then((response) => response.json())
       .then(({ features }) => {
         const suggestions = features.map((data, i) => {
+          if (data.properties.context.length > 40) {
+            data.properties.context = data.properties.context.slice(0, 40) + '...';
+          }
           return { id: i, title: data.properties.name, context: data.properties.context, coordinates: data.geometry.coordinates };
         });
         setDataSet(suggestions);
@@ -425,15 +428,13 @@ export default function MapScreen({ navigation }) {
 
   return (
     <SafeAreaView>
-      {modalAlert}
-      {infoModal}
       <MapView mapType="mutedStandard" style={styles.map}
         initialRegion={initialRegion}
         showsUserLocation={true}
         followsUserLocation={true}
         showsMyLocationButton={true}
         showsCompass={true}
-        ref={mapRef} // Assign the reference to mapRef using getMapReference function
+        ref={getMapReference} // Assign the reference to mapRef using getMapReference function
         onLongPress={(infos) => handleLongPress(infos)}
       >
         {address ? <Marker coordinate={address.coordinates} title={address.title} /> : null}
@@ -490,6 +491,10 @@ export default function MapScreen({ navigation }) {
           <Text> Buddies </Text>
         </Button>
       </View>
+      <View style={styles.ModalContainer}>
+        {modalAlert}
+        {infoModal}
+      </View>
 
     </SafeAreaView>
   );
@@ -516,7 +521,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     zIndex: 1,
-
   },
   button: {
     backgroundColor: 'rgba(0,0,0,0.5)',
@@ -565,12 +569,11 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   modalView: {
-    position: 'absolute',
-    margin: 20,
     backgroundColor: "white",
     borderRadius: 20,
     padding: 35,
-    height: 500,
+    width: '100%',
+    height: 300,
     alignItems: "center",
     shadowColor: "#000",
     shadowOffset: {
@@ -579,7 +582,7 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 4,
-    elevation: 5
+    elevation: 5,
   },
   modalText: {
     marginBottom: 15,
@@ -613,10 +616,14 @@ const styles = StyleSheet.create({
   },
   scrollContainer: {
     width: '100%',
-    backgroundColor: 'red',
+    backgroundColor: 'transparent',
     position: 'absolute',
-    zIndex: 1,
+    zIndex: 2,
     top: 100,
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    left: 25,
   },
   dropdownContainer: {
     width: '100%',
@@ -655,6 +662,13 @@ const styles = StyleSheet.create({
   },
   resultTitle: {
     fontWeight: 'bold',
+  },
+  ModalContainer: {
+    position: 'absolute',
+    height: '100%',
+    bottom: 0,
+    width: '100%',
+    backgroundColor: 'transparent',
   },
 });
 
