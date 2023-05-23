@@ -8,7 +8,6 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { registerStep5, clean, logout } from "../reducers/user";
 import { useDispatch, useSelector } from "react-redux";
 import { Modal, PaperProvider, Button, Text, Portal } from "react-native-paper";
-import { Permissions } from "expo";
 
 export default function VideoScreen({ navigation }) {
   const backendAdress = "https://backend-together-mvp.vercel.app";
@@ -182,6 +181,8 @@ export default function VideoScreen({ navigation }) {
         }
       });
   };
+
+  
 
   // recuperation du son qui marche mais pas de possibilité de speech to text avec ExpoGo
   // Ne pas supprimer SVP
