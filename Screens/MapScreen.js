@@ -1,14 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { ScrollView, View, TextInput, StyleSheet, SafeAreaView, Dimensions, Image, Text, TouchableOpacity, FlatList } from 'react-native';
+import { ScrollView, View, StyleSheet, SafeAreaView, Dimensions, Image, Text, TouchableOpacity, FlatList } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
 import { Button } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
 import { AutocompleteDropdown } from 'react-native-autocomplete-dropdown';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { Modal } from 'react-native-paper';
-import { Input } from 'react-native-elements';
-import { Svg } from 'react-native-svg';
+import { Modal, TextInput } from 'react-native-paper';
 
 export default function MapScreen({ navigation }) {
 
@@ -33,7 +31,7 @@ export default function MapScreen({ navigation }) {
   const [safePlaces, setSafePlaces] = useState([]);
 
   // states for the modals
-  const [modalVisible, setModalVisible] = useState(false);
+  const [error, setError] = useState(false);
   const [infoModalVisible, setInfoModalVisible] = useState(false);
   const [alertModalVisible, setAlertModalVisible] = useState(false);
   const [newAlertInfos, setNewAlertInfos] = useState({
@@ -51,6 +49,8 @@ export default function MapScreen({ navigation }) {
   const searchCity = (query) => {
     // if the query is empty, do not fetch
     if (query === '' || query.length < 5) {
+      setDataSet([]);
+      setAddress(null);
       return;
     }
     const formattedPlace = query.replace(/ /g, '+');
@@ -233,7 +233,6 @@ export default function MapScreen({ navigation }) {
   // handle the long press on the map to create an alert and open the modal
 
   const handleLongPress = (infos) => {
-    // console.log(infos.nativeEvent.coordinate);
     setAlertModalVisible(true);
     setNewAlertInfos({
       ...newAlertInfos,
@@ -251,6 +250,10 @@ export default function MapScreen({ navigation }) {
   // handle the creation of an alert
 
   const handleCreateAlert = () => {
+    if (newAlertInfos.name === '' || newAlertInfos.description === '') {
+      setError('Veuillez remplir tous les champs')
+      return;
+    }
     fetch(`${backendAdress}/alerts/add`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -307,22 +310,56 @@ export default function MapScreen({ navigation }) {
     }
   }
 
+  let styleModal;
+  if (alertModalVisible) {
+    styleModal =
+    {
+      position: 'absolute',
+      top: 250,
+      height: '30%',
+      width: '100%',
+      backgroundColor: 'transparent',
+      zIndex: 1,
+    }
+  } else if (buddiesIsSelected || alertsIsSelected || safePlacesIsSelected) {
+    styleModal =
+    {
+      position: 'absolute',
+      bottom: 0,
+      height: '35%',
+      width: '100%',
+      backgroundColor: 'transparent',
+      zIndex: 1,
+    }
+  } else {
+    styleModal =
+    {
+      height: '0%',
+      width: '0%',
+      backgroundColor: 'transparent',
+      zIndex: -1,
+    }
+  }
+
   const modalAlert = (
     <Modal visible={alertModalVisible} animationType="slide">
       <View style={styles.modalView}>
         <Text style={styles.modalText}>Create an alert</Text>
         <TextInput
-          style={styles.input}
+          style={styles.inputName}
           onChangeText={(text) => setNewAlertInfos({ ...newAlertInfos, name: text })}
           value={newAlertInfos.name}
-          placeholder="Name"
+          label='Name'
+          mode="outlined"
         />
         <TextInput
-          style={styles.input}
+          style={styles.inputDescription}
           onChangeText={(text) => setNewAlertInfos({ ...newAlertInfos, description: text })}
           value={newAlertInfos.description}
-          placeholder="Description"
+          label='Description'
+          mode="outlined"
         />
+        <Text style={styles.modalText}>{error}</Text>
         <Button
           title="Create"
           onPress={handleCreateAlert}
@@ -331,21 +368,6 @@ export default function MapScreen({ navigation }) {
           title="Cancel"
           onPress={handleCancelAlert}
         > Cancel </Button>
-      </View>
-    </Modal>
-  )
-  // create a modal to display the profile picture
-
-  let profilModal = (
-    <Modal visible={modalVisible} animationType="slide">
-      <View style={styles.modalView}>
-        <Image source={{ uri: user.profilePicture }} style={styles.profilePicture} />
-        <Button
-          title="Close"
-          onPress={() => setModalVisible(false)}
-        >
-          <Text>Close</Text>
-        </Button>
       </View>
     </Modal>
   )
@@ -468,11 +490,6 @@ export default function MapScreen({ navigation }) {
           {cities}
         </View>
       </View>
-      <View style={styles.profile} >
-        {profilModal}
-      </View>
-
-
       <View style={styles.buttonsContainer}>
 
         <Button
@@ -499,7 +516,7 @@ export default function MapScreen({ navigation }) {
         </Button>
       </View>
 
-      <View style={styles.ModalContainer}>
+      <View style={styleModal}>
         {modalAlert}
         {infoModal}
       </View>
@@ -570,15 +587,10 @@ const styles = StyleSheet.create({
     height: 48,
     marginTop: 30,
   },
-  input: {
-    height: 40,
-    margin: 12,
-    borderWidth: 1,
-  },
   modalView: {
     backgroundColor: "white",
     borderRadius: 20,
-    padding: 35,
+    padding: 5,
     width: '100%',
     height: 300,
     alignItems: "center",
@@ -592,7 +604,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   modalText: {
-    marginBottom: 15,
+    marginBottom: 5,
     textAlign: "center",
     fontSize: 20,
     fontWeight: 'bold'
@@ -635,11 +647,6 @@ const styles = StyleSheet.create({
   dropdownContainer: {
     width: '100%',
   },
-  inputContainer: {
-    borderWidth: 1,
-    borderColor: '#9E15B8',
-    backgroundColor: '#ffffff',
-  },
   title: {
     fontSize: 50,
     color: '#9E15B8',
@@ -670,24 +677,27 @@ const styles = StyleSheet.create({
   resultTitle: {
     fontWeight: 'bold',
   },
-  ModalContainer: {
-    position: 'absolute',
-    height: '100%',
-    bottom: 0,
+  inputName: {
+    height: 40,
     width: '100%',
-    backgroundColor: 'transparent',
+    borderRadius: 10,
+    borderColor: '#9E15B8',
+    backgroundColor: 'white',
+    marginBottom: 10,
+  },
+  inputDescription: {
+    height: 80,
+    width: '100%',
+    borderRadius: 10,
+    borderColor: '#9E15B8',
+    backgroundColor: 'white',
+    marginBottom: 10,
+  },
+  inputContainer: {
+    width: '100%',
+    borderRadius: 10,
+    borderColor: '#9E15B8',
+    backgroundColor: 'white',
+    marginBottom: 10,
   },
 });
-
-// profile: {
-//   position: 'absolute',
-//   display: 'flex',
-//   top: 10,
-//   left: 10,
-//   flexDirection: 'row',
-//   justifyContent: 'space-between',
-//   width: 100,
-//   backgroundColor: 'white',
-//   borderRadius: 10,
-//   padding: 5,
-// }

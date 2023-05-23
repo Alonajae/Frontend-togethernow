@@ -8,7 +8,13 @@ import {
   Image,
   SafeAreaView,
 } from "react-native";
-import { Button, PaperProvider, Portal, Modal,   TextInput } from "react-native-paper";
+import {
+  Button,
+  PaperProvider,
+  Portal,
+  Modal,
+  TextInput,
+} from "react-native-paper";
 import * as ImagePicker from "expo-image-picker";
 import { useDispatch, useSelector } from "react-redux";
 import { addPhoto, removePhoto } from "../reducers/user";
@@ -16,7 +22,12 @@ import { addPhoto, removePhoto } from "../reducers/user";
 export default function MyProfileScreen({ navigation }) {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.value);
-  const containerStyle = {padding: 50, margin: 30, borderRadius: 10, backgroundColor: '#F9F0FB' };
+  const containerStyle = {
+    padding: 50,
+    margin: 30,
+    borderRadius: 10,
+    backgroundColor: "#F9F0FB",
+  };
 
   const [sharePositions, setSharePositions] = useState(false);
   const [email, setEmail] = useState(user.email);
@@ -55,7 +66,7 @@ export default function MyProfileScreen({ navigation }) {
   };
 
   const handleEdit = () => {
-    setDisabled(false);
+    setDisabled(!disabled);
   };
 
   const handleBackToMap = () => {
@@ -76,7 +87,11 @@ export default function MyProfileScreen({ navigation }) {
   };
 
   let modal = (
-    <Modal visible={visible} contentContainerStyle={containerStyle} transparent={true}>
+    <Modal
+      visible={visible}
+      contentContainerStyle={containerStyle}
+      transparent={true}
+    >
       <Text style={styles.textModal}>Update your profile picture 📸</Text>
       <View style={styles.imageContainer}>
         <Image
@@ -85,7 +100,7 @@ export default function MyProfileScreen({ navigation }) {
             width: 250,
             height: 250,
             marginTop: 10,
-            borderRadius: "500%",
+            borderRadius: 125,
           }}
         />
       </View>
@@ -104,52 +119,126 @@ export default function MyProfileScreen({ navigation }) {
     <PaperProvider>
       <Portal>
         <View style={styles.container}>
-        <Button style={styles.backMapBtn} onPress={handleBackToMap}>
-          <Text style={styles.textBackBtn}>Back</Text>
-        </Button>
+          <Button style={styles.backMapBtn} onPress={handleBackToMap}>
+            <Text style={styles.textBackBtn}>Back</Text>
+          </Button>
           <Text style={styles.title}>My Profile</Text>
           <View style={styles.headerInfo}>
-          <TouchableOpacity
-            style={styles.profileImageContainer}
-            onPress={handleImageUpload}
-          >
-            <Image
-              source={{ uri: user.profilePicture }}
-              style={styles.profileImage}
-            />
-            <Button style={styles.uploadText}>+</Button>
-          </TouchableOpacity>
-          <View style={styles.mainInfo}>
-          <Text style={styles.name}>{firstname}</Text>
-          <Text>Shared Routes: counter BDD</Text>
-          </View>
+            <View style={styles.profileImageContainer}>
+              <Image
+                source={{ uri: user.profilePicture }}
+                style={styles.profileImage}
+              />
+              <View style={styles.buttonContainer}>
+                <Button style={styles.uploadButton} onPress={handleImageUpload}>
+                  <Text style={styles.plusBtn}>+</Text>
+                </Button>
+              </View>
+            </View>
+            <View style={styles.mainInfo}>
+              <Text style={styles.name}>{firstname}</Text>
+              <Text>Shared Routes: counter BDD</Text>
+            </View>
           </View>
           <View style={styles.personalInfos}>
-            <TextInput label={'Firstname:'} mode={"flat"} disabled={disabled} style={styles.input}> {firstname}</TextInput>
-            <TextInput label={'Name:'} mode="flat" disabled={disabled} style={styles.input}> {name} </TextInput>
-            <TextInput label={'Email:'} mode="flat" disabled={disabled} style={styles.input}>{email}</TextInput>
-            <TextInput label={'Age:'} mode="flat" disabled={disabled} style={styles.input}>{age}</TextInput>
-            <TextInput label={'Emergency Contact:'} mode="flat" disabled={disabled} style={styles.input}>{emergencyContact}</TextInput>
-          </View>
-          <View style={styles.sharePosition}>
-            <Text>Share my position:</Text>
-            <Switch
-              trackColor={{ false: "FB8C7C", true: "#9E15B8" }}
-              thumbColor={sharePositions ? "#9E15B8" : "#FB8C7C"}
-              ios_backgroundColor="white"
-              onValueChange={toggleSwitch}
-              value={sharePositions}
-            />
+            <View style={styles.infoLine}>
+              <Text style={styles.titleLine}>Firstname:</Text>
+              <TextInput
+                mode={"flat"}
+                disabled={disabled}
+                style={styles.input}
+                contentStyle={{
+                  paddingLeft: "10%",
+                  color: "black",
+                  fontSize: 16,
+                }}
+              >
+                {" "}
+                {firstname}
+              </TextInput>
+            </View>
+            <View style={styles.infoLine}>
+              <Text style={styles.titleLine}>Name:</Text>
+              <TextInput
+                mode="flat"
+                disabled={disabled}
+                style={styles.input}
+                contentStyle={{
+                  paddingLeft: "10%",
+                  color: "black",
+                  fontSize: 16,
+                }}
+              >
+                {" "}
+                {name}{" "}
+              </TextInput>
+            </View>
+            <View style={styles.infoLine}>
+              <Text style={styles.titleLine}>Email:</Text>
+              <TextInput
+                mode="flat"
+                disabled={disabled}
+                style={styles.input}
+                contentStyle={{
+                  paddingLeft: "10%",
+                  color: "black",
+                  fontSize: 16,
+                }}
+              >
+                {email}
+              </TextInput>
+            </View>
+            <View style={styles.infoLine}>
+              <Text style={styles.titleLine}>Age:</Text>
+              <TextInput
+                mode="flat"
+                disabled={disabled}
+                style={styles.input}
+                contentStyle={{
+                  paddingLeft: "10%",
+                  color: "black",
+                  fontSize: 16,
+                }}
+              >
+                {age}
+              </TextInput>
+            </View>
+            <View style={styles.infoLine}>
+              <Text style={styles.titleLine}>Emergency {"\n"}contact:</Text>
+              <TextInput
+                mode="flat"
+                disabled={disabled}
+                style={styles.input}
+                contentStyle={{
+                  paddingLeft: "10%",
+                  color: "#350040",
+                  fontSize: 16,
+                }}
+              >
+                {emergencyContact}
+              </TextInput>
+            </View>
+
+            <View style={styles.sharePosition}>
+              <Text style={styles.titleLine}>Share my position:</Text>
+              <Switch
+                trackColor={{ false: "FB8C7C", true: "#9E15B8" }}
+                thumbColor={sharePositions ? "#9E15B8" : "#FB8C7C"}
+                ios_backgroundColor="white"
+                onValueChange={toggleSwitch}
+                value={sharePositions}
+              />
+            </View>
           </View>
           {modal}
           <View style={styles.btnEditHistory}>
-          <Button style={styles.editBtn} onPress={handleEdit}>
-          <Text style={styles.textBackBtn}>Edit</Text>
-        </Button>
-        <Button style={styles.historyBtn}>
-          <Text style={styles.textBackBtn}>History</Text>
-        </Button>
-        </View>
+            <Button style={styles.editBtn} onPress={handleEdit}>
+              <Text style={styles.textBackBtn}>Edit</Text>
+            </Button>
+            <Button style={styles.historyBtn}>
+              <Text style={styles.textBackBtn}>History</Text>
+            </Button>
+          </View>
         </View>
       </Portal>
     </PaperProvider>
@@ -170,34 +259,23 @@ const styles = StyleSheet.create({
     marginBottom: 21,
   },
   profileImageContainer: {
-    alignItems: "left",
-    marginBottom: 20,
+    marginBottom: 25,
+    flexDirection: "row",
   },
-  profileImage: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-  },
+
   uploadText: {
-    width: 24,
-    height: 24,
-    fontSize: 16,
-    color: "#9E15B8",
-    backgroundColor: "pink",
+    height: 20,
+    width: 20,
+    borderRadius: 50,
+    borderWidth: 1,
+    borderColor: "#9E15B8",
   },
   personalInfos: {
     marginBottom: 10,
     marginTop: 0,
     width: "90%",
   },
-  imageContainer: {
-    alignSelf: "center",
-    margin: 20,
-    height: 300,
-    width: 300,
-    padding: 20,
-    backgroundColor: "#F9F0FB",
-  },
+
   backBtn: {
     width: 100,
     height: 40,
@@ -230,46 +308,93 @@ const styles = StyleSheet.create({
     color: "#350040",
     fontSize: 16,
     fontFamily: "Inter",
-    textAlign: 'center',
+    textAlign: "center",
   },
   textBackBtn: {
-    color: 'black',
+    color: "black",
     fontSize: 16,
     fontFamily: "Inter",
-    textDecorationLine: 'underline',
+    textDecorationLine: "underline",
   },
   backMapBtn: {
-    position: 'absolute',
+    position: "absolute",
     top: 60,
     left: 20,
   },
   btnEditHistory: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    width: '100%',
+    flexDirection: "row",
+    justifyContent: "space-around",
+    width: "100%",
     marginTop: 20,
   },
   headerInfo: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    width: '80%',
-    marginBottom: 10,
-    marginTop: '5%',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-around",
+    width: "80%",
+    marginBottom: '10%',
+    marginTop: "8%",
+    alignItems: "center",
   },
   name: {
     fontSize: 40,
-    fontFamily: 'Jomhuria',
+    fontFamily: "Jomhuria",
   },
   input: {
+    justifyContent: "space-between",
     height: 44,
     margin: 10,
-    fontSize: 16,
     backgroundColor: "#ffffff",
+    width: "60%",
+    flexWrap: "wrap",
   },
   sharePosition: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '80%',
-  }
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    width: "95%",
+    marginTop: 20,
+  },
+  infoLine: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  titleLine: {
+    fontSize: 14,
+    fontFamily: "Inter",
+    color: "#350040",
+    opacity: 0.5,
+    paddingLeft: 10,
+  },
+  titleLineShare: {
+    fontSize: 14,
+    fontFamily: "Inter",
+    color: "#350040",
+    opacity: 0.5,
+  },
+  plusBtn: {
+    fontSize: 12,
+    color: "white",
+  },
+  profileImageContainer: {
+    position: "relative",
+    alignItems: "flex-end",
+  },
+  profileImage: {
+    width: 100,
+    height: 100,
+    borderRadius: 55,
+  },
+  buttonContainer: {
+    position: "absolute",
+    bottom: 0,
+    right: 0,
+  },
+  uploadButton: {
+    borderRadius: "100%",
+    backgroundColor: "#FFD5FF",
+  },
 });
+
+//com test
