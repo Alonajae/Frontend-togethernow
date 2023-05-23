@@ -18,7 +18,7 @@ export default function MyProfileScreen({ navigation }) {
   const [firstname, setFirstname] = useState(user.firstname);
   const [name, setName] = useState(user.lastname);
   const [profileImage, setProfileImage] = useState(user.profilePicture);
-  const [modalVisible, setModalVisible] = useState(false);
+  const [visible, setVisible] = useState(false);
   const [emergencyContact, setEmergencyContact] = useState(17);
 
 
@@ -45,7 +45,7 @@ export default function MyProfileScreen({ navigation }) {
   };
 
   const handleImageUpload = async () => {
-    setModalVisible(true);
+    setVisible(true);
   };
 
   const pickImage = async () => {
@@ -57,51 +57,31 @@ export default function MyProfileScreen({ navigation }) {
     });
     if (!_image.cancelled) {
       dispatch(addPhoto(_image.assets[0].uri));
-      setModalVisible(false);
+      setVisible(false);
     }
   };
 
   const deletePicture = () => {
     dispatch(removePhoto());
-    setModalVisible(false);
+    setVisible(false);
   };
 
   let modal = (
-    <Modal visible={modalVisible}  contentContainerStyle={containerStyle} style={styles.modal}>
-      <View style={styles.imageContainer}>
-        <Text style={styles.textModal}>Almost done!</Text>
-        <Image source={{ uri: user.profilePicture }} style={{ width: 250, height: 250, marginTop: 20, borderRadius: '500%' }} />
-      </View>
-      <View style={styles.modalBtn}>
-        <Button style={styles.modalButton} onPress={deletePicture}>
-          <Text style={styles.modalButtonText}>Delete the photo</Text>
-        </Button>
-        <Button style={styles.modalButton} onPress={pickImage}>
-          <Text style={styles.modalButtonText}>Pick an image from your camera roll</Text>
-        </Button>
-        <Button style={styles.modalButton} onPress={() => setModalVisible(false)}>
-          <Text style={styles.modalButtonText}>Cancel</Text>
-        </Button>
-      </View>
-    
+    <Modal visible={visible} contentContainerStyle={containerStyle} >
+    <View style={styles.imageContainer}>
+      <Image source={{ uri: user.profilePicture }} style={{ width: 250, height: 250, marginTop: 20, borderRadius: '500%' }} />
+    </View>
+    <View style={styles.modalBtn}>
+    <Button onPress={pickImage}  style={styles.validateBtn} >
+    <Text style={styles.textBtn}>Change</Text>
+    </Button>
+   <Button style={styles.backBtn} onPress={() => setModalVisible(false)}>
+            <Text style={styles.textBtn}>Cancel</Text>
+          </Button> 
+    </View>
   </Modal>
   )
 
-//   <Modal visible={visible} contentContainerStyle={containerStyle} style={styles.modal}>
-//   <View style={styles.imageContainer}>
-//     <Text style={styles.textModal}>Almost done!</Text>
-//     <Image source={{ uri: user.profilePicture }} style={{ width: 250, height: 250, marginTop: 20 }} />
-//   </View>
-//   <View style={styles.modalBtn}>
-//   <Button onPress={handleBack} style={styles.backBtn}>
-//   <Text style={styles.textBtn}>Cancel</Text>
-//   </Button>
-//   <Button onPress={handleValidate}  style={styles.validateBtn} >
-//   <Text style={styles.textBtn}>Validate</Text>
-//   </Button>
-//   </View>
-//   {/* <Button onPress={() => navigation.navigate('Map')}>Next</Button> */}
-// </Modal>
 
   return (
       <PaperProvider>
@@ -136,8 +116,9 @@ export default function MyProfileScreen({ navigation }) {
               value={sharePositions}
             />
           </View>
+          { modal}
         </View>   
-        {modal} 
+         
         </Portal>
         </PaperProvider>   
   );
@@ -177,34 +158,42 @@ const styles = StyleSheet.create({
     fontWeight: 'regular',
     marginBottom: 10,
   },
+  imageContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    margin: 20,
+  },
+  backBtn: {
+    width: 100,
+    height: 40,
+    alignItems: 'center', 
+    justifyContent: 'center',
+    backgroundColor: '#FB8C7C',
+    borderRadius: 50,
+  },
+  validateBtn: {
+    width: 100,
+    height: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#9E15B8',
+    borderRadius: 50,
+  },
   modalBtn: { 
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-around',
     paddingTop: 20,
     width: '100%',
-    height: '50%',
   },
-  modalButtonText: {
+  textBtn: {
     color: 'white',
-    fontWeight: 'regular',
+    fontSize: 16,
+    fontFamily: 'Inter'
   },
-  modalButton: {
-    backgroundColor: '#9E15B8',
-    borderRadius: 10,
-    padding: 10,
-    width: '30%',
-  },
-  imageContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#F9F0FB',
-    margin: 20,
-  },
-  modalContent: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: '80%',
-    height: '80%',
+  textModal: {
+    color: '#350040',
+    fontSize: 16,
+    fontFamily: 'Inter'
   },
 });
