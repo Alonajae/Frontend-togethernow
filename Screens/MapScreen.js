@@ -14,10 +14,9 @@ export default function MapScreen({ navigation }) {
 
   const backendAdress = 'https://backend-together-mvp.vercel.app';
   const [dataSet, setDataSet] = useState([]);
-  const [citiesData, setCitiesData] = useState([]);
 
   const searchCity = (query) => {
-    // Prevent search with an empty query
+    // if the query is empty, do not fetch
     if (query === '') {
       return;
     }
@@ -26,22 +25,56 @@ export default function MapScreen({ navigation }) {
       .then((response) => response.json())
       .then(({ features }) => {
         const suggestions = features.map((data, i) => {
-          return { id: i, title: data.properties.name, context: data.properties.context };
+          return { id: i, title: data.properties.name, context: data.properties.context, coordinates: data.geometry.coordinates };
         });
         setDataSet(suggestions);
       });
   };
 
+  // create markers for cities
+
+  let mapRef = null; // Create a reference to the map
+
+  const getMapReference = (ref) => (mapRef = ref); // Create a function to get the reference
+
+  const handleAddSearchMarker = (element) => {
+    const { coordinates } = element;
+
+    const region = {
+      latitude: coordinates[1],
+      longitude: coordinates[0],
+      latitudeDelta: 0.1,
+      longitudeDelta: 0.1,
+    };
+
+    const mapInstance = getMapReference();
+
+    if (mapInstance) {
+      mapInstance.animateToRegion(region, 1000);
+    }
+
+    setAddress({
+      title: element.title,
+      context: element.context,
+      coordinates: { latitude: coordinates[1], longitude: coordinates[0] },
+    });
+
+    setDataSet([]); // Clear the dataset to close the autocomplete dropdown
+  };
+
+
+
   const cities = dataSet.map((data, i) => {
-    console.log("data", i);
     return (
-      <View key={i} style={styles.resultContainer}>
-        <MaterialCommunityIcons name="map-marker-check" size={30} color="#51e181" />
-        <View>
-          <Text style={{ ...styles.resultText, ...styles.resultTitle }}>{data.title}</Text>
-          <Text style={styles.resultText}>{data.context}</Text>
+      <TouchableOpacity key={i} onPress={() => handleAddSearchMarker(data)}>
+        <View style={styles.resultContainer}>
+          <MaterialCommunityIcons name="map-marker-check" size={30} color="#51e181" />
+          <View>
+            <Text style={{ ...styles.resultText, ...styles.resultTitle }}>{data.title}</Text>
+            <Text style={styles.resultText}>{data.context}</Text>
+          </View>
         </View>
-      </View>
+      </TouchableOpacity>
     );
   });
 
@@ -53,7 +86,7 @@ export default function MapScreen({ navigation }) {
   const [currentPosition, setCurrentPosition] = useState(null);
 
   // states for the search bar
-  const [address, setAddress] = useState('');
+  const [address, setAddress] = useState(null);
 
   // states for the buttons
   const [buddiesIsSelected, setBuddiesIsSelected] = useState(false);
@@ -379,6 +412,7 @@ export default function MapScreen({ navigation }) {
     infoModal = null;
   }
 
+
   return (
     <SafeAreaView>
       {modalAlert}
@@ -389,8 +423,10 @@ export default function MapScreen({ navigation }) {
         followsUserLocation={true}
         showsMyLocationButton={true}
         showsCompass={true}
+        ref={mapRef} // Assign the reference to mapRef using getMapReference function
         onLongPress={(infos) => handleLongPress(infos)}
       >
+        {address ? <Marker coordinate={address.coordinates} title={address.title} /> : null}
         {buddiesMarkers}
         {safePlacesMarkers}
         {alertsMarkers}
@@ -403,7 +439,6 @@ export default function MapScreen({ navigation }) {
 
         <AutocompleteDropdown
           onChangeText={(value) => searchCity(value)}
-          onSelectItem={(item) => item && setCitiesData([...citiesData, item])}
           dataSet={dataSet}
           textInputProps={{ placeholder: 'Search city' }}
           inputContainerStyle={styles.inputContainer}
@@ -462,12 +497,16 @@ const styles = StyleSheet.create({
     borderRadius: 50,
   },
   containersearchebar: {
+    display: 'flex',
     position: 'absolute',
-    top: 0,
-    alignSelf: 'center',
-    width: '70%',
-    justifyContent: 'space-between',
+    top: 50,
+    width: '85%',
+    alignContent: 'space-between',
     marginTop: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+    zIndex: 1,
+
   },
   button: {
     backgroundColor: 'rgba(0,0,0,0.5)',
