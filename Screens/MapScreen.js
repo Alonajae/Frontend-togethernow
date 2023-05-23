@@ -11,7 +11,7 @@ import { Input } from 'react-native-elements';
 
 export default function MapScreen({ navigation }) {
 
-  const backendAdress = 'http://192.168.10.173:3000';
+  const backendAdress = 'https://backend-together-mvp.vercel.app';
   const [dataSet, setDataSet] = useState([]);
   const [citiesData, setCitiesData] = useState([]);
 
@@ -23,8 +23,8 @@ export default function MapScreen({ navigation }) {
     if (query === '') {
       return;
     }
-
-    fetch(`https://api-adresse.data.gouv.fr/search/?q=${query}`)
+    const formattedPlace = query.replace(/ /g, '+');
+    fetch(`https://api-adresse.data.gouv.fr/search/?q=${formattedPlace}`)
       .then((response) => response.json())
       .then(({ features }) => {
         const suggestions = features.map((data, i) => {

@@ -128,7 +128,7 @@ export default function TakepictureScreen({ navigation }) {
       </Modal>
     ) // test button next to go to the next screen (map)
   } else {
-    // if the user has not taken a profile picture and the id, show the modal to validate the id
+    // if the user has not taken an id picture, show the modal to validate the id
     modal = (
       <Modal visible={visible} contentContainerStyle={containerStyle}>
         <View style={styles.imageContainer}>
@@ -243,14 +243,3 @@ const styles = StyleSheet.create({
     fontFamily: 'Inter'
   },
 });
-
-// // take the picture
-const takePicture = async () => {
-  const photo = await cameraRef.takePictureAsync({ quality: 0.3 });
-  console.log(photo.width, photo.height);
-  console.log(photo.uri);
-  // store the picture in redux
-  // store the picture in database
-}
-
-  // // if no permission, return empty view

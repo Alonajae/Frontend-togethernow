@@ -51,7 +51,7 @@ export default function VideoScreen({ navigation }) {
       });
 
       console.log("video mise a jour", video);
-      fetch(`http://192.168.10.192:3000/users/uploadVideo`, {
+      fetch(`${backendAdress}/users/uploadVideo`, {
         method: "POST",
         body: formData,
       })
@@ -103,19 +103,19 @@ export default function VideoScreen({ navigation }) {
       cameraRef.current.stopRecording();
 
       // send video to server
-      // fetch(`http://192.168.10.192:3000/users/uploadVideo`, {
-      //   method: "POST",
-      //   body: formData,
-      // })
-      //   .then((response) => response.json())
-      //   .then((data) => {
-      //     if (data.result) {
-      //       dispatch(registerStep5({ validationVideo: data.url }));
-      //       setVisible(true);
-      //     } else {
-      //       alert("Something went wrong");
-      //     }
-      //   });
+      fetch(`${backendAdress}/users/uploadVideo`, {
+        method: "POST",
+        body: formData,
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.result) {
+            dispatch(registerStep5({ validationVideo: data.url }));
+            setVisible(true);
+          } else {
+            alert("Something went wrong");
+          }
+        });
     }
   };
 
