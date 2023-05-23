@@ -104,6 +104,7 @@ export default function SignUp(props) {
   let formulaire;
 
   if (props.signup2) {
+    // If the user is on the second step of the registration, display the second form
     formulaire = (
       <View style={styles.formulaire}>
         <View style={styles.menu}>
@@ -213,6 +214,7 @@ export default function SignUp(props) {
       </View>
     );
   } else {
+    // If the user is on the first step of the registration, display the first form
     formulaire = (
       <View style={styles.formulaire}>
        <Text style={styles.title}>Create an account!</Text>
