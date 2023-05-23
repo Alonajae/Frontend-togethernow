@@ -593,7 +593,7 @@ const styles = StyleSheet.create({
   },
   scrollContainer: {
     width: '100%',
-    backgroundColor: "red",
+    backgroundColor: '#9E15B8',
     position: 'absolute',
     top: 100,
   },
@@ -602,12 +602,12 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     borderWidth: 1,
-    borderColor: '#51e181',
+    borderColor: '#9E15B8',
     backgroundColor: '#ffffff',
   },
   title: {
     fontSize: 50,
-    color: '#51e181',
+    color: '#9E15B8',
     fontWeight: 'bold',
     alignSelf: 'flex-start',
     fontFamily: Platform.select({ ios: 'Georgia', android: 'serif' }),
@@ -626,7 +626,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    borderColor: '#51e181',
+    borderColor: '#9E15B8',
     borderWidth: 1,
   },
   resultText: {
