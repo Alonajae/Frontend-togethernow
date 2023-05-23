@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { ScrollView, View, TextInput, StyleSheet, SafeAreaView, Dimensions, Image, Text, TouchableOpacity, FlatList } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
@@ -36,9 +36,13 @@ export default function MapScreen({ navigation }) {
 
   // create markers for cities
 
-  let mapRef = null; // Create a reference to the map
+  const [mapRef, setMapRef] = useState(null);
 
-  const getMapReference = (ref) => (mapRef = ref); // Create a function to get the reference
+  useEffect(() => {
+    if (mapRef) {
+      // Use the mapRef here or perform any other operations
+    }
+  }, [mapRef]);
 
   const handleAddSearchMarker = (element) => {
     const { coordinates } = element;
@@ -50,10 +54,8 @@ export default function MapScreen({ navigation }) {
       longitudeDelta: 0.1,
     };
 
-    const mapInstance = getMapReference();
-
-    if (mapInstance) {
-      mapInstance.animateToRegion(region, 1000);
+    if (mapRef) {
+      mapRef.animateToRegion(region, 1000);
     }
 
     setAddress({
@@ -88,7 +90,6 @@ export default function MapScreen({ navigation }) {
 
   // states for the search bar
   const [address, setAddress] = useState(null);
-  console.log(address);
 
   // states for the buttons
   const [buddiesIsSelected, setBuddiesIsSelected] = useState(false);
@@ -430,7 +431,7 @@ export default function MapScreen({ navigation }) {
         followsUserLocation={true}
         showsMyLocationButton={true}
         showsCompass={true}
-        ref={getMapReference} // Assign the reference to mapRef using getMapReference function
+        ref={(ref) => setMapRef(ref)} // Assign the reference to mapRef
         onLongPress={(infos) => handleLongPress(infos)}
       >
         {address ? <Marker coordinate={address.coordinates} title={address.title} /> : null}
@@ -470,7 +471,7 @@ export default function MapScreen({ navigation }) {
         >
           <Text>Alerts</Text>
         </Button>
-        
+
         <Button
           title="Safe places"
           style={styles.safeplaces}
@@ -486,7 +487,7 @@ export default function MapScreen({ navigation }) {
           <Text> Buddies </Text>
         </Button>
       </View>
-  
+
       <View style={styles.ModalContainer}>
         {modalAlert}
         {infoModal}
