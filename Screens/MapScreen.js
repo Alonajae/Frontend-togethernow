@@ -16,9 +16,6 @@ export default function MapScreen({ navigation }) {
   const [dataSet, setDataSet] = useState([]);
   const [citiesData, setCitiesData] = useState([]);
 
-  console.log("citiesData", citiesData);
-  console.log(dataSet);
-
   const searchCity = (query) => {
     // Prevent search with an empty query
     if (query === '') {
@@ -153,7 +150,7 @@ export default function MapScreen({ navigation }) {
             })
               .then((response) => response.json())
               .then((data) => {
-                console.log("location");
+                console.log(location.coords.latitude, location.coords.longitude);
               }
               )
           });
@@ -389,6 +386,7 @@ export default function MapScreen({ navigation }) {
       <MapView mapType="mutedStandard" style={styles.map}
         initialRegion={initialRegion}
         showsUserLocation={true}
+        followsUserLocation={true}
         showsMyLocationButton={true}
         showsCompass={true}
         onLongPress={(infos) => handleLongPress(infos)}
