@@ -37,14 +37,14 @@ export default function TakepictureScreen({ navigation }) {
 
   const takePicture = async () => {
     const photo = await cameraRef.takePictureAsync({ quality: 0.3 });
+    console.log(photo.uri);
     if (user.token) {
-      dispatch(registerStep4({ profilePicture: photo.uri }));
+      handlePictures(photo.uri, 'registerStep4');
     } else if (user.photoId) {
-      dispatch(registerStep4({ profilePicture: photo.uri }));
+      handlePictures(photo.uri, 'registerStep4');
     } else {
-      dispatch(registerStep3({ photoId: photo.uri }));
+      handlePictures(photo.uri, 'registerStep3');
     }
-    setVisible(true);
   }
 
   // if no permission, return empty view
@@ -69,10 +69,13 @@ export default function TakepictureScreen({ navigation }) {
       body: formData,
     }).then((response) => response.json())
       .then((data) => {
+        console.log(data);
         if(registerStep === 'registerStep3'){
           dispatch(registerStep3({ photoId: data.url }));
+          setVisible(true);
         } else if(registerStep === 'registerStep4'){
           dispatch(registerStep4({ profilePicture: data.url }));
+          setVisible(true);
         }
       });
   }
@@ -80,8 +83,6 @@ export default function TakepictureScreen({ navigation }) {
   // handle validation of the register
 
   const handleValidate = () => {
-    handlePictures(user.photoId, 'registerStep3');
-    handlePictures(user.profilePicture, 'registerStep4');
     fetch(`${backendAdress}/signup`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -127,7 +128,7 @@ export default function TakepictureScreen({ navigation }) {
       </Modal>
     ) // test button next to go to the next screen (map)
   } else {
-    // if the user has not taken a profile picture and the id, show the modal to validate the id
+    // if the user has not taken an id picture, show the modal to validate the id
     modal = (
       <Modal visible={visible} contentContainerStyle={containerStyle}>
         <View style={styles.imageContainer}>
@@ -242,14 +243,3 @@ const styles = StyleSheet.create({
     fontFamily: 'Inter'
   },
 });
-
-// // take the picture
-const takePicture = async () => {
-  const photo = await cameraRef.takePictureAsync({ quality: 0.3 });
-  console.log(photo.width, photo.height);
-  console.log(photo.uri);
-  // store the picture in redux
-  // store the picture in database
-}
-
-  // // if no permission, return empty view
