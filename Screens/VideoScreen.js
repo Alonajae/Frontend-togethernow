@@ -156,7 +156,6 @@ export default function VideoScreen({ navigation }) {
 
   const handleLogOut = () => {
     dispatch(logout());
-    setStep("landing");
     dispatch(clean());
   };
 
