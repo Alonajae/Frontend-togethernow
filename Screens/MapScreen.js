@@ -16,7 +16,7 @@ export default function MapScreen({ navigation }) {
   const [citiesData, setCitiesData] = useState([]);
 
   console.log("citiesData", citiesData);
-  console.log(dataSet);
+  console.log("dataSet", dataSet);
 
   const searchCity = (query) => {
     // Prevent search with an empty query
@@ -35,15 +35,14 @@ export default function MapScreen({ navigation }) {
   };
 
   const cities = dataSet.map((data, i) => {
-    console.log("data", i);
     return (
-      <View key={i} style={styles.resultContainer}>
+      <TouchableOpacity key={i} style={styles.resultContainer} onPress={() => setCitiesData([...citiesData, data.context])}>
         <MaterialCommunityIcons name="map-marker-check" size={30} color="#51e181" />
         <View>
           <Text style={{ ...styles.resultText, ...styles.resultTitle }}>{data.title}</Text>
           <Text style={styles.resultText}>{data.context}</Text>
         </View>
-      </View>
+      </TouchableOpacity>
     );
   });
 
@@ -432,7 +431,7 @@ export default function MapScreen({ navigation }) {
 
         <AutocompleteDropdown
           onChangeText={(value) => searchCity(value)}
-          onSelectItem={(item) => item && setCitiesData([...citiesData, item])}
+          onSelectItem={(item) => {item && setCitiesData([...citiesData, item]); console.log(item);}}
           dataSet={dataSet}
           textInputProps={{ placeholder: 'Search city' }}
           inputContainerStyle={styles.inputContainer}
@@ -578,6 +577,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     borderRadius: 10,
     padding: 5,
+    zIndex: -1,
   },
   searchBar: {
     position: 'absolute',
@@ -593,8 +593,9 @@ const styles = StyleSheet.create({
   },
   scrollContainer: {
     width: '100%',
-    backgroundColor: '#9E15B8',
+    backgroundColor: 'red',
     position: 'absolute',
+    zIndex: 1,
     top: 100,
   },
   dropdownContainer: {
