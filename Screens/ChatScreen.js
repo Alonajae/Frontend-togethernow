@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useDispacth, useSelector } from 'react';
 
 import {
   Button,
@@ -8,6 +8,7 @@ import {
 } from "react-native-paper";
 
 import { StyleSheet, View, Text, TextInput, TouchableOpacity, FlatList, Image } from 'react-native';
+
 
 const ChatBubble = ({ message, isMe }) => {
   const bubbleStyles = isMe
@@ -23,7 +24,7 @@ const ChatBubble = ({ message, isMe }) => {
   );
 };
 
-const ChatScreen = () => {
+export default function ChatScreen({navigation}){
   const [inputText, setInputText] = useState('');
   const [chatData, setChatData] = useState([]);
 
@@ -32,9 +33,18 @@ const ChatScreen = () => {
       return;
     }
 
+    const dispatch = useDispatch();
+    const user = useSelector((state) => state.user.value);
+
+    const [picture, setPicture] = useState(user.profilePicture);
+
     const newMessage = { id: Date.now().toString(), message: inputText, isMe: true };
     setChatData((prevChatData) => [...prevChatData, newMessage]);
     setInputText('');
+  };
+
+  handleBack = () => {
+    navigation.navigate('Map');
   };
 
   return (
@@ -42,8 +52,16 @@ const ChatScreen = () => {
       <Portal>
     <View style={styles.container}>
       <View style={styles.header}>
-        <Image></Image>
+        <View style={styles.buddiesInfo}>
+          <TouchableOpacity onPress={handleBack}  style={styles.styleBtn}> 
+          <Text style={styles.backTextBtn}>Back</Text>
+          </TouchableOpacity>
+        <Image
+                // source={{ uri: user.profilePicture }}
+                // style={styles.profileImage}
+              />
         <Text style={styles.headerText}>Buddies name</Text>
+        </View>
       </View>
       <FlatList
         data={chatData}
@@ -56,7 +74,10 @@ const ChatScreen = () => {
        <Image source={require('../assets/CityLogo.png')} style={styles.city} /> 
 
       <View style={styles.inputContainer}>
-        <Image source={require('../assets/Group 9.png')} style={styles.plusIcon}/>
+
+        <TouchableOpacity style={styles.PlusBtn}>
+          <Text style={styles.btntext}>+</Text>
+        </TouchableOpacity>
         <TextInput
           style={styles.input}
           value={inputText}
@@ -72,6 +93,7 @@ const ChatScreen = () => {
     </PaperProvider>
   );
 };
+
 
 const styles = StyleSheet.create({
   container: {
@@ -103,16 +125,20 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    margin: 50,
+    alignContent: 'center',
+    marginBottom: 15,
+    marginRight: 10,
+    marginLeft: 10,
   },
   input: {
-    flex: 1,
+    width: '68%',
     borderWidth: 1,
     borderColor: '#350040',
     borderRadius: 8,
-    padding: 8,
-    marginRight: 8,
+    padding: 12,
+    margin: 8,
   },
   sendButton: {
     backgroundColor: '#350040',
@@ -140,12 +166,47 @@ const styles = StyleSheet.create({
     height: '25%',
     width: '100%',
   },
-  plusIcon: {
-    position: 'absolute',
-    left: 10,
-    height: 30,
-    width: 30,
+  headerText: {
+    fontFamily: "Jomhuria",
+    color: "#350040",
+    fontSize: 50,
+  },
+  btntext: {
+    color: "#ffffff",
+    fontSize: 20,
+    fontWeight: "bold",
+  },
+  buddiesInfo: {
+    width: "80%",
+    flexDirection: "row",
+    justifyContent: 'flex-start',
+    margin: 15,
+    alignItems: "center",
+    marginTop: 50,
+  },
+  styleBtn: {
+    width: "18%",
+    borderWidth: 1,
+    borderColor: "#350040",
+    borderRadius: 8,
+    height: "45%",
+    marginRight: "7%",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  backTextBtn: {
+    color: "#350040",
+    fontSize: 14,
+    fontWeight: "bold",
+    
+  },
+  PlusBtn: {
+    width: "10%",
+    backgroundColor: "#350040",
+    borderRadius: 8,
+    height: "30%",
+    alignItems: "center",
+  justifyContent: "center",
   },
 });
 
-export default ChatScreen;
