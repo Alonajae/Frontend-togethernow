@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { ScrollView, View, StyleSheet, SafeAreaView, Dimensions, Image, Text, TouchableOpacity, FlatList } from 'react-native';
+import { View, StyleSheet, SafeAreaView, Dimensions, Image, Text, TouchableOpacity, FlatList } from 'react-native';
 import MapView, { Marker, Polyline } from 'react-native-maps';
 import * as Location from 'expo-location';
 import { Button } from 'react-native-paper';
@@ -346,10 +346,6 @@ export default function MapScreen({ navigation }) {
     })
   }
 
-  const handleFictif = () => {
-    navigation.navigate('MyProfile');
-  }
-
   // handle the creation of an alert
 
   const handleCreateAlert = () => {
@@ -475,7 +471,7 @@ export default function MapScreen({ navigation }) {
     </Modal>
   )
 
-  fakeProfileBtn = () => {
+  const travelProfile = () => {
     navigation.navigate('MyProfile');
   }
 
@@ -613,7 +609,7 @@ export default function MapScreen({ navigation }) {
       </MapView>
 
       <View style={styles.containersearchebar}>
-        <TouchableOpacity onPress={fakeProfileBtn} >
+        <TouchableOpacity onPress={travelProfile} >
           <Image source={{ uri: user.profilePicture }} style={styles.profilePicture} />
         </TouchableOpacity>
         <AutocompleteDropdown
