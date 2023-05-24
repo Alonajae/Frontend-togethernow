@@ -73,6 +73,10 @@ export default function MyProfileScreen({ navigation }) {
     navigation.navigate("Map");
   };
 
+  const handleMessage = () => {
+    navigation.navigate("Chat");
+  };
+
   const pickImage = async () => {
     let _image = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -129,11 +133,9 @@ export default function MyProfileScreen({ navigation }) {
                 source={{ uri: user.profilePicture }}
                 style={styles.profileImage}
               />
-              <View style={styles.buttonContainer}>
                 <Button style={styles.uploadButton} onPress={handleImageUpload}>
                   <Text style={styles.plusBtn}>+</Text>
                 </Button>
-              </View>
             </View>
             <View style={styles.mainInfo}>
               <Text style={styles.name}>{firstname}</Text>
@@ -222,7 +224,7 @@ export default function MyProfileScreen({ navigation }) {
             <View style={styles.sharePosition}>
               <Text style={styles.titleLine}>Share my position:</Text>
               <Switch
-                trackColor={{ false: "FB8C7C", true: "#9E15B8" }}
+                trackColor={{ false: "FB8C7C", true: "#F3F1F1" }}
                 thumbColor={sharePositions ? "#9E15B8" : "#FB8C7C"}
                 ios_backgroundColor="white"
                 onValueChange={toggleSwitch}
@@ -236,7 +238,7 @@ export default function MyProfileScreen({ navigation }) {
               <Text style={styles.textBackBtn}>Edit</Text>
             </Button>
             <Button style={styles.historyBtn}>
-              <Text style={styles.textBackBtn}>History</Text>
+              <Text style={styles.textBackBtn} onPress={handleMessage}>History</Text>
             </Button>
           </View>
         </View>
@@ -386,12 +388,9 @@ const styles = StyleSheet.create({
     height: 100,
     borderRadius: 55,
   },
-  buttonContainer: {
+  uploadButton: {
     position: "absolute",
     bottom: 0,
-    right: 0,
-  },
-  uploadButton: {
     borderRadius: "100%",
     backgroundColor: "#FFD5FF",
   },

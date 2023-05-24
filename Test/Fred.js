@@ -20,13 +20,13 @@ export default function MapScreen({ navigation }) {
   let buddiesListModal = (
     <Modal visible={buddiesList} animationType="slide">
       <View style={styles.modalView}>
-        <Text style={styles.modalText}>Buddies</Text>
+        <Text style={styles.modalText}>Buddies nearby</Text>
         <FlatList
           data={buddiesList}
           renderItem={({ item }) => (
             <View>
               <Text style={styles.modalText}>{item.name}</Text>
-              <Text style={styles.modalText}>{item.description}</Text>
+              <Text style={styles.modalText}>{item.coordinate}</Text>
             </View>
           )}
           keyExtractor={item => item._id}
