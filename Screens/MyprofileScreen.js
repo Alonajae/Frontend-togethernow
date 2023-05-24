@@ -59,6 +59,19 @@ export default function MyProfileScreen({ navigation }) {
 
   const toggleSwitch = () => {
     setSharePositions((previousState) => !previousState);
+    fetch("https://backend-together-mvp.vercel.app/users/visibleOnMap", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        token: user.token,
+        visibleOnMap: !sharePositions,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+      }
+      );
   };
 
   const handleImageUpload = async () => {
@@ -133,9 +146,9 @@ export default function MyProfileScreen({ navigation }) {
                 source={{ uri: user.profilePicture }}
                 style={styles.profileImage}
               />
-                <Button style={styles.uploadButton} onPress={handleImageUpload}>
-                  <Text style={styles.plusBtn}>+</Text>
-                </Button>
+              <Button style={styles.uploadButton} onPress={handleImageUpload}>
+                <Text style={styles.plusBtn}>+</Text>
+              </Button>
             </View>
             <View style={styles.mainInfo}>
               <Text style={styles.name}>{firstname}</Text>
