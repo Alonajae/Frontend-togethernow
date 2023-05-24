@@ -7,7 +7,7 @@ import {
   Modal,
 } from "react-native-paper";
 
-import { StyleSheet, View, Text, TextInput, TouchableOpacity, FlatList } from 'react-native';
+import { StyleSheet, View, Text, TextInput, TouchableOpacity, FlatList, Image } from 'react-native';
 
 const ChatBubble = ({ message, isMe }) => {
   const bubbleStyles = isMe
@@ -41,14 +41,22 @@ const ChatScreen = () => {
     <PaperProvider>
       <Portal>
     <View style={styles.container}>
+      <View style={styles.header}>
+        <Image></Image>
+        <Text style={styles.headerText}>Buddies name</Text>
+      </View>
       <FlatList
         data={chatData}
+        style={styles.flatList}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <ChatBubble message={item.message} isMe={item.isMe} style={styles.margin}/>
         )}
       />
+       <Image source={require('../assets/CityLogo.png')} style={styles.city} /> 
+
       <View style={styles.inputContainer}>
+        <Image source={require('../assets/Group 9.png')} style={styles.plusIcon}/>
         <TextInput
           style={styles.input}
           value={inputText}
@@ -57,7 +65,7 @@ const ChatScreen = () => {
         />
         <TouchableOpacity style={styles.sendButton} onPress={handleSend}>
           <Text style={styles.sendButtonText}>Send</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> 
       </View>
     </View>
     </Portal>
@@ -101,13 +109,13 @@ const styles = StyleSheet.create({
   input: {
     flex: 1,
     borderWidth: 1,
-    borderColor: 'gray',
+    borderColor: '#350040',
     borderRadius: 8,
     padding: 8,
     marginRight: 8,
   },
   sendButton: {
-    backgroundColor: 'pink',
+    backgroundColor: '#350040',
     padding: 12,
     borderRadius: 8,
   },
@@ -115,7 +123,29 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
   },
-
+  flatList: {
+    margin: 10,
+  },
+  header: {
+    backgroundColor: "#F9F0FB",
+    height: "15%",
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  city: {
+    position: 'absolute',
+    bottom: 0,
+    opacity: 0.2,
+    height: '25%',
+    width: '100%',
+  },
+  plusIcon: {
+    position: 'absolute',
+    left: 10,
+    height: 30,
+    width: 30,
+  },
 });
 
 export default ChatScreen;
