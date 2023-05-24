@@ -34,6 +34,7 @@ export default function MapScreen({ navigation }) {
   // states for the itinerary
   const [itineraryIsSelected, setItineraryIsSelected] = useState(false);
   const [itinerary, setItinerary] = useState(null);
+  const [buddyModalVisible, setBuddyModalVisible] = useState(false);
 
   // states for the map
   const [alerts, setAlerts] = useState([]);
@@ -58,6 +59,7 @@ export default function MapScreen({ navigation }) {
 
   // Socket.io
 
+  // const [itineraries, setItineraries] = useState([]);
   const [socket, setSocket] = useState(null);
 
   useEffect(() => {
@@ -71,9 +73,24 @@ export default function MapScreen({ navigation }) {
     };
   }, []);
 
+  // useEffect(() => {
+  //   if (socket) {
+  //     // Listen for 'itinerary' events
+  //     socket.on('itinerary', (data) => {
+  //       // Handle received itinerary data
+  //       console.log('Received shared itinerary:', data);
+
+  //       // Update the list of itineraries
+  //       setItineraries((prevItineraries) => [...prevItineraries, data]);
+  //     });
+  //   }
+  // }, [socket]);
+
   const handleItinerarySubmit = (itinerary) => {
     // Emit the itinerary data to the server
     socket.emit('itinerary', itinerary);
+    console.log('itinerary sent');
+    setBuddyModalVisible(true);
   };
 
   const searchCity = (query) => {
@@ -409,7 +426,7 @@ export default function MapScreen({ navigation }) {
   }
 
   let styleModal;
-  if (alertModalVisible) {
+  if (alertModalVisible || buddyModalVisible) {
     styleModal =
     {
       position: 'absolute',
@@ -583,6 +600,41 @@ export default function MapScreen({ navigation }) {
     infoModal = null;
   }
 
+  // create a modal to choose your buddy
+
+  let buddyModal;
+  if (buddyModalVisible) {
+    buddyModal = (
+      <Modal visible={infoModalVisible} animationType="slide">
+        <View style={styles.modalView}>
+          <Text style={styles.modalText}>Find a Buddy</Text>
+          {/* {itineraries.map((itinerary) => {
+            return (
+              <View key={itinerary._id}>
+                <Text> The distance is: {itinerary.distance} </Text>
+                <Text> It will take: {itinerary.duration} </Text>
+                <Button
+                  title="Track"
+                  onPress={handleItinerarySubmit(itinerary)}
+                >
+                  <Text>Contact</Text>
+                </Button>
+              </View>
+            )
+          }
+          )} */}
+          <Button
+            title="Close"
+            onPress={() => { setInfoModalVisible(false); setBuddyModalVisible(false) }}
+          >
+            <Text>Close</Text>
+          </Button>
+        </View>
+      </Modal>
+    )
+  } else {
+    buddyModal = null;
+  }
 
   return (
     <SafeAreaView>
@@ -653,6 +705,7 @@ export default function MapScreen({ navigation }) {
       <View style={styleModal}>
         {modalAlert}
         {infoModal}
+        {buddyModal}
       </View>
     </SafeAreaView>
   );
