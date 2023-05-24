@@ -51,6 +51,26 @@ export default function MapScreen({ navigation }) {
   const backendAdress = 'https://backend-together-mvp.vercel.app';
   const [dataSet, setDataSet] = useState([]);
 
+  // Socket.io
+
+  const [socket, setSocket] = useState(null);
+
+  // useEffect(() => {
+  //   // Establish the socket connection
+  //   const socket = io('https://backend-together-mvp.vercel.app'); // Update with your Vercel deployment URL
+  //   setSocket(socket);
+
+  //   // Clean up the socket connection on component unmount
+  //   return () => {
+  //     socket.disconnect();
+  //   };
+  // }, []);
+
+  // const handleItinerarySubmit = (itinerary) => {
+  //   // Emit the itinerary data to the server
+  //   socket.emit('itinerary', itinerary);
+  // };
+
   const searchCity = (query) => {
     // if the query is empty, do not fetch
     if (query === '' || query.length < 5) {
