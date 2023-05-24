@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AutocompleteDropdown } from 'react-native-autocomplete-dropdown';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Modal, TextInput } from 'react-native-paper';
+import { Svg, Circle } from 'react-native-svg';
 
 export default function MapScreen({ navigation }) {
 
@@ -123,42 +124,42 @@ export default function MapScreen({ navigation }) {
       latitude = 0,
       longitude = 0,
       coordinates = [];
-  
+
     while (index < polyline.length) {
       let shift = 0,
         result = 0,
         byte;
-  
+
       do {
         byte = polyline.charCodeAt(index++) - 63;
         result |= (byte & 0x1f) << shift;
         shift += 5;
       } while (byte >= 0x20);
-  
+
       let deltaLatitude = (result & 1) ? ~(result >> 1) : (result >> 1);
       latitude += deltaLatitude;
-  
+
       shift = 0;
       result = 0;
-  
+
       do {
         byte = polyline.charCodeAt(index++) - 63;
         result |= (byte & 0x1f) << shift;
         shift += 5;
       } while (byte >= 0x20);
-  
+
       let deltaLongitude = (result & 1) ? ~(result >> 1) : (result >> 1);
       longitude += deltaLongitude;
-  
+
       coordinates.push({
         latitude: latitude / 1e5,
         longitude: longitude / 1e5,
       });
     }
-  
+
     return coordinates;
   }
-  
+
 
   const handleTrack = () => {
     console.log(address);
@@ -183,6 +184,7 @@ export default function MapScreen({ navigation }) {
           // Map configuration options
         });
 
+        // Create a polyline and add the decoded points to it
         const routePath = new google.maps.Polyline({
           path: decodedPolyline,
           geodesic: true,
@@ -219,6 +221,13 @@ export default function MapScreen({ navigation }) {
 
   const buddiesMarkers = buddies.map((buddy, i) => {
     if (buddy.currentLocation.latitude === 0 && buddy.currentLocation.longitude === 0) return null;
+
+    // Assuming `buddy.profilePicture` contains the image URL or local path
+    const profilePicture = buddy.profilePicture;
+
+    // Define the marker size
+    const markerSize = 32;
+
     return (
       <Marker
         key={i}
@@ -226,10 +235,15 @@ export default function MapScreen({ navigation }) {
         title={buddy.firstname}
         description={buddy.firstname}
       >
-        <Image source={require('../assets/icons8-location-48.png')} />
+        {/* Create a circular image */}
+        <Svg height={markerSize} width={markerSize} style={styles.markerContainer}>
+          <Circle cx={markerSize / 2} cy={markerSize / 2} r={markerSize / 2} fill="#fff" />
+        </Svg>
+        <Image source={{ uri: profilePicture }} style={styles.profilePictureMarker} />
       </Marker>
     );
   });
+
 
 
   const alertsMarkers = alerts.map((alert, i) => {
@@ -788,5 +802,17 @@ const styles = StyleSheet.create({
     borderColor: '#9E15B8',
     backgroundColor: 'white',
     marginBottom: 10,
+  },
+  markerContainer: {
+    position: 'absolute',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  profilePictureMarker: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    borderWidth: 2,
+    borderColor: '#fff',
   },
 });
