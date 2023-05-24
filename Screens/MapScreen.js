@@ -8,6 +8,8 @@ import { AutocompleteDropdown } from 'react-native-autocomplete-dropdown';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Modal, TextInput } from 'react-native-paper';
 import { Svg, Circle } from 'react-native-svg';
+import io from 'socket.io-client';
+
 
 export default function MapScreen({ navigation }) {
 
@@ -29,6 +31,10 @@ export default function MapScreen({ navigation }) {
   const [buddiesIsSelected, setBuddiesIsSelected] = useState(false);
   const [safePlacesIsSelected, setSafePlacesIsSelected] = useState(false);
   const [alertsIsSelected, setAlertsIsSelected] = useState(false);
+
+  // states for the itinerary
+  const [itineraryIsSelected, setItineraryIsSelected] = useState(false);
+  const [itinerary, setItinerary] = useState(null);
 
   // states for the map
   const [alerts, setAlerts] = useState([]);
@@ -55,27 +61,28 @@ export default function MapScreen({ navigation }) {
 
   const [socket, setSocket] = useState(null);
 
-  // useEffect(() => {
-  //   // Establish the socket connection
-  //   const socket = io('https://backend-together-mvp.vercel.app'); // Update with your Vercel deployment URL
-  //   setSocket(socket);
+  useEffect(() => {
+    // Establish the socket connection
+    const socket = io(backendAdress); // Update with your Vercel deployment URL
+    setSocket(socket);
 
-  //   // Clean up the socket connection on component unmount
-  //   return () => {
-  //     socket.disconnect();
-  //   };
-  // }, []);
+    // Clean up the socket connection on component unmount
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
 
-  // const handleItinerarySubmit = (itinerary) => {
-  //   // Emit the itinerary data to the server
-  //   socket.emit('itinerary', itinerary);
-  // };
+  const handleItinerarySubmit = (itinerary) => {
+    // Emit the itinerary data to the server
+    socket.emit('itinerary', itinerary);
+  };
 
   const searchCity = (query) => {
     // if the query is empty, do not fetch
     if (query === '' || query.length < 5) {
       setDataSet([]);
       setAddress(null);
+      setDecodedPolyline([]);
       return;
     }
     const formattedPlace = query.replace(/ /g, '+');
@@ -182,7 +189,6 @@ export default function MapScreen({ navigation }) {
 
 
   const handleTrack = () => {
-    console.log(address);
     fetch(`${backendAdress}/trips/start`, {
       method: 'POST',
       headers: {
@@ -193,27 +199,10 @@ export default function MapScreen({ navigation }) {
       .then((response) => response.json())
       .then((json) => {
         const polyline = json.data.routes[0].overview_polyline.points;
-        console.log(polyline);
 
         // Decode the polyline
         const decodedPolyline = decodePoly(polyline);
         setDecodedPolyline(decodedPolyline);
-
-        // Display the route on a map (example using Google Maps JavaScript API)
-        const map = new google.maps.Map(document.getElementById('map'), {
-          // Map configuration options
-        });
-
-        // Create a polyline and add the decoded points to it
-        const routePath = new google.maps.Polyline({
-          path: decodedPolyline,
-          geodesic: true,
-          strokeColor: '#FF0000',
-          strokeOpacity: 1.0,
-          strokeWeight: 2,
-        });
-
-        routePath.setMap(map);
 
         // Calculate distance or duration (example using first step in the route)
         const distance = json.data.routes[0].legs[0].distance.text;
@@ -221,14 +210,11 @@ export default function MapScreen({ navigation }) {
 
         console.log('Distance:', distance);
         console.log('Duration:', duration);
+        console.log('Decoded polyline:', decodedPolyline);
 
-        // Extract individual points
-        const points = decodedPolyline.map((point) => ({
-          latitude: point.lat(),
-          longitude: point.lng(),
-        }));
-
-        console.log('Points:', points);
+        setItinerary({ points: decodedPolyline, distance: distance, duration: duration });
+        setItineraryIsSelected(true);
+        setInfoModalVisible(true);
       })
       .catch((error) => {
         console.error(error);
@@ -438,12 +424,12 @@ export default function MapScreen({ navigation }) {
       backgroundColor: 'transparent',
       zIndex: 1,
     }
-  } else if (buddiesIsSelected || alertsIsSelected || safePlacesIsSelected) {
+  } else if (buddiesIsSelected || alertsIsSelected || safePlacesIsSelected || itineraryIsSelected) {
     styleModal =
     {
       position: 'absolute',
       bottom: 0,
-      height: '35%',
+      height: '40%',
       width: '100%',
       backgroundColor: 'transparent',
       zIndex: 1,
@@ -500,7 +486,15 @@ export default function MapScreen({ navigation }) {
     infoModal = (
       <Modal visible={infoModalVisible} animationType="slide">
         <View style={styles.modalView}>
-          <Text style={styles.modalText}>Buddies</Text>
+          <View style={styles.headerModal}>
+            <Text style={styles.modalText}>Buddies</Text>
+            <Button
+              title="Close"
+              onPress={() => { setInfoModalVisible(false); setBuddiesIsSelected(false) }}
+            >
+              <Text>Close</Text>
+            </Button>
+          </View>
           <FlatList
             data={buddies}
             renderItem={({ item }) => (
@@ -511,12 +505,6 @@ export default function MapScreen({ navigation }) {
             )}
             keyExtractor={item => item._id}
           />
-          <Button
-            title="Close"
-            onPress={() => { setInfoModalVisible(false); setBuddiesIsSelected(false) }}
-          >
-            <Text>Close</Text>
-          </Button>
         </View>
       </Modal>
     )
@@ -524,7 +512,15 @@ export default function MapScreen({ navigation }) {
     infoModal = (
       <Modal visible={infoModalVisible} animationType="slide">
         <View style={styles.modalView}>
-          <Text style={styles.modalText}>Safe Places</Text>
+          <View style={styles.headerModal}>
+            <Text style={styles.modalText}>Safe Places</Text>
+            <Button
+              title="Close"
+              onPress={() => { setInfoModalVisible(false); setSafePlacesIsSelected(false) }}
+            >
+              <Text>Close</Text>
+            </Button>
+          </View>
           <FlatList
             data={safePlaces}
             renderItem={({ item }) => (
@@ -535,12 +531,6 @@ export default function MapScreen({ navigation }) {
             )}
             keyExtractor={item => item._id}
           />
-          <Button
-            title="Close"
-            onPress={() => { setInfoModalVisible(false); setSafePlacesIsSelected(false) }}
-          >
-            <Text>Close</Text>
-          </Button>
         </View>
       </Modal>
     )
@@ -548,7 +538,15 @@ export default function MapScreen({ navigation }) {
     infoModal = (
       <Modal visible={infoModalVisible} animationType="slide">
         <View style={styles.modalView}>
-          <Text style={styles.modalText}>Alerts</Text>
+          <View style={styles.headerModal}>
+            <Text style={styles.modalText}>Alerts</Text>
+            <Button
+              title="Close"
+              onPress={() => { setInfoModalVisible(false); setAlertsIsSelected(false) }}
+            >
+              <Text>Close</Text>
+            </Button>
+          </View>
           <FlatList
             data={alerts}
             renderItem={({ item }) => (
@@ -559,12 +557,30 @@ export default function MapScreen({ navigation }) {
             )}
             keyExtractor={item => item._id}
           />
-          <Button
-            title="Close"
-            onPress={() => { setInfoModalVisible(false); setAlertsIsSelected(false) }}
-          >
-            <Text>Close</Text>
-          </Button>
+        </View>
+      </Modal>
+    )
+  } else if (itinerary !== null && itineraryIsSelected) {
+    infoModal = (
+      <Modal visible={infoModalVisible} animationType="slide">
+        <View style={styles.modalView}>
+          <Text style={styles.modalText}>Itinerary</Text>
+          <Text> The distance is: {itinerary.distance} </Text>
+          <Text> It will take: {itinerary.duration} </Text>
+          <View style={styles.buttonModalContainer}>
+            <Button
+              title="Close"
+              onPress={() => { setInfoModalVisible(false); setItineraryIsSelected(false) }}
+            >
+              <Text>Close</Text>
+            </Button>
+            <Button
+              title="Track"
+              onPress={handleItinerarySubmit(itinerary)}
+            >
+              <Text>Find a Buddy</Text>
+            </Button>
+          </View>
         </View>
       </Modal>
     )
@@ -715,7 +731,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     padding: 5,
     width: '100%',
-    height: 300,
+    height: 370,
     alignItems: "center",
     shadowColor: "#000",
     shadowOffset: {
@@ -834,5 +850,15 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     borderWidth: 2,
     borderColor: '#fff',
+  },
+  buttonModalContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '100%',
+    height: 60,
+    backgroundColor: 'transparent',
+    borderRadius: 10,
+    padding: 5,
   },
 });
