@@ -606,7 +606,7 @@ export default function MapScreen({ navigation }) {
             </Button>
             <Button
               title="Track"
-              onPress={handleItinerarySubmit(itinerary)}
+              onPress={() => handleItinerarySubmit(itinerary)}
             >
               <Text>Find a Buddy</Text>
             </Button>
@@ -634,7 +634,7 @@ export default function MapScreen({ navigation }) {
                 <Image source={{ uri: itinerary.user.profilePicture }} style={{ width: 100, height: 100 }} />
                 <Button
                   title="Track"
-                  onPress={handleContact(itinerary)}
+                  onPress={()=> handleContact(itinerary)}
                 >
                   <Text>Contact</Text>
                 </Button>
@@ -680,7 +680,7 @@ export default function MapScreen({ navigation }) {
             strokeColor="#FF0000"
           />
         )}
-        {address ? <Marker coordinate={address.coordinates} title={address.title} onPress={handleTrack} /> : null}
+        {address ? <Marker coordinate={address.coordinates} title={address.title} onPress={()=> handleTrack()} /> : null}
         {buddiesMarkers}
         {safePlacesMarkers}
         {alertsMarkers}
