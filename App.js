@@ -28,7 +28,6 @@ const persistConfig = {
 
 const reducers = combineReducers({
   user,
-  map,
 });
 
 const store = configureStore({
