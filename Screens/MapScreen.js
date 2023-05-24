@@ -741,22 +741,22 @@ export default function MapScreen({ navigation }) {
           style={styles.alerts}
           onPress={() => { setInfoModalVisible(true); setAlertsIsSelected(true) }}
         >
-          <Text>Alerts</Text>
+          <Text style={styles.BtnText}>Alerts</Text>
         </Button>
-
+        
         <Button
           title="Safe places"
           style={styles.safeplaces}
           onPress={() => { setInfoModalVisible(true); setSafePlacesIsSelected(true) }}
         >
-          <Text> Safe Places </Text>
+          <Text style={styles.BtnText}>Safe Places</Text>
         </Button>
         <Button
           title="Buddies"
           style={styles.buddies}
           onPress={() => { setInfoModalVisible(true); setBuddiesIsSelected(true) }}
         >
-          <Text> Buddies </Text>
+          <Text style={styles.BtnText}>Buddies</Text>
         </Button>
       </View>
 
@@ -776,19 +776,22 @@ const styles = StyleSheet.create({
     display: 'flex',
   },
   profilePicture: {
-    width: 50,
-    height: 50,
+    width: 35,
+    height: 35,
     borderRadius: 50,
+    marginLeft: 10,
+    marginRight: 10,
   },
   containersearchebar: {
     display: 'flex',
     position: 'absolute',
     top: 50,
-    width: '85%',
+    width: '84%',
     alignContent: 'space-between',
     marginTop: 10,
     flexDirection: 'row',
     alignItems: 'center',
+    alignContent: 'center',
     zIndex: 1,
   },
   button: {
@@ -799,37 +802,30 @@ const styles = StyleSheet.create({
   alerts: {
     alignItems: 'center',
     justifyContent: 'center',
-    borderWidth: 1,
-    borderRadius: 50,
-    borderColor: '#9E15B8',
     backgroundColor: 'white',
     fontcolor: '#350040',
-    width: 100,
     height: 48,
+    width: "30%",
     marginTop: 30,
   },
   safeplaces: {
     alignItems: 'center',
     justifyContent: 'center',
-    borderWidth: 1,
-    borderRadius: 50,
-    borderColor: '#9E15B8',
     backgroundColor: 'white',
     fontcolor: '#9E15B8',
-    width: 150,
     height: 48,
+    width: "30%",
     marginTop: 30,
+    boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
   },
   buddies: {
     alignItems: 'center',
     justifyContent: 'center',
-    borderWidth: 1,
     borderRadius: 50,
-    borderColor: '#9E15B8',
     backgroundColor: 'white',
     fontcolor: '#9E15B8',
-    width: 75,
     height: 48,
+    width: "30%",
     marginTop: 30,
   },
   modalView: {
@@ -855,28 +851,18 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   },
   buttonsContainer: {
-    display: 'flex',
     position: 'absolute',
     top: 90,
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'space-around',
     width: '100%',
     height: 60,
     backgroundColor: 'transparent',
     borderRadius: 10,
-    padding: 5,
   },
   searchBar: {
-    position: 'absolute',
-    display: 'flex',
-    top: 10,
-    left: 60,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: 100,
     backgroundColor: 'white',
     borderRadius: 10,
-    padding: 5,
   },
   scrollContainer: {
     width: '100%',
@@ -976,5 +962,9 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 5,
     alignItems: 'center',
+  },
+  BtnText: {
+    color: '#9E15B8',
+    fontSize: 16,
   },
 });
