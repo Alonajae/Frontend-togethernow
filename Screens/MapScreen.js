@@ -103,7 +103,7 @@ export default function MapScreen({ navigation }) {
               })
             })
               .then((response) => response.json())
-              .then((data) => {
+              .then(() => {
                 console.log(location.coords.latitude, location.coords.longitude);
               }
               )
@@ -185,7 +185,7 @@ export default function MapScreen({ navigation }) {
       })
   };
 
-  
+
 
   // create markers for cities
 
@@ -295,10 +295,6 @@ export default function MapScreen({ navigation }) {
         // Calculate distance or duration (example using first step in the route)
         const distance = json.data.routes[0].legs[0].distance.text;
         const duration = json.data.routes[0].legs[0].duration.text;
-
-        console.log('Distance:', distance);
-        console.log('Duration:', duration);
-        console.log('Decoded polyline:', decodedPolyline);
 
         setItinerary({ points: decodedPolyline, distance: distance, duration: duration });
         setItineraryIsSelected(true);
@@ -626,22 +622,24 @@ export default function MapScreen({ navigation }) {
       <Modal visible={infoModalVisible} animationType="slide">
         <View style={styles.modalView}>
           <Text style={styles.modalText}>Find a Buddy</Text>
-          {itineraries.map((itinerary, i) => {
+          {itineraries.length > 0 ? itineraries.map((infos, i) => {
             return (
               <View key={i}>
-                <Text>{itinerary.user.firstname} {itinerary.user.lastname},{itinerary.user.age}</Text>
-                <Text>{itinerary.similarity}</Text>
-                <Image source={{ uri: itinerary.user.profilePicture }} style={{ width: 100, height: 100 }} />
+                <Text>{infos.user.firstname} {infos.user.lastname}, {infos.user.age}ans </Text>
+                <Text>{infos.similarity}% du trajet partagé</Text>
+                <Image source={{ uri: infos.user.profilePicture }} style={{ width: 100, height: 100 }} />
                 <Button
                   title="Track"
-                  onPress={()=> handleContact(itinerary)}
+                  onPress={() => handleContact(infos)}
                 >
                   <Text>Contact</Text>
                 </Button>
               </View>
             )
           }
-          )}
+          ) : <View>
+            <Text>No buddy found</Text>
+          </View>}
           <Button
             title="Close"
             onPress={() => { setInfoModalVisible(false); setBuddyModalVisible(false) }}
@@ -680,7 +678,7 @@ export default function MapScreen({ navigation }) {
             strokeColor="#FF0000"
           />
         )}
-        {address ? <Marker coordinate={address.coordinates} title={address.title} onPress={()=> handleTrack()} /> : null}
+        {address ? <Marker coordinate={address.coordinates} title={address.title} onPress={() => handleTrack()} /> : null}
         {buddiesMarkers}
         {safePlacesMarkers}
         {alertsMarkers}
