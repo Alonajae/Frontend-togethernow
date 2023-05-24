@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { ScrollView, View, StyleSheet, SafeAreaView, Dimensions, Image, Text, TouchableOpacity, FlatList } from 'react-native';
-import MapView, { Marker } from 'react-native-maps';
+import MapView, { Marker, Polyline } from 'react-native-maps';
 import * as Location from 'expo-location';
 import { Button } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
@@ -16,6 +16,10 @@ export default function MapScreen({ navigation }) {
 
   // state for the current position
   const [currentPosition, setCurrentPosition] = useState(null);
+
+  // state for polyline
+
+  const [decodedPolyline, setDecodedPolyline] = useState([]);
 
   // states for the search bar
   const [address, setAddress] = useState(null);
@@ -114,6 +118,48 @@ export default function MapScreen({ navigation }) {
     );
   });
 
+  function decodePoly(polyline) {
+    let index = 0,
+      latitude = 0,
+      longitude = 0,
+      coordinates = [];
+  
+    while (index < polyline.length) {
+      let shift = 0,
+        result = 0,
+        byte;
+  
+      do {
+        byte = polyline.charCodeAt(index++) - 63;
+        result |= (byte & 0x1f) << shift;
+        shift += 5;
+      } while (byte >= 0x20);
+  
+      let deltaLatitude = (result & 1) ? ~(result >> 1) : (result >> 1);
+      latitude += deltaLatitude;
+  
+      shift = 0;
+      result = 0;
+  
+      do {
+        byte = polyline.charCodeAt(index++) - 63;
+        result |= (byte & 0x1f) << shift;
+        shift += 5;
+      } while (byte >= 0x20);
+  
+      let deltaLongitude = (result & 1) ? ~(result >> 1) : (result >> 1);
+      longitude += deltaLongitude;
+  
+      coordinates.push({
+        latitude: latitude / 1e5,
+        longitude: longitude / 1e5,
+      });
+    }
+  
+    return coordinates;
+  }
+  
+
   const handleTrack = () => {
     console.log(address);
     fetch(`${backendAdress}/trips/start`, {
@@ -121,16 +167,52 @@ export default function MapScreen({ navigation }) {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ token: token, currentPosition: {latitude: currentPosition.coords.latitude, longitude: currentPosition.coords.longitude}, address: address.coordinates }),
+      body: JSON.stringify({ token: token, currentPosition: { latitude: currentPosition.coords.latitude, longitude: currentPosition.coords.longitude }, address: address.coordinates }),
     })
       .then((response) => response.json())
       .then((json) => {
-        console.log(json);
+        const polyline = json.data.routes[0].overview_polyline.points;
+        console.log(polyline);
+
+        // Decode the polyline
+        const decodedPolyline = decodePoly(polyline);
+        setDecodedPolyline(decodedPolyline);
+
+        // Display the route on a map (example using Google Maps JavaScript API)
+        const map = new google.maps.Map(document.getElementById('map'), {
+          // Map configuration options
+        });
+
+        const routePath = new google.maps.Polyline({
+          path: decodedPolyline,
+          geodesic: true,
+          strokeColor: '#FF0000',
+          strokeOpacity: 1.0,
+          strokeWeight: 2,
+        });
+
+        routePath.setMap(map);
+
+        // Calculate distance or duration (example using first step in the route)
+        const distance = json.data.routes[0].legs[0].distance.text;
+        const duration = json.data.routes[0].legs[0].duration.text;
+
+        console.log('Distance:', distance);
+        console.log('Duration:', duration);
+
+        // Extract individual points
+        const points = decodedPolyline.map((point) => ({
+          latitude: point.lat(),
+          longitude: point.lng(),
+        }));
+
+        console.log('Points:', points);
       })
       .catch((error) => {
         console.error(error);
       });
   };
+
 
 
   // create markers for buddies, safe places and alerts
@@ -462,12 +544,18 @@ export default function MapScreen({ navigation }) {
       <MapView mapType="mutedStandard" style={styles.map}
         initialRegion={initialRegion}
         showsUserLocation={true}
-        followsUserLocation={true}
         showsMyLocationButton={true}
         showsCompass={true}
         ref={(ref) => setMapRef(ref)} // Assign the reference to mapRef
         onLongPress={(infos) => handleLongPress(infos)}
       >
+        {decodedPolyline.length > 0 && (
+          <Polyline
+            coordinates={decodedPolyline}
+            strokeWidth={2}
+            strokeColor="#FF0000"
+          />
+        )}
         {address ? <Marker coordinate={address.coordinates} title={address.title} onPress={handleTrack} /> : null}
         {buddiesMarkers}
         {safePlacesMarkers}
