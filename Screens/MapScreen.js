@@ -3,7 +3,7 @@ import { View, StyleSheet, SafeAreaView, Dimensions, Image, Text, TouchableOpaci
 import MapView, { Marker, Polyline } from 'react-native-maps';
 import * as Location from 'expo-location';
 import { Button } from 'react-native-paper';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { AutocompleteDropdown } from 'react-native-autocomplete-dropdown';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Modal, TextInput } from 'react-native-paper';
@@ -13,7 +13,6 @@ import io from 'socket.io-client';
 
 export default function MapScreen({ navigation }) {
 
-  const dispatch = useDispatch();
   const token = useSelector((state) => state.user.value.token);
   const user = useSelector((state) => state.user.value);
 
