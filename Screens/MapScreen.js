@@ -19,6 +19,9 @@ export default function MapScreen({ navigation }) {
 
   // state for polyline
   const [decodedPolyline, setDecodedPolyline] = useState([]);
+  const [buddyPolyline, setBuddyPolyline] = useState([]);
+  const [wayPoints, setWayPoints] = useState([]);
+  const [sharedItinerary, setSharedItinerary] = useState(null);
 
   // states for the search bar
   const [address, setAddress] = useState(null);
@@ -624,10 +627,12 @@ export default function MapScreen({ navigation }) {
           <Text style={styles.modalText}>Find a Buddy</Text>
           {itineraries.length > 0 ? itineraries.map((infos, i) => {
             return (
-              <View key={i}>
-                <Text>{infos.user.firstname} {infos.user.lastname}, {infos.user.age}ans </Text>
-                <Text>{infos.similarity}% du trajet partagé</Text>
-                <Image source={{ uri: infos.user.profilePicture }} style={{ width: 100, height: 100 }} />
+              <View key={i} style={styles.buddiesContainer}>
+                <Image source={{ uri: infos.user.profilePicture }} style={{ width: 70, height: 70, borderRadius: '50%' }} />
+                <View style={styles.buddyInfos}>
+                  <Text>{infos.user.firstname} {infos.user.lastname}, {infos.user.age}ans </Text>
+                  <Text>{infos.similarity}% du trajet partagé</Text>
+                </View>
                 <Button
                   title="Track"
                   onPress={() => handleContact(infos)}
@@ -659,6 +664,16 @@ export default function MapScreen({ navigation }) {
   // ...
   const handleContact = (infos) => {
     console.log('infos', infos)
+    const buddyPolyline = infos.user.itinerary.map((point) => {
+      const formatted = point.split(',')
+      return {
+        latitude: parseFloat(formatted[0]),
+        longitude: parseFloat(formatted[1])
+      }
+    })
+    setWayPoints(infos.waypoints)
+    setBuddyPolyline(buddyPolyline)
+    // navigation.navigate('Chat')
   }
 
   return (
@@ -678,6 +693,24 @@ export default function MapScreen({ navigation }) {
             strokeColor="#FF0000"
           />
         )}
+        {buddyPolyline.length > 0 && (
+          <Polyline
+            coordinates={buddyPolyline}
+            strokeWidth={2}
+            strokeColor="#0000FF"
+          />
+        )}
+        {wayPoints.length > 0 && wayPoints.map((wayPoint, i) => {
+          return (
+            <Marker
+              key={i}
+              coordinate={wayPoint}
+              title="Waypoint"
+              description="I'm here"
+            />
+          )
+        })
+        }
         {address ? <Marker coordinate={address.coordinates} title={address.title} onPress={() => handleTrack()} /> : null}
         {buddiesMarkers}
         {safePlacesMarkers}
@@ -933,5 +966,15 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     borderRadius: 10,
     padding: 5,
+  },
+  buddiesContainer: {
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    width: '100%',
+    height: 80,
+    backgroundColor: 'pink',
+    borderRadius: 10,
+    padding: 5,
+    alignItems: 'center',
   },
 });
