@@ -14,7 +14,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 
 import user from './reducers/user';
-import map from './reducers/map';
 
 import { useCallback, useEffect, useState } from "react";
 import { useFonts } from "expo-font";
@@ -28,7 +27,6 @@ const persistConfig = {
 
 const reducers = combineReducers({
   user,
-  map,
 });
 
 const store = configureStore({
