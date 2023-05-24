@@ -10,9 +10,7 @@ import { Modal, TextInput } from 'react-native-paper';
 import { Svg, Circle } from 'react-native-svg';
 import io from 'socket.io-client';
 
-
 export default function MapScreen({ navigation }) {
-
   const token = useSelector((state) => state.user.value.token);
   const user = useSelector((state) => state.user.value);
 
@@ -20,7 +18,6 @@ export default function MapScreen({ navigation }) {
   const [currentPosition, setCurrentPosition] = useState(null);
 
   // state for polyline
-
   const [decodedPolyline, setDecodedPolyline] = useState([]);
 
   // states for the search bar
@@ -34,6 +31,7 @@ export default function MapScreen({ navigation }) {
   // states for the itinerary
   const [itineraryIsSelected, setItineraryIsSelected] = useState(false);
   const [itinerary, setItinerary] = useState(null);
+  const [itineraries, setItineraries] = useState([]);
   const [buddyModalVisible, setBuddyModalVisible] = useState(false);
 
   // states for the map
@@ -58,20 +56,18 @@ export default function MapScreen({ navigation }) {
   const [dataSet, setDataSet] = useState([]);
 
   // Socket.io
+  // const [socket, setSocket] = useState(null);
 
-  // const [itineraries, setItineraries] = useState([]);
-  const [socket, setSocket] = useState(null);
+  // useEffect(() => {
+  //   // Establish the socket connection
+  //   const socket = io(backendAdress); // Update with your Vercel deployment URL
+  //   setSocket(socket);
 
-  useEffect(() => {
-    // Establish the socket connection
-    const socket = io(backendAdress); // Update with your Vercel deployment URL
-    setSocket(socket);
-
-    // Clean up the socket connection on component unmount
-    return () => {
-      socket.disconnect();
-    };
-  }, []);
+  //   // Clean up the socket connection on component unmount
+  //   return () => {
+  //     socket.disconnect();
+  //   };
+  // }, []);
 
   // useEffect(() => {
   //   if (socket) {
@@ -84,14 +80,62 @@ export default function MapScreen({ navigation }) {
   //       setItineraries((prevItineraries) => [...prevItineraries, data]);
   //     });
   //   }
-  // }, [socket]);
 
-  const handleItinerarySubmit = (itinerary) => {
-    // Emit the itinerary data to the server
-    socket.emit('itinerary', itinerary);
-    console.log('itinerary sent');
-    setBuddyModalVisible(true);
-  };
+
+  // get the current position of the user and send it to the backend
+  useEffect(() => {
+    (async () => {
+      const { status } = await Location.requestForegroundPermissionsAsync();
+
+      if (status === 'granted') {
+        Location.watchPositionAsync({ distanceInterval: 10 },
+          (location) => {
+            setCurrentPosition(location);
+            fetch(`${backendAdress}/users/location`, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                token: token,
+                coordinate: {
+                  latitude: location.coords.latitude,
+                  longitude: location.coords.longitude
+                }
+              })
+            })
+              .then((response) => response.json())
+              .then((data) => {
+                console.log(location.coords.latitude, location.coords.longitude);
+              }
+              )
+          });
+      }
+    })();
+
+    // get the safe places, buddies and alerts from the backend
+    fetch(`${backendAdress}/safeplaces`)
+      .then((response) => response.json())
+      .then((data) => {
+        setSafePlaces(data.safeplaces);
+      })
+
+    fetch(`${backendAdress}/users/buddies`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        token: token
+      })
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setBuddies(data.users);
+      })
+
+    fetch(`${backendAdress}/alerts`)
+      .then((response) => response.json())
+      .then((data) => {
+        setAlerts(data.alerts);
+      })
+  }, []);
 
   const searchCity = (query) => {
     // if the query is empty, do not fetch
@@ -114,6 +158,34 @@ export default function MapScreen({ navigation }) {
         setDataSet(suggestions);
       });
   };
+
+
+
+  const handleItinerarySubmit = (itinerary) => {
+
+    // // Emit the itinerary data to the server
+    // socket.emit('itinerary', itinerary);
+    // console.log('itinerary sent');
+    // console.log(itinerary);
+
+    fetch(`${backendAdress}/trips/findBuddy`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ itinerary, token })
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        if (data.status === 'error') {
+          alert(data.message);
+        } else {
+          setItineraries(data.buddies);
+          setBuddyModalVisible(true);
+        }
+      })
+  };
+
+  
 
   // create markers for cities
 
@@ -294,60 +366,6 @@ export default function MapScreen({ navigation }) {
     );
   });
 
-  // get the current position of the user and send it to the backend
-  useEffect(() => {
-    (async () => {
-      const { status } = await Location.requestForegroundPermissionsAsync();
-
-      if (status === 'granted') {
-        Location.watchPositionAsync({ distanceInterval: 10 },
-          (location) => {
-            setCurrentPosition(location);
-            fetch(`${backendAdress}/users/location`, {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                token: token,
-                coordinate: {
-                  latitude: location.coords.latitude,
-                  longitude: location.coords.longitude
-                }
-              })
-            })
-              .then((response) => response.json())
-              .then((data) => {
-                console.log(location.coords.latitude, location.coords.longitude);
-              }
-              )
-          });
-      }
-    })();
-
-    // get the safe places, buddies and alerts from the backend
-    fetch(`${backendAdress}/safeplaces`)
-      .then((response) => response.json())
-      .then((data) => {
-        setSafePlaces(data.safeplaces);
-      })
-
-    fetch(`${backendAdress}/users/buddies`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        token: token
-      })
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        setBuddies(data.users);
-      })
-
-    fetch(`${backendAdress}/alerts`)
-      .then((response) => response.json())
-      .then((data) => {
-        setAlerts(data.alerts);
-      })
-  }, []);
 
   // handle the long press on the map to create an alert and open the modal
 
@@ -608,21 +626,22 @@ export default function MapScreen({ navigation }) {
       <Modal visible={infoModalVisible} animationType="slide">
         <View style={styles.modalView}>
           <Text style={styles.modalText}>Find a Buddy</Text>
-          {/* {itineraries.map((itinerary) => {
+          {itineraries.map((itinerary, i) => {
             return (
-              <View key={itinerary._id}>
-                <Text> The distance is: {itinerary.distance} </Text>
-                <Text> It will take: {itinerary.duration} </Text>
+              <View key={i}>
+                <Text>{itinerary.user.firstname} {itinerary.user.lastname},{itinerary.user.age}</Text>
+                <Text>{itinerary.similarity}</Text>
+                <Image source={{ uri: itinerary.user.profilePicture }} style={{ width: 100, height: 100 }} />
                 <Button
                   title="Track"
-                  onPress={handleItinerarySubmit(itinerary)}
+                  onPress={handleContact(itinerary)}
                 >
                   <Text>Contact</Text>
                 </Button>
               </View>
             )
           }
-          )} */}
+          )}
           <Button
             title="Close"
             onPress={() => { setInfoModalVisible(false); setBuddyModalVisible(false) }}
@@ -634,6 +653,14 @@ export default function MapScreen({ navigation }) {
     )
   } else {
     buddyModal = null;
+  }
+
+  // create a modal to display the infos of the contact
+
+
+  // ...
+  const handleContact = (infos) => {
+    console.log('infos', infos)
   }
 
   return (
@@ -901,7 +928,7 @@ const styles = StyleSheet.create({
   },
   buttonModalContainer: {
     display: 'flex',
-    flexDirection: 'row',
+    flexDirection: 'column',
     justifyContent: 'space-between',
     width: '100%',
     height: 60,
