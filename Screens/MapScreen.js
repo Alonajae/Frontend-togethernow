@@ -171,7 +171,7 @@ export default function MapScreen({ navigation }) {
 
 
   const handleItinerarySubmit = (itinerary) => {
-
+    console.log('search buddy')
     fetch(`${backendAdress}/trips/findBuddy`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -189,7 +189,7 @@ export default function MapScreen({ navigation }) {
       })
   };
 
- // create markers for cities
+  // create markers for cities
 
   const [mapRef, setMapRef] = useState(null);
 
@@ -366,7 +366,7 @@ export default function MapScreen({ navigation }) {
   });
 
   // <Image source={require('../assets/SafePlaces.png')} style={{ width: 40, height: 40 }} />
-//         <Image source={require('../assets/Alerts.png')} />
+  //         <Image source={require('../assets/Alerts.png')} />
 
   // handle the long press on the map to create an alert and open the modal
 
@@ -522,14 +522,14 @@ export default function MapScreen({ navigation }) {
             <Button
               title="Close"
               onPress={() => { setInfoModalVisible(false); setBuddiesIsSelected(false) }}
-              mode="contained" 
-              style={{backgroundColor: '#FB8C7C'}}            
-              >
+              mode="contained"
+              style={{ backgroundColor: '#FB8C7C' }}
+            >
               <Text style={styles.closeStyle}>Close</Text>
             </Button>
           </View>
           <FlatList
-          style={styles.flatList}
+            style={styles.flatList}
             data={buddies}
             renderItem={({ item }) => (
               <View>
@@ -551,14 +551,14 @@ export default function MapScreen({ navigation }) {
             <Button
               title="Close"
               onPress={() => { setInfoModalVisible(false); setSafePlacesIsSelected(false) }}
-              mode="contained" 
-              style={{backgroundColor: '#FB8C7C'}}            
-              >
+              mode="contained"
+              style={{ backgroundColor: '#FB8C7C' }}
+            >
               <Text style={styles.closeStyle}>Close</Text>
             </Button>
           </View>
           <FlatList
-          style={styles.flatList}
+            style={styles.flatList}
             data={safePlaces}
             renderItem={({ item }) => (
               <View>
@@ -580,14 +580,14 @@ export default function MapScreen({ navigation }) {
             <Button
               title="Close"
               onPress={() => { setInfoModalVisible(false); setAlertsIsSelected(false) }}
-              mode="contained" 
-              style={{backgroundColor: '#FB8C7C'}}            
-              >
+              mode="contained"
+              style={{ backgroundColor: '#FB8C7C' }}
+            >
               <Text style={styles.closeStyle}>Close</Text>
             </Button>
           </View>
           <FlatList
-          style={styles.flatList}
+            style={styles.flatList}
             data={alerts}
             renderItem={({ item }) => (
               <View>
@@ -606,23 +606,23 @@ export default function MapScreen({ navigation }) {
         <View style={styles.modalView}>
           <Text style={styles.modalTextTittle}>Itinerary</Text>
           <View style={styles.itineraryContent}>
-          <Text style={styles.modalTextItinerary}>Distance: {itinerary.distance} </Text>
-          <Text style={styles.modalTextItinerary}>Duration: {itinerary.duration} </Text>
+            <Text style={styles.modalTextItinerary}>Distance: {itinerary.distance} </Text>
+            <Text style={styles.modalTextItinerary}>Duration: {itinerary.duration} </Text>
           </View>
           <View style={styles.buttonModalContainer}>
             <Button
               title="Close"
               onPress={() => { setInfoModalVisible(false); setItineraryIsSelected(false) }}
-              mode="contained" 
-              style={{backgroundColor: '#FB8C7C'}}            
-              >
+              mode="contained"
+              style={{ backgroundColor: '#FB8C7C' }}
+            >
               <Text style={styles.closeStyle} >Close</Text>
             </Button>
             <Button
               title="Track"
               onPress={() => handleItinerarySubmit(itinerary)}
-              mode="contained" 
-              style={{backgroundColor: '#9E15B8'}}    
+              mode="contained"
+              style={{ backgroundColor: '#9E15B8' }}
             >
               <Text style={styles.findStyle}>Find a Buddy</Text>
             </Button>
@@ -665,8 +665,8 @@ export default function MapScreen({ navigation }) {
           <Button
             title="Close"
             onPress={() => { setInfoModalVisible(false); setBuddyModalVisible(false) }}
-            mode="contained" 
-            style={{color: '#FB8C7C'}}            
+            mode="contained"
+            style={{ color: '#FB8C7C' }}
           >
             <Text>Close</Text>
           </Button>
@@ -717,7 +717,7 @@ export default function MapScreen({ navigation }) {
         // setPolylinePart3(decodedPolyline.slice(index2, decodedPolyline.length))
 
         // setDecodedPolyline([]);
-        
+
         setDecodedPolyline(decodedPolyline);
 
         // Calculate distance or duration (example using first step in the route)
@@ -830,7 +830,7 @@ export default function MapScreen({ navigation }) {
           title="Safe places"
           style={styles.safeplaces}
           onPress={() => { setInfoModalVisible(true); setSafePlacesIsSelected(true) }}
-          
+
         >
           <Text style={styles.BtnText}>🏠 Safe Places</Text>
         </Button>
@@ -1069,7 +1069,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     zIndex: 1,
   },
-  iconMap: {  
+  iconMap: {
     fontSize: 20,
   },
   modalTextTittle: {
