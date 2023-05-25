@@ -528,9 +528,9 @@ export default function MapScreen({ navigation }) {
             <Button
               title="Close"
               onPress={() => { setInfoModalVisible(false); setBuddiesIsSelected(false) }}
-              mode="outlined"  
-              style={{borderColor: '#FB8C7C'}}
-            >
+              mode="contained" 
+              style={{backgroundColor: '#FB8C7C'}}            
+              >
               <Text style={styles.closeStyle}>Close</Text>
             </Button>
           </View>
@@ -557,9 +557,9 @@ export default function MapScreen({ navigation }) {
             <Button
               title="Close"
               onPress={() => { setInfoModalVisible(false); setSafePlacesIsSelected(false) }}
-              mode="outlined"     
-              style={{borderColor: '#FB8C7C'}}
-            >
+              mode="contained" 
+              style={{backgroundColor: '#FB8C7C'}}            
+              >
               <Text style={styles.closeStyle}>Close</Text>
             </Button>
           </View>
@@ -586,9 +586,9 @@ export default function MapScreen({ navigation }) {
             <Button
               title="Close"
               onPress={() => { setInfoModalVisible(false); setAlertsIsSelected(false) }}
-              mode="outlined" 
-              style={{borderColor: '#FB8C7C'}}    
-            >
+              mode="contained" 
+              style={{backgroundColor: '#FB8C7C'}}            
+              >
               <Text style={styles.closeStyle}>Close</Text>
             </Button>
           </View>
@@ -619,16 +619,16 @@ export default function MapScreen({ navigation }) {
             <Button
               title="Close"
               onPress={() => { setInfoModalVisible(false); setItineraryIsSelected(false) }}
-              mode="outlined" 
-              style={{borderColor: '#FB8C7C'}}    
-            >
+              mode="contained" 
+              style={{backgroundColor: '#FB8C7C'}}            
+              >
               <Text style={styles.closeStyle} >Close</Text>
             </Button>
             <Button
               title="Track"
               onPress={() => handleItinerarySubmit(itinerary)}
-              mode="outlined" 
-              style={{borderColor: '#9E15B8'}}    
+              mode="contained" 
+              style={{backgroundColor: '#9E15B8'}}    
             >
               <Text style={styles.findStyle}>Find a Buddy</Text>
             </Button>
@@ -671,8 +671,8 @@ export default function MapScreen({ navigation }) {
           <Button
             title="Close"
             onPress={() => { setInfoModalVisible(false); setBuddyModalVisible(false) }}
-            mode="outlined" 
-            style={{borderColor: '#FB8C7C'}}            
+            mode="contained" 
+            style={{color: '#FB8C7C'}}            
           >
             <Text>Close</Text>
           </Button>
@@ -1083,6 +1083,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 25,
     fontWeight: 'bold',
+    color: '#9E15B8',
   },
   headerModal: {
     flexDirection: 'row',
@@ -1091,7 +1092,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   closeStyle: {
-    color: '#FB8C7C',
+    color: 'white',
   },
   modalText: {
     fontSize: 16,
@@ -1102,7 +1103,7 @@ const styles = StyleSheet.create({
     width: '90%',
   },
   findStyle: {
-    color: '#9E15B8',
+    color: 'white',
     fontSize: 16,
     fontWeight: 'bold',
   },
