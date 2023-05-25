@@ -62,7 +62,7 @@ export default function HomeScreen({ navigation }) {
     if (access) {
       navigation.navigate('Map');
     } else {
-      navigation.navigate('Profile');
+      navigation.navigate('MyProfile');
     }
   };
 
@@ -89,7 +89,7 @@ export default function HomeScreen({ navigation }) {
       <Text style={styles.title}>Together Now</Text>
       <View style={styles.welcomeBack}>
       <Text style={styles.welcome}>Welcome back {user.firstname}!</Text>
-      <Button style={styles.button} onPress={handleAccess} mode="contained">
+      <Button style={styles.button} onPress={()=> handleAccess(user.accessGranted)} mode="contained">
         <Text style={styles.textButton}>Enter the App</Text>
       </Button>
       <Button style={styles.buttonUp} onPress={handleSignout} mode="outlined">

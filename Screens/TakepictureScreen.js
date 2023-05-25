@@ -91,7 +91,7 @@ export default function TakepictureScreen({ navigation }) {
       body: JSON.stringify(user),
     }).then((response) => response.json())
       .then((data) => {
-        dispatch(login(data));
+        dispatch(login(data.user));
         navigation.navigate('Video');
       })
       .catch((error) => console.log(error));
@@ -151,7 +151,7 @@ export default function TakepictureScreen({ navigation }) {
 
   let instructions;
 
-  if (user.profilePicture) {
+  if (user.photoId) {
     instructions = (
       <View style={styles.instructions}>
          <Text style={styles.textInstructions}>Take a picture of yourself</Text>
