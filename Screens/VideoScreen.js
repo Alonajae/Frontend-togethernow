@@ -80,10 +80,6 @@ export default function VideoScreen({ navigation }) {
     setRandomNumbers(numbers);
   };
 
-  // if (hasPermission === null || audioPermission === null) {
-  //   return <View />;
-  // }
-
   console.log("====================================");
   console.log(video);
   console.log("====================================");
@@ -107,21 +103,6 @@ export default function VideoScreen({ navigation }) {
       cameraRef.current.stopRecording();
       setRefresh(!refresh);
     }
-    //   // send video to server
-    //   fetch(`${backendAdress}/users/uploadVideo`, {
-    //     method: "POST",
-    //     body: formData,
-    //   })
-    //     .then((response) => response.json())
-    //     .then((data) => {
-    //       if (data.result) {
-    //         dispatch(registerStep5({ validationVideo: data.url }));
-    //         setVisible(true);
-    //       } else {
-    //         alert("Something went wrong hqndle picture");
-    //       }
-    //     });
-    // }
   };
 
   // if the user don't want to take a video
@@ -199,45 +180,6 @@ export default function VideoScreen({ navigation }) {
       });
   };
 
-
-
-  // recuperation du son qui marche mais pas de possibilité de speech to text avec ExpoGo
-  // Ne pas supprimer SVP
-
-  // const playsSound = async () => {
-  //   console.log('Loading Sound');
-  //   console.log(videoSource.uri);
-  //   const {sound} = await Audio.Sound.createAsync({uri: videoSource.uri});
-  //   setSound(sound);
-  //   // console.log('Playing Sound');
-  //   await sound.playAsync(); }
-
-  // useEffect(() => {
-  //   return sound
-  //     ? () => {
-
-  //         console.log('Unloading Sound');
-  //         sound.unloadAsync(); }
-  //     : undefined;
-  // }, [sound]);
-
-  //dans le return :
-  // <TouchableOpacity onPress={() => playsSound()}>
-  // <FontAwesome name='circle-thin' size={95} color='green' />
-  // </TouchableOpacity>
-
-  // fin du test
-
-  // if (user.validationVideo) {
-  //   modal = (
-  //     <Modal visible={visible} contentContainerStyle={containerStyle}>
-  //       <Text>
-  //         An admin will check your identity soon to get access to the Map!
-  //       </Text>
-  //       <Button onPress={() => navigation.navigate("MyProfile")}>Next</Button>
-  //     </Modal>
-  //   ); // test button next to go to the next screen (map)
-  // }
 
   return (
     <Camera type={CameraType.front} ref={cameraRef} style={styles.camera}>
