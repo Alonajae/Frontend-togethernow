@@ -141,7 +141,11 @@ export default function MyProfileScreen({ navigation }) {
     <PaperProvider>
       <Portal>
         <View style={styles.container}>
-          <Button style={styles.backBtn} onPress={handleBackToMap}>
+          <Button
+          title="Back"
+          mode="outlined" 
+          style={styles.backBtn} 
+          onPress={handleBackToMap}>
             <Text style={styles.textBackBtn}>Back</Text>
           </Button>
           <Text style={styles.title}>My Profile</Text>
@@ -301,7 +305,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "white",
-    borderColor: '#9E15B8',
+    borderColor: '#FB8C7C',
     borderRadius: 50,
     position: "absolute",
     top: 60,
