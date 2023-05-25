@@ -190,6 +190,7 @@ export default function MapScreen({ navigation }) {
         } else {
           setItineraries(data.buddies);
           setBuddyModalVisible(true);
+          console.log(data.buddies);
         }
       })
   };
@@ -609,9 +610,11 @@ export default function MapScreen({ navigation }) {
     infoModal = (
       <Modal visible={infoModalVisible} animationType="slide">
         <View style={styles.modalView}>
-          <Text style={styles.modalText}>Itinerary</Text>
-          <Text> The distance is: {itinerary.distance} </Text>
-          <Text> It will take: {itinerary.duration} </Text>
+          <Text style={styles.modalTextTittle}>Itinerary</Text>
+          <View style={styles.itineraryContent}>
+          <Text style={styles.modalTextItinerary}>Distance: {itinerary.distance} </Text>
+          <Text style={styles.modalTextItinerary}>Duration: {itinerary.duration} </Text>
+          </View>
           <View style={styles.buttonModalContainer}>
             <Button
               title="Close"
@@ -642,7 +645,7 @@ export default function MapScreen({ navigation }) {
   let buddyModal;
   if (buddyModalVisible) {
     buddyModal = (
-      <Modal visible={infoModalVisible} animationType="slide">
+      <Modal visible={infoModalVisible} animationType="slide" >
         <View style={styles.modalView}>
           <Text style={styles.modalText}>Find a Buddy</Text>
           {itineraries.length > 0 ? itineraries.map((infos, i) => {
@@ -657,7 +660,7 @@ export default function MapScreen({ navigation }) {
                   title="Track"
                   onPress={() => handleContact(infos)}
                 >
-                  <Text>Contact</Text>
+                  <Text style={styles.closeStyle}>Contact</Text>
                 </Button>
               </View>
             )
@@ -668,6 +671,8 @@ export default function MapScreen({ navigation }) {
           <Button
             title="Close"
             onPress={() => { setInfoModalVisible(false); setBuddyModalVisible(false) }}
+            mode="outlined" 
+            style={{borderColor: '#FB8C7C'}}            
           >
             <Text>Close</Text>
           </Button>
@@ -1097,8 +1102,24 @@ const styles = StyleSheet.create({
     width: '90%',
   },
   findStyle: {
-    color: '#FB8C7C',
+    color: '#9E15B8',
     fontSize: 16,
     fontWeight: 'bold',
+  },
+  buttonModalContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '80%',
+    marginTop: "10%",
+  },
+  itineraryContent: {
+    justifyContent: 'space-between',
+    width: '80%',
+    marginTop: "5%",
+  },
+  modalTextItinerary: {
+    fontSize: 18,
+    textAlign: 'justify',
+    marginTop: "5%",
   },
 });
