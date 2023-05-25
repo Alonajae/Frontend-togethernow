@@ -27,6 +27,8 @@ export default function TakepictureScreen({ navigation }) {
 
   // ask for permission
   useEffect(() => {
+    console.log("token", user.token);
+    console.log("photoId", user.photoId);
     (async () => {
       const { status } = await Camera.requestCameraPermissionsAsync();
       setHasPermission(status === 'granted');
@@ -109,7 +111,7 @@ export default function TakepictureScreen({ navigation }) {
   let modal;
 
   // if the user has already taken a picture, show the modal to validate the picture
-  if ((user.photoId && user.profilePicture) || user.token) {
+  if ((user.photoId && user.profilePicture)) {
     modal = (
       <Modal visible={visible} contentContainerStyle={containerStyle} style={styles.modal}>
         <View style={styles.imageContainer}>
