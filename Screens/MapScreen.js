@@ -768,7 +768,6 @@ export default function MapScreen({ navigation }) {
           textInputProps={{ placeholder: 'Search city' }}
           inputContainerStyle={styles.inputContainer}
           containerStyle={styles.dropdownContainer}
-          suggestionsListContainerStyle={styles.suggestionListContainer}
           closeOnSubmit
         />
         <View style={styles.scrollContainer}>
@@ -782,7 +781,7 @@ export default function MapScreen({ navigation }) {
           style={styles.alerts}
           onPress={() => { setInfoModalVisible(true); setAlertsIsSelected(true) }}
         >
-          <Text style={styles.BtnText}>Alerts</Text>
+          <Text style={styles.BtnText}>🚨 Alerts</Text>
         </Button>
 
         <Button
@@ -790,14 +789,14 @@ export default function MapScreen({ navigation }) {
           style={styles.safeplaces}
           onPress={() => { setInfoModalVisible(true); setSafePlacesIsSelected(true) }}
         >
-          <Text style={styles.BtnText}>Safe Places</Text>
+          <Text style={styles.BtnText}>🏠 Safe Places</Text>
         </Button>
         <Button
           title="Buddies"
           style={styles.buddies}
           onPress={() => { setInfoModalVisible(true); setBuddiesIsSelected(true) }}
         >
-          <Text style={styles.BtnText}>Buddies</Text>
+          <Text style={styles.BtnText}>👥 Buddies</Text>
         </Button>
       </View>
 
@@ -857,7 +856,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     fontcolor: '#350040',
     height: 48,
-    width: "30%",
+    width: "28%",
     marginTop: 30,
   },
   safeplaces: {
@@ -866,7 +865,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     fontcolor: '#9E15B8',
     height: 48,
-    width: "30%",
+    width: "35%",
     marginTop: 30,
     boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
   },
@@ -877,7 +876,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     fontcolor: '#9E15B8',
     height: 48,
-    width: "30%",
+    width: "28%",
     marginTop: 30,
   },
   modalView: {
@@ -921,11 +920,11 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     position: 'absolute',
     zIndex: 2,
-    top: 100,
+    top: 40,
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
-    left: 25,
+    left: 55,
   },
   dropdownContainer: {
     width: '100%',
@@ -938,21 +937,21 @@ const styles = StyleSheet.create({
     fontFamily: Platform.select({ ios: 'Georgia', android: 'serif' }),
     marginBottom: 15,
   },
-  suggestionListContainer: {
-    borderRadius: 3,
-    backgroundColor: 'rgba(255, 255, 255, 0.9)',
-  },
+  // suggestionListContainer: {
+  //   borderRadius: 1,
+  //   backgroundColor: 'rgba(255, 255, 255, 0.4)',
+  // },
   resultContainer: {
     backgroundColor: '#ffffff',
     width: '100%',
     borderRadius: 6,
     padding: 20,
-    marginBottom: 10,
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    borderColor: '#9E15B8',
-    borderWidth: 1,
+    borderColor: '#FFABF3',
+    borderBottomWidth: 1,
+    backgroundColor: 'white',
   },
   resultText: {
     textAlign: 'right',
