@@ -24,9 +24,9 @@ export default function MapScreen({ navigation }) {
   // state for polyline
   const [decodedPolyline, setDecodedPolyline] = useState([]);
   const [buddyPolyline, setBuddyPolyline] = useState([]);
-  const [polylinePart1, setPolylinePart1] = useState([]);
-  const [polylinePart2, setPolylinePart2] = useState([]);
-  const [polylinePart3, setPolylinePart3] = useState([]);
+  // const [polylinePart1, setPolylinePart1] = useState([]);
+  // const [polylinePart2, setPolylinePart2] = useState([]);
+  // const [polylinePart3, setPolylinePart3] = useState([]);
   const [wayPoints, setWayPoints] = useState([]);
 
   // states for the search bar
@@ -710,11 +710,14 @@ export default function MapScreen({ navigation }) {
         // Decode the polyline
         const decodedPolyline = decodePoly(polyline);
 
-        // const index1 = decodedPolyline.indexOf({latitude: infos.waypoints[0].latitude, longitude: infos.waypoints[0].longitude})
-        // const index2 = decodedPolyline.indexOf({latitude: infos.waypoints[1].latitude, longitude: infos.waypoints[1].longitude})
+        // const index1 = decodedPolyline.indexOf({latitude: infos.waypoints[0].latitude.toFixed(5), longitude: infos.waypoints[0].longitude.toFixed(5)})
+        // const index2 = decodedPolyline.indexOf({latitude: infos.waypoints[1].latitude.toFixed(5), longitude: infos.waypoints[1].longitude.toFixed(5)})
+
         // setPolylinePart1(decodedPolyline.slice(0, index1))
         // setPolylinePart2(decodedPolyline.slice(index1, index2))
         // setPolylinePart3(decodedPolyline.slice(index2, decodedPolyline.length))
+
+        // setDecodedPolyline([]);
         
         setDecodedPolyline(decodedPolyline);
 
