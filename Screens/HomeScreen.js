@@ -27,6 +27,9 @@ export default function HomeScreen({ navigation }) {
 
   useEffect(() => {
     setStep('landing');
+    if (!user.token) {
+      dispatch(logout());
+    }
   }, []);
 
   // Get to the connection step
