@@ -632,6 +632,7 @@ export default function MapScreen({ navigation }) {
           title="Alerts"
           style={styles.alerts}
           onPress={() => { setInfoModalVisible(true); setAlertsIsSelected(true) }}
+          Image={require('../assets/alert.png')}
         >
           <Text>Alerts</Text>
         </Button>
@@ -640,6 +641,7 @@ export default function MapScreen({ navigation }) {
           title="Safe places"
           style={styles.safeplaces}
           onPress={() => { setInfoModalVisible(true); setSafePlacesIsSelected(true) }}
+          Image={require('../assets/safeplace.png')}
         >
           <Text> Safe Places </Text>
         </Button>
@@ -729,6 +731,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   modalView: {
+    fontFamily: 'inter',
+    fontSize: 20,
+    fontWeight: 'regular',
     backgroundColor: "white",
     borderRadius: 20,
     padding: 35,
@@ -748,7 +753,8 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     textAlign: "center",
     fontSize: 20,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    fontFamily: 'inter',
   },
   buttonsContainer: {
     display: 'flex',

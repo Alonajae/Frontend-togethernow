@@ -184,8 +184,6 @@ export default function VideoScreen({ navigation }) {
       });
   };
 
-  
-
   // recuperation du son qui marche mais pas de possibilité de speech to text avec ExpoGo
   // Ne pas supprimer SVP
 

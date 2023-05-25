@@ -188,9 +188,7 @@ export default function MapScreen({ navigation }) {
       })
   };
 
-
-
-  // create markers for cities
+ // create markers for cities
 
   const [mapRef, setMapRef] = useState(null);
 
