@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Modal, PaperProvider, Button, Text, Portal } from "react-native-paper";
 
 export default function VideoScreen({ navigation }) {
+
   const backendAdress = "https://backend-together-mvp.vercel.app";
   const dispatch = useDispatch();
   const formData = new FormData();
@@ -127,7 +128,6 @@ export default function VideoScreen({ navigation }) {
 
   const handleNo = () => {
     dispatch(clean());
-    dispatch(registerStep5({ validationVideo: null }));
     navigation.navigate("MyProfile");
   };
 

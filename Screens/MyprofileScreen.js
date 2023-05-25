@@ -83,7 +83,11 @@ export default function MyProfileScreen({ navigation }) {
   };
 
   const handleBackToMap = () => {
-    navigation.navigate("Map");
+    if(user.accessGranted){
+      navigation.navigate("Map");
+    } else {
+    navigation.navigate("Video");
+    }
   };
 
   const handleMessage = () => {

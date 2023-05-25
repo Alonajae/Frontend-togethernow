@@ -75,11 +75,6 @@ export default function Signin(props) {
       })
   };
 
-  const handleBackHome = () => {
-    props.navigation.navigate('Home');
-  };
-
-
   return (
     <SafeAreaView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <View style={styles.registerContainer}>
