@@ -172,11 +172,6 @@ export default function MapScreen({ navigation }) {
 
   const handleItinerarySubmit = (itinerary) => {
 
-    // // Emit the itinerary data to the server
-    // socket.emit('itinerary', itinerary);
-    // console.log('itinerary sent');
-    // console.log(itinerary);
-
     fetch(`${backendAdress}/trips/findBuddy`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -184,7 +179,6 @@ export default function MapScreen({ navigation }) {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         if (data.status === 'error') {
           alert(data.message);
         } else {
