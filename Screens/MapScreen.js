@@ -844,18 +844,13 @@ export default function MapScreen({ navigation }) {
         const distance = json.data.routes[0].legs[0].distance.text;
         const duration = json.data.routes[0].legs[0].duration.text;
 
-        setItinerary({
-          points: decodedPolyline,
-          distance: distance,
-          duration: duration,
-        });
-        setBuddyModalVisible(false);
-        setInfoModalVisible(false);
-        setItineraryIsSelected(true);
-        dispatch(setBuddy(infos.user));
-      });
-    navigation.navigate("Chat");
-  };
+        setItinerary({ points: decodedPolyline, distance: distance, duration: duration });
+        setBuddyModalVisible(false)
+        setInfoModalVisible(false)
+        dispatch(setBuddy(infos.user))
+      })
+    navigation.navigate('Chat')
+  }
 
   return (
     <SafeAreaView>
