@@ -376,8 +376,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   titleLine: {
-    fontSize: 14,
-    fontFamily: "Inter",
     color: "#350040",
     opacity: 0.5,
     paddingLeft: 10,
@@ -430,8 +428,6 @@ const styles = StyleSheet.create({
   textBtn: {
     fontSize: 14,
     fontFamily: 'Inter',
-    fontWeight: '600',
-    fontcolor: '#9E15B8',
   },
   Btn: {
     flexDirection: 'row',
