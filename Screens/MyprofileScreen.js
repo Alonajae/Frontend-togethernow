@@ -336,11 +336,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: "Inter",
   },
-  // backMapBtn: {
-  //   position: "absolute",
-  //   top: 60,
-  //   left: 20,
-  // },
+  backMapBtn: {
+    position: "absolute",
+    top: 60,
+    left: 20,
+  },
   headerInfo: {
     flexDirection: "row",
     justifyContent: "space-around",
