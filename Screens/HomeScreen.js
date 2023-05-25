@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   KeyboardAvoidingView,
   Platform,
@@ -14,15 +14,21 @@ import Signin from '../components/accueil/Signin';
 import SignUp from '../components/accueil/SignUp';
 import { Button } from 'react-native-paper';
 import { useSelector, useDispatch } from 'react-redux';
-import { logout } from '../reducers/user';
+import { logout, clean } from '../reducers/user';
 
 export default function HomeScreen({ navigation }) {
 
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.value);
+  console.log('user', user);
 
   const [step, setStep] = useState('landing');
   const [state2, setState2] = useState(false);
+
+  useEffect(() => {
+    dispatch(clean());
+  }, []);
+    
 
   // Get to the connection step
   const handlePressSignin = () => {

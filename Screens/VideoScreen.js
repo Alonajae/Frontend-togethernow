@@ -14,10 +14,12 @@ export default function VideoScreen({ navigation }) {
   const dispatch = useDispatch();
   const formData = new FormData();
   const user = useSelector((state) => state.user.value);
+  console.log("reducer:", user)
   const [hasPermission, setHasPermission] = useState(null);
   const [audioPermission, setAudioPermission] = useState(null);
   const [visible, setVisible] = useState(false);
   const [permissionVisible, setPermissionVisible] = useState(true);
+  const [refresh, setRefresh] = useState(false);
 
   // camera states
   const containerStyle = {
@@ -32,15 +34,15 @@ export default function VideoScreen({ navigation }) {
   // ask for permission
   useEffect(() => {
     generateRandomNumbers();
-    (async () => {
-      const { status } = await Camera.requestCameraPermissionsAsync();
-      setHasPermission(status === 'granted');
-    })();
-    (async () => {
-      const { status } = await Permissions.askAsync(Permissions.AUDIO_RECORDING);
-      setAudioPermission(status === 'granted');
-    }
-    )();
+    // (async () => {
+    //   const { status } = await Camera.requestCameraPermissionsAsync();
+    //   setHasPermission(status === 'granted');
+    // })();
+    // (async () => {
+    //   const { status } = await Permissions.askAsync(Permissions.AUDIO_RECORDING);
+    //   setAudioPermission(status === 'granted');
+    // }
+    // )();
   }, [])
 
   useEffect(() => {
@@ -58,7 +60,6 @@ export default function VideoScreen({ navigation }) {
       })
         .then((response) => response.json())
         .then((data) => {
-          console.log("data", data);
           if (data.result) {
             dispatch(registerStep5({ validationVideo: data.url }));
             setVisible(true);
@@ -66,9 +67,9 @@ export default function VideoScreen({ navigation }) {
             alert("Something went wrong");
           }
         });
-      setVideo(null);
+      // setVideo(null);
     }
-  }, [video]);
+  }, [video, refresh]);
 
   const generateRandomNumbers = () => {
     const numbers = Array.from(
@@ -78,9 +79,9 @@ export default function VideoScreen({ navigation }) {
     setRandomNumbers(numbers);
   };
 
-  if (hasPermission === null || audioPermission === null) {
-    return <View />;
-  }
+  // if (hasPermission === null || audioPermission === null) {
+  //   return <View />;
+  // }
 
   console.log("====================================");
   console.log(video);
@@ -93,9 +94,6 @@ export default function VideoScreen({ navigation }) {
     if (cameraRef) {
       try {
         const videoRecordPromise = await cameraRef.current.recordAsync();
-        // console.log("====================================");
-        console.log("videoRecordPromise", videoRecordPromise.uri);
-        // console.log("====================================");
         setVideo(videoRecordPromise.uri);
       } catch (error) {
         console.log(error);
@@ -106,22 +104,23 @@ export default function VideoScreen({ navigation }) {
   const handlePictures = () => {
     if (cameraRef) {
       cameraRef.current.stopRecording();
-
-      // send video to server
-      fetch(`${backendAdress}/users/uploadVideo`, {
-        method: "POST",
-        body: formData,
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          if (data.result) {
-            dispatch(registerStep5({ validationVideo: data.url }));
-            setVisible(true);
-          } else {
-            alert("Something went wrong");
-          }
-        });
+      setRefresh(!refresh);
     }
+    //   // send video to server
+    //   fetch(`${backendAdress}/users/uploadVideo`, {
+    //     method: "POST",
+    //     body: formData,
+    //   })
+    //     .then((response) => response.json())
+    //     .then((data) => {
+    //       if (data.result) {
+    //         dispatch(registerStep5({ validationVideo: data.url }));
+    //         setVisible(true);
+    //       } else {
+    //         alert("Something went wrong hqndle picture");
+    //       }
+    //     });
+    // }
   };
 
   // if the user don't want to take a video
@@ -165,23 +164,24 @@ export default function VideoScreen({ navigation }) {
   // if the user took a video and want to go to the profile
 
   const handleSeeProfile = () => {
-    fetch(`${backendAdress}/users/grantAccess`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        token: user.token,
-        validationVideo: user.validationVideo,
-      }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.result) {
-          dispatch(clean());
+    // fetch(`${backendAdress}/users/grantAccess`, {
+    //   method: "POST",
+    //   headers: { "Content-Type": "application/json" },
+    //   body: JSON.stringify({
+    //     token: user.token,
+    //     validationVideo: user.validationVideo,
+    //   }),
+    // })
+    //   .then((response) => response.json())
+    //   .then((data) => {
+    //     console.log("data", data);
+    //     if (data.result) {
+          // dispatch(clean());
           navigation.navigate("MyProfile");
-        } else {
-          alert("Something went wrong");
-        }
-      });
+      //   } else {
+      //     alert("Something went wrong see profile");
+      //   }
+      // });
   };
 
   // recuperation du son qui marche mais pas de possibilité de speech to text avec ExpoGo
@@ -223,8 +223,6 @@ export default function VideoScreen({ navigation }) {
   // }
 
   return (
-    <PaperProvider>
-      <Portal>
         <Camera type={CameraType.front} ref={cameraRef} style={styles.camera}>
           <View style={styles.buttons}>
             <TouchableOpacity style={styles.button}>
@@ -263,8 +261,6 @@ export default function VideoScreen({ navigation }) {
             </Modal>
           </View>
         </Camera>
-      </Portal>
-    </PaperProvider>
   );
 }
 

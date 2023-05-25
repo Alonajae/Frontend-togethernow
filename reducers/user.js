@@ -74,6 +74,8 @@ export const userSlice = createSlice({
     },
     clean: (state) => {
       state.value.validationVideo = null;
+      state.value.photoId = null;
+      state.value.profilePicture = null;
       state.value.password = null;
     },
   },
