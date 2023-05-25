@@ -3,16 +3,20 @@ import { View, StyleSheet, SafeAreaView, Dimensions, Image, Text, TouchableOpaci
 import MapView, { Marker, Polyline } from 'react-native-maps';
 import * as Location from 'expo-location';
 import { Button } from 'react-native-paper';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { AutocompleteDropdown } from 'react-native-autocomplete-dropdown';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Modal, TextInput } from 'react-native-paper';
 import { Svg, Circle } from 'react-native-svg';
-import io from 'socket.io-client';
+import { setBuddy } from '../reducers/map';
+// import io from 'socket.io-client';
 
 export default function MapScreen({ navigation }) {
   const token = useSelector((state) => state.user.value.token);
   const user = useSelector((state) => state.user.value);
+  const buddy = useSelector((state) => state.map.value.buddy);
+
+  const dispatch = useDispatch();
 
   // state for the current position
   const [currentPosition, setCurrentPosition] = useState(null);
@@ -21,7 +25,6 @@ export default function MapScreen({ navigation }) {
   const [decodedPolyline, setDecodedPolyline] = useState([]);
   const [buddyPolyline, setBuddyPolyline] = useState([]);
   const [wayPoints, setWayPoints] = useState([]);
-  const [sharedItinerary, setSharedItinerary] = useState(null);
 
   // states for the search bar
   const [address, setAddress] = useState(null);
@@ -663,7 +666,6 @@ export default function MapScreen({ navigation }) {
 
   // ...
   const handleContact = (infos) => {
-    console.log('infos', infos)
     const buddyPolyline = infos.user.itinerary.map((point) => {
       const formatted = point.split(',')
       return {
@@ -673,7 +675,36 @@ export default function MapScreen({ navigation }) {
     })
     setWayPoints(infos.waypoints)
     setBuddyPolyline(buddyPolyline)
-    // navigation.navigate('Chat')
+    fetch(`${backendAdress}/trips/sharedtrip`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        token: token,
+        buddyToken: infos.user.token,
+        waypoints: infos.waypoints,
+        currentPosition: { latitude: currentPosition.coords.latitude, longitude: currentPosition.coords.longitude },
+        address: address.coordinates,
+      })
+    })
+      .then(response => response.json())
+      .then(json => {
+        const polyline = json.data.routes[0].overview_polyline.points;
+
+        // Decode the polyline
+        const decodedPolyline = decodePoly(polyline);
+        setDecodedPolyline(decodedPolyline);
+
+        // Calculate distance or duration (example using first step in the route)
+        const distance = json.data.routes[0].legs[0].distance.text;
+        const duration = json.data.routes[0].legs[0].duration.text;
+
+        setItinerary({ points: decodedPolyline, distance: distance, duration: duration });
+        setBuddyModalVisible(false)
+        setInfoModalVisible(false)
+        setItineraryIsSelected(true)
+        dispatch(setBuddy(infos.user))
+      })
+    navigation.navigate('Chat')
   }
 
   return (
@@ -691,26 +722,36 @@ export default function MapScreen({ navigation }) {
             coordinates={decodedPolyline}
             strokeWidth={2}
             strokeColor="#FF0000"
+            lineCap='round'
           />
         )}
-        {buddyPolyline.length > 0 && (
+        {/* {buddyPolyline.length > 0 && (
           <Polyline
             coordinates={buddyPolyline}
-            strokeWidth={2}
+            strokeWidth={1}
             strokeColor="#0000FF"
+            lineDashPattern={[5]}
+            lineCap='round'
           />
-        )}
+        )} */}
         {wayPoints.length > 0 && wayPoints.map((wayPoint, i) => {
           return (
             <Marker
               key={i}
               coordinate={wayPoint}
               title="Waypoint"
-              description="I'm here"
+              description="You'll pass by here with your buddy"
             />
           )
         })
         }
+        {buddyPolyline.length > 0 && (
+          <Marker
+            coordinate={buddyPolyline[buddyPolyline.length - 1]}
+            title="Destination of your buddy"
+            description="Your buddy will arrive here"
+          />
+        )}
         {address ? <Marker coordinate={address.coordinates} title={address.title} onPress={() => handleTrack()} /> : null}
         {buddiesMarkers}
         {safePlacesMarkers}
@@ -743,7 +784,7 @@ export default function MapScreen({ navigation }) {
         >
           <Text style={styles.BtnText}>Alerts</Text>
         </Button>
-        
+
         <Button
           title="Safe places"
           style={styles.safeplaces}
@@ -764,6 +805,17 @@ export default function MapScreen({ navigation }) {
         {modalAlert}
         {infoModal}
         {buddyModal}
+      </View>
+      <View style={styles.emergencyContact}>
+        <TouchableOpacity onPress={()=> console.log('emergency')}>
+          <Image source={require('../assets/emergency.png')} style={styles.emergency} />
+        </TouchableOpacity>
+        {buddy ? <Button
+          title="Chat"
+          style={styles.chat}
+          onPress={() => navigation.navigate('Chat')}
+        >
+        </Button> : null}
       </View>
     </SafeAreaView>
   );
@@ -960,11 +1012,22 @@ const styles = StyleSheet.create({
     height: 80,
     backgroundColor: 'pink',
     borderRadius: 10,
+    marginBottom: 10,
     padding: 5,
     alignItems: 'center',
   },
   BtnText: {
     color: '#9E15B8',
     fontSize: 16,
+  },
+  emergencyContact: {
+    position: 'absolute',
+    bottom: 20,
+    right: 20,
+    width: 60,
+    height: 60,
+    display: 'flex',
+    backgroundColor: 'transparent',
+    zIndex: 1,
   },
 });
