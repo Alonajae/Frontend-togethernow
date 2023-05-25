@@ -24,6 +24,9 @@ export default function MapScreen({ navigation }) {
   // state for polyline
   const [decodedPolyline, setDecodedPolyline] = useState([]);
   const [buddyPolyline, setBuddyPolyline] = useState([]);
+  const [polylinePart1, setPolylinePart1] = useState([]);
+  const [polylinePart2, setPolylinePart2] = useState([]);
+  const [polylinePart3, setPolylinePart3] = useState([]);
   const [wayPoints, setWayPoints] = useState([]);
 
   // states for the search bar
@@ -301,8 +304,8 @@ export default function MapScreen({ navigation }) {
         const duration = json.data.routes[0].legs[0].duration.text;
 
         setItinerary({ points: decodedPolyline, distance: distance, duration: duration });
-        setItineraryIsSelected(true);
         setInfoModalVisible(true);
+        setItineraryIsSelected(true);
       })
       .catch((error) => {
         console.error(error);
@@ -690,6 +693,13 @@ export default function MapScreen({ navigation }) {
 
         // Decode the polyline
         const decodedPolyline = decodePoly(polyline);
+
+        // const index1 = decodedPolyline.indexOf({latitude: infos.waypoints[0].latitude, longitude: infos.waypoints[0].longitude})
+        // const index2 = decodedPolyline.indexOf({latitude: infos.waypoints[1].latitude, longitude: infos.waypoints[1].longitude})
+        // setPolylinePart1(decodedPolyline.slice(0, index1))
+        // setPolylinePart2(decodedPolyline.slice(index1, index2))
+        // setPolylinePart3(decodedPolyline.slice(index2, decodedPolyline.length))
+        
         setDecodedPolyline(decodedPolyline);
 
         // Calculate distance or duration (example using first step in the route)
@@ -723,12 +733,28 @@ export default function MapScreen({ navigation }) {
             lineCap='round'
           />
         )}
-        {/* {buddyPolyline.length > 0 && (
+        {/* {polylinePart1.length > 0 && (
           <Polyline
-            coordinates={buddyPolyline}
+            coordinates={polylinePart1}
             strokeWidth={1}
             strokeColor="#0000FF"
             lineDashPattern={[5]}
+            lineCap='round'
+          />
+        )} */}
+        {/* {polylinePart2.length > 0 && (
+          <Polyline
+            coordinates={polylinePart2}
+            strokeWidth={1}
+            strokeColor="green"
+            lineCap='round'
+          />
+        )} */}
+        {/* {polylinePart3.length > 0 && (
+          <Polyline
+            coordinates={polylinePart3}
+            strokeWidth={1}
+            strokeColor="yellow"
             lineCap='round'
           />
         )} */}
@@ -737,7 +763,7 @@ export default function MapScreen({ navigation }) {
             <Marker
               key={i}
               coordinate={wayPoint}
-              title="Waypoint"
+              title={i === 0 ? "Start of your buddy's itinerary" : i === wayPoints.length - 1 ? "End of your buddy's itinerary" : "Waypoint"}
               description="You'll pass by here with your buddy"
             />
           )
@@ -805,7 +831,7 @@ export default function MapScreen({ navigation }) {
         {buddyModal}
       </View>
       <View style={styles.emergencyContact}>
-        <TouchableOpacity onPress={()=> console.log('emergency')}>
+        <TouchableOpacity onPress={() => console.log('emergency')}>
           <Image source={require('../assets/emergency.png')} style={styles.emergency} />
         </TouchableOpacity>
         {buddy ? <Button
