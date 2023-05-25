@@ -134,7 +134,7 @@ export default function VideoScreen({ navigation }) {
   const modal = (
     <Modal visible={permissionVisible} contentContainerStyle={containerStyle}>
       <Text>
-      Almost done! Please read the numbers on the screen to verify your identity. 
+        Almost done! Please read the numbers on the screen to verify your identity.
       </Text>
       <View style={styles.modalBtn}>
         <Button onPress={handleNo} style={styles.noBtn}>
@@ -158,33 +158,32 @@ export default function VideoScreen({ navigation }) {
 
   const handleLogOut = () => {
     dispatch(logout());
-    dispatch(clean());
   };
 
   // if the user took a video and want to go to the profile
 
   const handleSeeProfile = () => {
-    // fetch(`${backendAdress}/users/grantAccess`, {
-    //   method: "POST",
-    //   headers: { "Content-Type": "application/json" },
-    //   body: JSON.stringify({
-    //     token: user.token,
-    //     validationVideo: user.validationVideo,
-    //   }),
-    // })
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     console.log("data", data);
-    //     if (data.result) {
-          // dispatch(clean());
+    fetch(`${backendAdress}/users/grantAccess`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        token: user.token,
+        validationVideo: user.validationVideo,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("data", data);
+        if (data.result) {
+          dispatch(clean());
           navigation.navigate("MyProfile");
-      //   } else {
-      //     alert("Something went wrong see profile");
-      //   }
-      // });
+        } else {
+          alert("Something went wrong see profile");
+        }
+      });
   };
 
-  
+
 
   // recuperation du son qui marche mais pas de possibilité de speech to text avec ExpoGo
   // Ne pas supprimer SVP
@@ -225,44 +224,44 @@ export default function VideoScreen({ navigation }) {
   // }
 
   return (
-        <Camera type={CameraType.front} ref={cameraRef} style={styles.camera}>
-          <View style={styles.buttons}>
-            <TouchableOpacity style={styles.button}>
-              <FontAwesome name="flash" size={25} color="#ffffff" />
-            </TouchableOpacity>
-            <View style={styles.container}></View>
-          </View>
-          <View style={styles.randomNumberContainer}>
-            {randomNumbers &&
-              randomNumbers.map((number) => (
-                <Text style={styles.randomNumber}>{number}</Text>
-              ))}
-          </View>
+    <Camera type={CameraType.front} ref={cameraRef} style={styles.camera}>
+      <View style={styles.buttons}>
+        <TouchableOpacity style={styles.button}>
+          <FontAwesome name="flash" size={25} color="#ffffff" />
+        </TouchableOpacity>
+        <View style={styles.container}></View>
+      </View>
+      <View style={styles.randomNumberContainer}>
+        {randomNumbers &&
+          randomNumbers.map((number) => (
+            <Text style={styles.randomNumber}>{number}</Text>
+          ))}
+      </View>
 
-          <View style={styles.snapButton}>
-            <TouchableOpacity onPress={() => cameraRef && recordVideo()}>
-              <FontAwesome name="circle-thin" size={95} color="pink" />
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => handlePictures()}>
-              <FontAwesome name="circle" size={85} color="red" />
-            </TouchableOpacity>
-            {modal}
-            <Modal visible={visible} contentContainerStyle={containerStyle}>
-              <Text style={styles.textModal}>You've done it! 🎊</Text>
-              <Text style={styles.textModal}>
-                An admin will check your identity soon!
-              </Text>
-              <View style={styles.modalBtn}>
-                <Button style={styles.validateBtn} onPress={handleSeeProfile}>
-                  <Text style={styles.textBtn}>See my profile</Text>
-                </Button>
-                <Button style={styles.noBtn} onPress={handleLogOut}>
-                  <Text style={styles.textBtn}>Log Out</Text>
-                </Button>
-              </View>
-            </Modal>
+      <View style={styles.snapButton}>
+        <TouchableOpacity onPress={() => cameraRef && recordVideo()}>
+          <FontAwesome name="circle-thin" size={95} color="pink" />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => handlePictures()}>
+          <FontAwesome name="circle" size={85} color="red" />
+        </TouchableOpacity>
+        {modal}
+        <Modal visible={visible} contentContainerStyle={containerStyle}>
+          <Text style={styles.textModal}>You've done it! 🎊</Text>
+          <Text style={styles.textModal}>
+            An admin will check your identity soon!
+          </Text>
+          <View style={styles.modalBtn}>
+            <Button style={styles.validateBtn} onPress={handleSeeProfile}>
+              <Text style={styles.textBtn}>See my profile</Text>
+            </Button>
+            <Button style={styles.noBtn} onPress={handleLogOut}>
+              <Text style={styles.textBtn}>Log Out</Text>
+            </Button>
           </View>
-        </Camera>
+        </Modal>
+      </View>
+    </Camera>
   );
 }
 
