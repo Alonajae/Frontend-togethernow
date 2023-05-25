@@ -1,7 +1,6 @@
-import React, { useState, useDispacth, useSelector } from "react";
-
+import React, { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { Button, PaperProvider, Portal, Modal } from "react-native-paper";
-
 import {
   StyleSheet,
   View,
@@ -63,8 +62,8 @@ export default function ChatScreen({ navigation }) {
                 <Text style={styles.backTextBtn}>Back</Text>
               </TouchableOpacity>
               <Image
-              // source={{ uri: user.profilePicture }}
-              // style={styles.profileImage}
+                source={{ uri: user.profilePicture }}
+                style={styles.profileImage}
               />
               <Text style={styles.headerText}>Buddies name</Text>
             </View>
