@@ -141,11 +141,9 @@ export default function MyProfileScreen({ navigation }) {
     <PaperProvider>
       <Portal>
         <View style={styles.container}>
-          <View style={styles.backContainer}>
           <Button style={styles.backBtn} onPress={handleBackToMap}>
             <Text style={styles.textBackBtn}>Back</Text>
           </Button>
-          </View>
           <Text style={styles.title}>My Profile</Text>
           <View style={styles.headerInfo}>
             <View style={styles.profileImageContainer}>
