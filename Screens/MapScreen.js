@@ -8,11 +8,15 @@ import { AutocompleteDropdown } from 'react-native-autocomplete-dropdown';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Modal, TextInput } from 'react-native-paper';
 import { Svg, Circle } from 'react-native-svg';
+import { setBuddy } from '../reducers/map';
 // import io from 'socket.io-client';
 
 export default function MapScreen({ navigation }) {
   const token = useSelector((state) => state.user.value.token);
   const user = useSelector((state) => state.user.value);
+  const buddy = useSelector((state) => state.map.value.buddy);
+
+  const dispatch = useDispatch();
 
   // state for the current position
   const [currentPosition, setCurrentPosition] = useState(null);
@@ -660,7 +664,6 @@ export default function MapScreen({ navigation }) {
 
   // ...
   const handleContact = (infos) => {
-    console.log('infos', infos)
     const buddyPolyline = infos.user.itinerary.map((point) => {
       const formatted = point.split(',')
       return {
@@ -677,7 +680,7 @@ export default function MapScreen({ navigation }) {
         token: token,
         buddyToken: infos.user.token,
         waypoints: infos.waypoints,
-        currentPosition: {latitude :currentPosition.coords.latitude, longitude: currentPosition.coords.longitude},
+        currentPosition: { latitude: currentPosition.coords.latitude, longitude: currentPosition.coords.longitude },
         address: address.coordinates,
       })
     })
@@ -697,8 +700,9 @@ export default function MapScreen({ navigation }) {
         setBuddyModalVisible(false)
         setInfoModalVisible(false)
         setItineraryIsSelected(true)
+        dispatch(setBuddy(infos.user))
       })
-    // navigation.navigate('Chat')
+    navigation.navigate('Chat')
   }
 
   return (
@@ -799,6 +803,17 @@ export default function MapScreen({ navigation }) {
         {modalAlert}
         {infoModal}
         {buddyModal}
+      </View>
+      <View style={styles.emergencyContact}>
+        <TouchableOpacity onPress={()=> console.log('emergency')}>
+          <Image source={require('../assets/emergency.png')} style={styles.emergency} />
+        </TouchableOpacity>
+        {buddy ? <Button
+          title="Chat"
+          style={styles.chat}
+          onPress={() => navigation.navigate('Chat')}
+        >
+        </Button> : null}
       </View>
     </SafeAreaView>
   );
@@ -1002,5 +1017,15 @@ const styles = StyleSheet.create({
   BtnText: {
     color: '#9E15B8',
     fontSize: 16,
+  },
+  emergencyContact: {
+    position: 'absolute',
+    bottom: 20,
+    right: 20,
+    width: 60,
+    height: 60,
+    display: 'flex',
+    backgroundColor: 'transparent',
+    zIndex: 1,
   },
 });

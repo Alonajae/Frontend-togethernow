@@ -17,7 +17,7 @@ import {
 } from "react-native-paper";
 import * as ImagePicker from "expo-image-picker";
 import { useDispatch, useSelector } from "react-redux";
-import { addPhoto, removePhoto } from "../reducers/user";
+import { logout } from "../reducers/user";
 
 export default function MyProfileScreen({ navigation }) {
   const dispatch = useDispatch();
@@ -87,7 +87,8 @@ export default function MyProfileScreen({ navigation }) {
   };
 
   const handleMessage = () => {
-    navigation.navigate("Chat");
+    dispatch(logout());
+    navigation.navigate("Home");
   };
 
   const pickImage = async () => {
@@ -98,7 +99,7 @@ export default function MyProfileScreen({ navigation }) {
       quality: 1,
     });
     if (!_image.cancelled) {
-      dispatch(addPhoto(_image.assets[0].uri));
+      // dispatch(addPhoto(_image.assets[0].uri));
       setVisible(false);
     }
   };
@@ -152,7 +153,7 @@ export default function MyProfileScreen({ navigation }) {
             </View>
             <View style={styles.mainInfo}>
               <Text style={styles.name}>{firstname}</Text>
-              <Text>Shared Routes: counter BDD</Text>
+              <Text>Shared Trips: 13</Text>
             </View>
           </View>
           <View style={styles.personalInfos}>
@@ -251,7 +252,7 @@ export default function MyProfileScreen({ navigation }) {
               <Text style={styles.textBackBtn}>Edit</Text>
             </Button>
             <Button style={styles.historyBtn}>
-              <Text style={styles.textBackBtn} onPress={handleMessage}>History</Text>
+              <Text style={styles.textBackBtn} onPress={handleMessage}>Sign Out</Text>
             </Button>
           </View>
         </View>

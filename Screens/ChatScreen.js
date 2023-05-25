@@ -26,18 +26,20 @@ const ChatBubble = ({ message, isMe }) => {
 };
 
 export default function ChatScreen({ navigation }) {
+
   const [inputText, setInputText] = useState("");
   const [chatData, setChatData] = useState([]);
+
+  const dispatch = useDispatch();
+  const profilePicture = useSelector((state) => state.user.value.profilePicture);
+  const buddy = useSelector((state) => state.map.value.buddy);
 
   const handleSend = () => {
     if (inputText.trim() === "") {
       return;
     }
 
-    const dispatch = useDispatch();
-    const user = useSelector((state) => state.user.value);
-
-    const [picture, setPicture] = useState(user.profilePicture);
+    // const [picture, setPicture] = useState(user.profilePicture);
 
     const newMessage = {
       id: Date.now().toString(),
@@ -62,10 +64,10 @@ export default function ChatScreen({ navigation }) {
                 <Text style={styles.backTextBtn}>Back</Text>
               </TouchableOpacity>
               <Image
-                source={{ uri: user.profilePicture }}
+                source={{ uri: profilePicture }}
                 style={styles.profileImage}
               />
-              <Text style={styles.headerText}>Buddies name</Text>
+              <Text style={styles.headerText}>{buddy.firstname}</Text>
             </View>
           </View>
           <FlatList
