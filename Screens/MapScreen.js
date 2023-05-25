@@ -337,6 +337,7 @@ export default function MapScreen({ navigation }) {
           <Circle cx={markerSize / 2} cy={markerSize / 2} r={markerSize / 2} fill="#fff" />
         </Svg>
         <Image source={{ uri: profilePicture }} style={styles.profilePictureMarker} />
+
       </Marker>
     );
   });
@@ -351,7 +352,7 @@ export default function MapScreen({ navigation }) {
         title={alert.type}
         description={alert.description}
       >
-        <Image source={require('../assets/Alerts.png')} />
+        <Text style={styles.iconMap}>🚨</Text>
       </Marker>
     );
   });
@@ -364,11 +365,13 @@ export default function MapScreen({ navigation }) {
         title={safePlace.name}
         description={safePlace.description}
       >
-        <Image source={require('../assets/SafePlaces.png')} style={{ width: 40, height: 40 }} />
+        <Text style={styles.iconMap}>🏠</Text>
       </Marker>
     );
   });
 
+  // <Image source={require('../assets/SafePlaces.png')} style={{ width: 40, height: 40 }} />
+//         <Image source={require('../assets/Alerts.png')} />
 
   // handle the long press on the map to create an alert and open the modal
 
@@ -520,15 +523,18 @@ export default function MapScreen({ navigation }) {
       <Modal visible={infoModalVisible} animationType="slide">
         <View style={styles.modalView}>
           <View style={styles.headerModal}>
-            <Text style={styles.modalText}>Buddies</Text>
+            <Text style={styles.modalTextTittle}>Buddies</Text>
             <Button
               title="Close"
               onPress={() => { setInfoModalVisible(false); setBuddiesIsSelected(false) }}
+              mode="outlined"  
+              style={{borderColor: '#FB8C7C'}}
             >
-              <Text>Close</Text>
+              <Text style={styles.closeStyle}>Close</Text>
             </Button>
           </View>
           <FlatList
+          style={styles.flatList}
             data={buddies}
             renderItem={({ item }) => (
               <View>
@@ -546,15 +552,18 @@ export default function MapScreen({ navigation }) {
       <Modal visible={infoModalVisible} animationType="slide">
         <View style={styles.modalView}>
           <View style={styles.headerModal}>
-            <Text style={styles.modalText}>Safe Places</Text>
+            <Text style={styles.modalTextTittle}>Safe Places</Text>
             <Button
               title="Close"
               onPress={() => { setInfoModalVisible(false); setSafePlacesIsSelected(false) }}
+              mode="outlined"     
+              style={{borderColor: '#FB8C7C'}}
             >
-              <Text>Close</Text>
+              <Text style={styles.closeStyle}>Close</Text>
             </Button>
           </View>
           <FlatList
+          style={styles.flatList}
             data={safePlaces}
             renderItem={({ item }) => (
               <View>
@@ -572,15 +581,18 @@ export default function MapScreen({ navigation }) {
       <Modal visible={infoModalVisible} animationType="slide">
         <View style={styles.modalView}>
           <View style={styles.headerModal}>
-            <Text style={styles.modalText}>Alerts</Text>
+            <Text style={styles.modalTextTittle}>Alerts</Text>
             <Button
               title="Close"
               onPress={() => { setInfoModalVisible(false); setAlertsIsSelected(false) }}
+              mode="outlined" 
+              style={{borderColor: '#FB8C7C'}}    
             >
-              <Text>Close</Text>
+              <Text style={styles.closeStyle}>Close</Text>
             </Button>
           </View>
           <FlatList
+          style={styles.flatList}
             data={alerts}
             renderItem={({ item }) => (
               <View>
@@ -604,14 +616,18 @@ export default function MapScreen({ navigation }) {
             <Button
               title="Close"
               onPress={() => { setInfoModalVisible(false); setItineraryIsSelected(false) }}
+              mode="outlined" 
+              style={{borderColor: '#FB8C7C'}}    
             >
-              <Text>Close</Text>
+              <Text style={styles.closeStyle} >Close</Text>
             </Button>
             <Button
               title="Track"
               onPress={() => handleItinerarySubmit(itinerary)}
+              mode="outlined" 
+              style={{borderColor: '#9E15B8'}}    
             >
-              <Text>Find a Buddy</Text>
+              <Text style={styles.findStyle}>Find a Buddy</Text>
             </Button>
           </View>
         </View>
@@ -764,7 +780,7 @@ export default function MapScreen({ navigation }) {
               key={i}
               coordinate={wayPoint}
               title={i === 0 ? "Start of your buddy's itinerary" : i === wayPoints.length - 1 ? "End of your buddy's itinerary" : "Waypoint"}
-              description="You'll pass by here with your buddy"
+              description="Meeting point with your buddy"
             />
           )
         })
@@ -923,8 +939,7 @@ const styles = StyleSheet.create({
   modalText: {
     marginBottom: 5,
     textAlign: "center",
-    fontSize: 20,
-    fontWeight: 'bold'
+    fontSize: 14,
   },
   buttonsContainer: {
     position: 'absolute',
@@ -962,10 +977,7 @@ const styles = StyleSheet.create({
     fontFamily: Platform.select({ ios: 'Georgia', android: 'serif' }),
     marginBottom: 15,
   },
-  // suggestionListContainer: {
-  //   borderRadius: 1,
-  //   backgroundColor: 'rgba(255, 255, 255, 0.4)',
-  // },
+
   resultContainer: {
     backgroundColor: '#ffffff',
     width: '100%',
@@ -1042,7 +1054,8 @@ const styles = StyleSheet.create({
   },
   BtnText: {
     color: '#9E15B8',
-    fontSize: 16,
+    fontSize: 14,
+    color: '#9E15B8',
   },
   emergencyContact: {
     position: 'absolute',
@@ -1053,5 +1066,36 @@ const styles = StyleSheet.create({
     display: 'flex',
     backgroundColor: 'transparent',
     zIndex: 1,
+  },
+  iconMap: {  
+    fontSize: 20,
+  },
+  modalTextTittle: {
+    margin: "2%",
+    textAlign: "center",
+    fontSize: 25,
+    fontWeight: 'bold',
+  },
+  headerModal: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '90%',
+    marginTop: 10,
+  },
+  closeStyle: {
+    color: '#FB8C7C',
+  },
+  modalText: {
+    fontSize: 16,
+    textAlign: 'justify',
+  },
+  flatList: {
+    marginLeft: "3%",
+    width: '90%',
+  },
+  findStyle: {
+    color: '#FB8C7C',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 });
