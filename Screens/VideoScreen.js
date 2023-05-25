@@ -36,11 +36,11 @@ export default function VideoScreen({ navigation }) {
       const { status } = await Camera.requestCameraPermissionsAsync();
       setHasPermission(status === 'granted');
     })();
-    (async () => {
-      const { status } = await Permissions.askAsync(Permissions.AUDIO_RECORDING);
-      setAudioPermission(status === 'granted');
-    }
-    )();
+  //   (async () => {
+  //     const { status } = await Permissions.askAsync(Permissions.AUDIO_RECORDING);
+  //     setAudioPermission(status === 'granted');
+  //   }
+  //   )();
   }, [])
 
   useEffect(() => {

@@ -147,6 +147,22 @@ export default function TakepictureScreen({ navigation }) {
     )
   }
 
+  let instructions;
+
+  if (user.profilePicture) {
+    instructions = (
+      <View style={styles.instructions}>
+         <Text style={styles.textInstructions}>Take a picture of yourself</Text>
+      </View>
+    )
+  } else {
+    instructions = (
+      <View style={styles.instructions}>
+        <Text style={styles.textInstructions}>Take a picture of your ID</Text>
+      </View>
+    )
+  }
+
   return (
     <PaperProvider >
       <Portal>
@@ -163,7 +179,9 @@ export default function TakepictureScreen({ navigation }) {
               <FontAwesome name='flash' size={25} color='#ffffff' />
             </TouchableOpacity>
           </View>
-
+          <View style={styles.textOnScreen}>
+            {instructions}
+            </View>
           <View style={styles.snapButton}>
             <TouchableOpacity onPress={() => cameraRef && takePicture()}>
               <FontAwesome name='circle-thin' size={95} color='pink' />
@@ -238,6 +256,20 @@ const styles = StyleSheet.create({
     fontFamily: 'Inter'
   },
   textModal: {
+    color: '#350040',
+    fontSize: 16,
+    fontFamily: 'Inter',
+  },
+  textOnScreen: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-around",
+    width: "100%",
+    height: 50,
+    marginTop: 100,
+    backgroundColor: "rgba(255, 255, 255, 0.8)",
+  },
+  textInstructions: {
     color: '#350040',
     fontSize: 16,
     fontFamily: 'Inter',
