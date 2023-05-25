@@ -727,7 +727,6 @@ export default function MapScreen({ navigation }) {
         setItinerary({ points: decodedPolyline, distance: distance, duration: duration });
         setBuddyModalVisible(false)
         setInfoModalVisible(false)
-        setItineraryIsSelected(true)
         dispatch(setBuddy(infos.user))
       })
     navigation.navigate('Chat')
