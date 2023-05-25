@@ -25,6 +25,10 @@ export default function HomeScreen({ navigation }) {
   const [step, setStep] = useState('landing');
   const [state2, setState2] = useState(false);
 
+  useEffect(() => {
+    setStep('landing');
+  }, []);
+
   // Get to the connection step
   const handlePressSignin = () => {
     setStep('signin');
@@ -68,47 +72,47 @@ export default function HomeScreen({ navigation }) {
   if (!user.token) {
     landingpage = (
       <View style={styles.landingpage}>
-      <Image source={require('../assets/EllipseHome.png')} style={styles.ellipse} />
-      <Text style={styles.title}>Together Now</Text>
-      <Button style={styles.button} onPress={handlePressSignin} mode="contained">
-        <Text style={styles.textButton}>Sign in</Text>
-      </Button>
-      <Button style={styles.buttonUp} onPress={handlePressSignup} mode="outlined">
-        <Text style={styles.textButtonUp}>Sign up</Text>
-      </Button>
-    </View>
+        <Image source={require('../assets/EllipseHome.png')} style={styles.ellipse} />
+        <Text style={styles.title}>Together Now</Text>
+        <Button style={styles.button} onPress={handlePressSignin} mode="contained">
+          <Text style={styles.textButton}>Sign in</Text>
+        </Button>
+        <Button style={styles.buttonUp} onPress={handlePressSignup} mode="outlined">
+          <Text style={styles.textButtonUp}>Sign up</Text>
+        </Button>
+      </View>
     )
   } else {
     landingpage = (
       <View style={styles.landingpage}>
-      <Image source={require('../assets/EllipseHome.png')} style={styles.ellipse} />
-      <Text style={styles.title}>Together Now</Text>
-      <View style={styles.welcomeBack}>
-      <Text style={styles.welcome}>Welcome back {user.firstname}!</Text>
-      <Button style={styles.button} onPress={()=> handleAccess(user.accessGranted)} mode="contained">
-        <Text style={styles.textButton}>Enter the App</Text>
-      </Button>
-      <Button style={styles.buttonUp} onPress={handleSignout} mode="outlined">
-        <Text style={styles.textButtonUp}>Log out</Text>
-      </Button>
+        <Image source={require('../assets/EllipseHome.png')} style={styles.ellipse} />
+        <Text style={styles.title}>Together Now</Text>
+        <View style={styles.welcomeBack}>
+          <Text style={styles.welcome}>Welcome back {user.firstname}!</Text>
+          <Button style={styles.button} onPress={() => handleAccess(user.accessGranted)} mode="contained">
+            <Text style={styles.textButton}>Enter the App</Text>
+          </Button>
+          <Button style={styles.buttonUp} onPress={handleSignout} mode="outlined">
+            <Text style={styles.textButtonUp}>Log out</Text>
+          </Button>
+        </View>
       </View>
-    </View>
     )
   }
 
   return (
     <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.container}>
       {step === 'landing' && landingpage}
-      <Image source={require('../assets/CityLogo.png')} style={styles.city} /> 
+      <Image source={require('../assets/CityLogo.png')} style={styles.city} />
 
       {step === 'signup1' && <SignUp step={handlePressSignup2} signup2={state2} navigate={handleNavigation} setStep={setStep} />}
-      {step === 'signup2' && <SignUp step={handlePressSignup2} signup2={state2} navigate={handleNavigation}  setStep={setStep}/>}
-      {step === 'signin' && <Signin navigate={handleAccess}  setStep={setStep}/>}
+      {step === 'signup2' && <SignUp step={handlePressSignup2} signup2={state2} navigate={handleNavigation} setStep={setStep} />}
+      {step === 'signin' && <Signin navigate={handleAccess} setStep={setStep} />}
     </KeyboardAvoidingView>
-    
+
   );
 }
-  //merci de ne pas supprimer la ligne 61 ni de la modifier, cela a tout fait sauter
+//merci de ne pas supprimer la ligne 61 ni de la modifier, cela a tout fait sauter
 
 const styles = StyleSheet.create({
   imageBackground: {
