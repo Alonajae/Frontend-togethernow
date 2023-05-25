@@ -1,3 +1,14 @@
+
+
+
+
+
+
+
+
+
+
+
 import React, { useState, useEffect } from 'react';
 import { ScrollView, View, TextInput, StyleSheet, SafeAreaView, Dimensions, Image, Text, TouchableOpacity, FlatList } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
@@ -15,81 +26,101 @@ export default function MapScreen({ navigation }) {
   const backendAdress = 'https://backend-together-mvp.vercel.app';
   const [dataSet, setDataSet] = useState([]);
 
-  const [buddiesList, setBuddiesList] = useState([]);
+  // const [buddiesList, setBuddiesList] = useState(false);
+  // const [choiceBuddy, setChoiceBuddy] = useState(false);
+  // const [identityBuddy, setIdentityBuddy] = useState(false);
+  // const [confirmArrival, setConfirmArrival] = useState(false);
+  // const [confirmationArrival, setConfirmationArrival] = useState(false);
+  // const [chat, setChat] = useState(false);
 
-  let buddiesListModal = (
-    <Modal visible={buddiesList} animationType="slide">
-      <View style={styles.modalView}>
-        <Text style={styles.modalText}>Buddies nearby</Text>
-        <FlatList
-          data={buddiesList}
-          renderItem={({ item }) => (
-            <View>
-              <Text style={styles.modalText}>{item.name}</Text>
-              <Text style={styles.modalText}>{item.coordinate}</Text>
-            </View>
-          )}
-          keyExtractor={item => item._id}
-        />
-        <Button
-          title="Close"
-          onPress={() => { setBuddiesList(false) }}
-        >
-          <Text>Close</Text>
-        </Button>
-      </View>
-    </Modal>
-  )
+  // let choiceBuddyModal = (
+  //   <Modal visible={choiceBuddy} animationType="slide">
+  //     <View style={styles.modalView}>
+  //       <Text style={styles.modalText}>Do you want to be with a buddy ?</Text>
+        
+  //       <TouchableOpacity
+  //         title="Yes"
+  //         onPress={() => { setChoiceBuddy(false); setIdentityBuddy(true) }}
+  //       > Yes </TouchableOpacity>
 
-  const [choiceBuddy, setChoiceBuddy] = useState(false);
+  //       <TouchableOpacity
+  //         title="No"
+  //         onPress={() => { setChoiceBuddy(false); setConfirmArrival(true) }}
+  //       > No </TouchableOpacity>
+  //     </View>
+  //   </Modal>
+  // )
+  
+  // let buddiesListModal = (
+  //   <Modal visible={buddiesList} animationType="slide">
+  //     <View style={styles.modalView}>
+  //       <Text style={styles.modalText}>Buddies nearby</Text>
+  //       <FlatList
+  //         data={buddiesList}
+  //         renderItem={({ item }) => (
+  //           <TouchableOpacity>
+  //             <Text style={styles.modalText}>{item.firstname}</Text>
+  //             <Text style={styles.modalText}>{item.coordinate}</Text>
+  //           </TouchableOpacity>
+  //         )}
+  //         keyExtractor={item => item._id}
+  //         onPress={() => { setBuddiesList(false); setChoiceBuddy(true) }}
+  //       />
+  //       <TouchableOpacity
+  //         title="Close"
+  //         onPress={() => { setBuddiesList(false) }}
+  //       >
+  //         <Text>Close</Text>
+  //         </TouchableOpacity>
+  //     </View>
+  //   </Modal>
+  // )
 
-  let choiceBuddyModal = (
-    <Modal visible={choiceBuddy} animationType="slide">
-      <View style={styles.modalView}>
-        <Text style={styles.modalText}> Are you with {user.firstname} ?</Text>
-        <Button
-          title="Yes"
-          onPress={() => setChoiceBuddy(false)}
-        > Yes </Button>
-        <Button
-          title="No"
-          onPress={() => setChoiceBuddy(false)}
-        > No </Button>
-      </View>
-    </Modal>
-  )
+  //  let identityBuddyModal = (
+  //   <Modal visible={choiceBuddy} animationType="slide">
+  //     <View style={styles.modalView}>
+  //       <Text style={styles.modalText}> Are you with {user.firstname} ?</Text>
+  //       <TouchableOpacity
+  //         title="Yes"
+  //         onPress={() => setIdentityBuddy(false)}
+  //       > Yes </TouchableOpacity>
+       
+  //       <TouchableOpacity
+  //         title="No"
+  //         onPress={() => setIdentityBuddy(false)}
+  //       > No </TouchableOpacity>
+      
+  //     </View>
+  //   </Modal>
+  // )
 
-  const [confirmArrival, setConfirmArrival] = useState(false);
+  // let ConfirmArrivalModal = (
+  //   <Modal visible={confirmArrival} animationType="slide">
+  //     <View style={styles.modalView}>
+  //       <Text style={styles.modalText}>Did you arrive safely to your destination ?</Text>
+  //       <TouchableOpacity
+  //         title="Confirm"
+  //         onPress={() => setConfirmArrival(false)}
+  //       > Yes </TouchableOpacity>
+  //       <TouchableOpacity
+  //         title="No"
+  //         onPress={() => setConfirmArrival(false)}
+  //       > No </TouchableOpacity>
+  //     </View>
+  //   </Modal>
+  // )
 
-  let ConfirmArrivalModal = (
-    <Modal visible={confirmArrival} animationType="slide">
-      <View style={styles.modalView}>
-        <Text style={styles.modalText}>Did you arrive safely to your destination ?</Text>
-        <Button
-          title="Confirm"
-          onPress={() => setConfirmArrival(false)}
-        > Yes </Button>
-        <Button
-          title="No"
-          onPress={() => setConfirmArrival(false)}
-        > No </Button>
-      </View>
-    </Modal>
-  )
-
-  const [confirmationArrival, setConfirmationArrival] = useState(false);
-
-  let ConfirmationArrivalModal = (
-    <Modal visible={confirmationArrival} animationType="slide">
-      <View style={styles.modalView}>
-        <Text style={styles.modalText}>Your buddy arrived safely to his destination</Text>
-        <Button
-          title="Close"
-          onPress={() => setConfirmationArrival(false)}
-        > Close </Button>
-      </View>
-    </Modal>
-  )
+  // let ConfirmationArrivalModal = (
+  //   <Modal visible={confirmationArrival} animationType="slide">
+  //     <View style={styles.modalView}>
+  //       <Text style={styles.modalText}>Your buddy arrived safely to his destination</Text>
+  //       <TouchableOpacity
+  //         title="Close"
+  //         onPress={() => setConfirmationArrival(false)}
+  //       > Close </TouchableOpacity>
+  //     </View>
+  //   </Modal>
+  // )
 
 
 // // display the modals for alerts, safe places and buddies
@@ -601,6 +632,7 @@ export default function MapScreen({ navigation }) {
           title="Alerts"
           style={styles.alerts}
           onPress={() => { setInfoModalVisible(true); setAlertsIsSelected(true) }}
+          Image={require('../assets/alert.png')}
         >
           <Text>Alerts</Text>
         </Button>
@@ -609,6 +641,7 @@ export default function MapScreen({ navigation }) {
           title="Safe places"
           style={styles.safeplaces}
           onPress={() => { setInfoModalVisible(true); setSafePlacesIsSelected(true) }}
+          Image={require('../assets/safeplace.png')}
         >
           <Text> Safe Places </Text>
         </Button>
@@ -698,6 +731,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   modalView: {
+    fontFamily: 'inter',
+    fontSize: 20,
+    fontWeight: 'regular',
     backgroundColor: "white",
     borderRadius: 20,
     padding: 35,
@@ -717,7 +753,8 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     textAlign: "center",
     fontSize: 20,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    fontFamily: 'inter',
   },
   buttonsContainer: {
     display: 'flex',
