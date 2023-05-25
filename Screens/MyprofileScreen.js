@@ -256,7 +256,7 @@ export default function MyProfileScreen({ navigation }) {
               <Text style={styles.textBtn}>Edit</Text>
             </Button>
             <Button style={styles.signoutBtn}>
-              <Text style={styles.textBtn} onPress={handleMessage}>Sign Out</Text>
+              <Text style={styles.textBtn} onPress={handleMessage}>Sign out</Text>
             </Button>
           </View>
         </View>
@@ -295,14 +295,17 @@ const styles = StyleSheet.create({
     marginTop: 0,
     width: "90%",
   },
-
   backBtn: {
     width: 100,
     height: 40,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#FB8C7C",
+    backgroundColor: "white",
+    borderColor: '#9E15B8',
     borderRadius: 50,
+    position: "absolute",
+    top: 60,
+    left: 20,
   },
   validateBtn: {
     width: 100,
@@ -331,14 +334,9 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   textBackBtn: {
-    color: '#9E15B8',
+    color: "#FB8C7C",
     fontSize: 16,
     fontFamily: "Inter",
-  },
-  backMapBtn: {
-    position: "absolute",
-    top: 60,
-    left: 20,
   },
   headerInfo: {
     flexDirection: "row",
@@ -411,8 +409,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 50,
     borderColor: '#9E15B8',
-    width: 120,
-    height: 48,
+    width: 100,
+    height: 45,
     marginTop: 30,
   },
   editBtn: {
@@ -421,12 +419,12 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 50,
     borderColor: '#9E15B8',
-    width: 120,
-    height: 48,
+    width: 100,
+    height: 45,
     marginTop: 30,
   },
   textBtn: {
-    fontSize: 16,
+    fontSize: 14,
     fontFamily: 'Inter',
     fontWeight: '600',
     fontcolor: '#9E15B8',
@@ -438,4 +436,4 @@ const styles = StyleSheet.create({
   },
 });
 
-//com test
+//com test "#FB8C7C"
