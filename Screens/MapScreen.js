@@ -194,9 +194,7 @@ export default function MapScreen({ navigation }) {
       })
   };
 
-
-
-  // create markers for cities
+ // create markers for cities
 
   const [mapRef, setMapRef] = useState(null);
 
@@ -815,6 +813,7 @@ export default function MapScreen({ navigation }) {
           title="Safe places"
           style={styles.safeplaces}
           onPress={() => { setInfoModalVisible(true); setSafePlacesIsSelected(true) }}
+          
         >
           <Text style={styles.BtnText}>Safe Places</Text>
         </Button>
