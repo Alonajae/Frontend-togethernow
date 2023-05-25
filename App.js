@@ -13,6 +13,10 @@ import { persistStore, persistReducer } from 'redux-persist';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 
+import { LogBox } from 'react-native';
+LogBox.ignoreAllLogs(true);
+// LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
+
 import user from './reducers/user';
 import map from './reducers/map';
 
