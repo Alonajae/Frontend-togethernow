@@ -488,72 +488,70 @@ export default function MapScreen({ navigation }) {
 
   let styleModal;
   if (alertModalVisible || buddyModalVisible) {
-    styleModal = {
-      position: "absolute",
-      bottom: 0,
-      backgroundColor: "transparent",
+    styleModal =
+    {
+      position: 'absolute',
+      top: 250,
+      height: '30%',
+      width: '100%',
+      backgroundColor: 'transparent',
       zIndex: 1,
-    };
-  } else if (
-    buddiesIsSelected ||
-    alertsIsSelected ||
-    safePlacesIsSelected ||
-    itineraryIsSelected
-  ) {
-    styleModal = {
-      position: "absolute",
+    }
+  } else if (buddiesIsSelected || alertsIsSelected || safePlacesIsSelected || itineraryIsSelected) {
+    styleModal =
+    {
+      position: 'absolute',
       bottom: 0,
-      height: "40%",
-      width: "100%",
-      backgroundColor: "transparent",
+      height: '40%',
+      width: '100%',
+      backgroundColor: 'transparent',
       zIndex: 1,
-    };
+    }
   } else {
-    styleModal = {
-      backgroundColor: "transparent",
+    styleModal =
+    {
+      height: '0%',
+      width: '0%',
+      backgroundColor: 'transparent',
       zIndex: -1,
-    };
+    }
   }
 
   const modalAlert = (
-    <Modal visible={alertModalVisible} animationType="slide" transparent={true}>
+    <Modal visible={alertModalVisible} animationType="slide">
       <View style={styles.modalView}>
         <Text style={styles.modalText}>Create an alert</Text>
         <TextInput
           style={styles.inputName}
-          onChangeText={(text) =>
-            setNewAlertInfos({ ...newAlertInfos, name: text })
-          }
+          onChangeText={(text) => setNewAlertInfos({ ...newAlertInfos, name: text })}
           value={newAlertInfos.name}
-          label="Name"
+          label='Name'
           mode="outlined"
         />
         <TextInput
           style={styles.inputDescription}
-          onChangeText={(text) =>
-            setNewAlertInfos({ ...newAlertInfos, description: text })
-          }
+          onChangeText={(text) => setNewAlertInfos({ ...newAlertInfos, description: text })}
           value={newAlertInfos.description}
-          label="Description"
+          label='Description'
           mode="outlined"
         />
         <Text style={styles.modalText}>{error}</Text>
-        <Button title="Create" onPress={handleCreateAlert}>
-          {" "}
-          Create{" "}
-        </Button>
-        <Button title="Cancel" onPress={handleCancelAlert}>
-          {" "}
-          Cancel{" "}
-        </Button>
-      </View>
-    </Modal>
-  );
+        <Button
+          title="Create"
+          onPress={handleCreateAlert}
+
+    > Create </Button>
+    <Button
+      title="Cancel"
+      onPress={handleCancelAlert}
+    > Cancel </Button>
+  </View>
+</Modal>
+  )
 
   const travelProfile = () => {
-    navigation.navigate("MyProfile");
-  };
-
+    navigation.navigate('MyProfile');
+  }
   // create a modal to display the infos of alerts, safe places and buddies
 
   let infoModal;
@@ -639,20 +637,6 @@ export default function MapScreen({ navigation }) {
         <View style={styles.modalView}>
           <View style={styles.headerModal}>
             <Text style={styles.modalTextTittle}>Alerts</Text>
-            <View style={styles.newAlert}>
-              <Button
-                title="Create"
-                onPress={handleCreateAlert}
-                mode="contained"
-                style={{
-                  backgroundColor: "#9E15B8",
-                  alignContent: "center",
-                  height: 40,
-                  marginRight: 10,
-                }}
-              >
-                Create alert
-              </Button>
               <Button
                 title="Close"
                 onPress={() => {
@@ -668,7 +652,6 @@ export default function MapScreen({ navigation }) {
               >
                 <Text style={styles.closeStyle}>Close</Text>
               </Button>
-            </View>
           </View>
           <FlatList
             style={styles.flatList}
