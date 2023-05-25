@@ -141,7 +141,7 @@ export default function MyProfileScreen({ navigation }) {
     <PaperProvider>
       <Portal>
         <View style={styles.container}>
-          <Button style={styles.backMapBtn} onPress={handleBackToMap}>
+          <Button style={styles.backBtn} onPress={handleBackToMap}>
             <Text style={styles.textBackBtn}>Back</Text>
           </Button>
           <Text style={styles.title}>My Profile</Text>
@@ -251,12 +251,12 @@ export default function MyProfileScreen({ navigation }) {
             </View>
           </View>
           {modal}
-          <View style={styles.btnEditHistory}>
+          <View style={styles.Btn}>
             <Button style={styles.editBtn} onPress={handleEdit}>
-              <Text style={styles.textBackBtn}>Edit</Text>
+              <Text style={styles.textBtn}>Edit</Text>
             </Button>
-            <Button style={styles.historyBtn}>
-              <Text style={styles.textBackBtn} onPress={handleMessage}>Sign Out</Text>
+            <Button style={styles.signoutBtn}>
+              <Text style={styles.textBtn} onPress={handleMessage}>Sign Out</Text>
             </Button>
           </View>
         </View>
@@ -297,6 +297,7 @@ const styles = StyleSheet.create({
   },
 
   backBtn: {
+    flex : flex-start,
     width: 100,
     height: 40,
     alignItems: "center",
@@ -331,22 +332,15 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   textBackBtn: {
-    color: "black",
+    color: '#9E15B8',
     fontSize: 16,
     fontFamily: "Inter",
-    textDecorationLine: "underline",
   },
-  backMapBtn: {
-    position: "absolute",
-    top: 60,
-    left: 20,
-  },
-  btnEditHistory: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    width: "100%",
-    marginTop: 20,
-  },
+  // backMapBtn: {
+  //   position: "absolute",
+  //   top: 60,
+  //   left: 20,
+  // },
   headerInfo: {
     flexDirection: "row",
     justifyContent: "space-around",
@@ -411,6 +405,37 @@ const styles = StyleSheet.create({
     bottom: 0,
     borderRadius: "100%",
     backgroundColor: "#FFD5FF",
+  },
+  signoutBtn: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 1,
+    borderRadius: 50,
+    borderColor: '#9E15B8',
+    width: 120,
+    height: 48,
+    marginTop: 30,
+  },
+  editBtn: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 1,
+    borderRadius: 50,
+    borderColor: '#9E15B8',
+    width: 120,
+    height: 48,
+    marginTop: 30,
+  },
+  textBtn: {
+    fontSize: 16,
+    fontFamily: 'Inter',
+    fontWeight: '600',
+    fontcolor: '#9E15B8',
+  },
+  Btn: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '80%',
   },
 });
 
