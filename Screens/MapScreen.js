@@ -382,7 +382,7 @@ export default function MapScreen({ navigation }) {
   });
 
   const alertsMarkers = alerts?.map((alert, i) => {
-    const description = alert.description + " " + alert.date;
+    const description = `${alert.date} - ${alert.description}`;
     return (
       <Marker
         key={i}
@@ -659,7 +659,7 @@ export default function MapScreen({ navigation }) {
             data={alerts}
             renderItem={({ item }) => (
               <View>
-                <Text style={styles.modalText}>{item.name}</Text>
+                <Text style={styles.modalText}>{item.type}</Text>
                 <Text style={styles.modalText}>{item.description}</Text>
               </View>
             )}
