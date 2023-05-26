@@ -1118,3 +1118,29 @@ const styles = StyleSheet.create({
     marginTop: "5%",
   },
 });
+
+  // Socket.io
+  // const [socket, setSocket] = useState(null);
+
+  // useEffect(() => {
+  //   // Establish the socket connection
+  //   const socket = io(backendAdress); // Update with your Vercel deployment URL
+  //   setSocket(socket);
+
+  //   // Clean up the socket connection on component unmount
+  //   return () => {
+  //     socket.disconnect();
+  //   };
+  // }, []);
+
+  // useEffect(() => {
+  //   if (socket) {
+  //     // Listen for 'itinerary' events
+  //     socket.on('itinerary', (data) => {
+  //       // Handle received itinerary data
+  //       console.log('Received shared itinerary:', data);
+
+  //       // Update the list of itineraries
+  //       setItineraries((prevItineraries) => [...prevItineraries, data]);
+  //     });
+  //   }

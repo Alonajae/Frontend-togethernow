@@ -74,32 +74,6 @@ export default function MapScreen({ navigation }) {
   // const backendAdress = 'http://192.168.10.142:4000';
   const [dataSet, setDataSet] = useState([]);
 
-  // Socket.io
-  // const [socket, setSocket] = useState(null);
-
-  // useEffect(() => {
-  //   // Establish the socket connection
-  //   const socket = io(backendAdress); // Update with your Vercel deployment URL
-  //   setSocket(socket);
-
-  //   // Clean up the socket connection on component unmount
-  //   return () => {
-  //     socket.disconnect();
-  //   };
-  // }, []);
-
-  // useEffect(() => {
-  //   if (socket) {
-  //     // Listen for 'itinerary' events
-  //     socket.on('itinerary', (data) => {
-  //       // Handle received itinerary data
-  //       console.log('Received shared itinerary:', data);
-
-  //       // Update the list of itineraries
-  //       setItineraries((prevItineraries) => [...prevItineraries, data]);
-  //     });
-  //   }
-
   // get the current position of the user and send it to the backend
   useEffect(() => {
     (async () => {
@@ -182,10 +156,6 @@ export default function MapScreen({ navigation }) {
   };
 
   const handleItinerarySubmit = (itinerary) => {
-    // // Emit the itinerary data to the server
-    // socket.emit('itinerary', itinerary);
-    // console.log('itinerary sent');
-    // console.log(itinerary);
 
     fetch(`${backendAdress}/trips/findBuddy`, {
       method: "POST",
@@ -200,7 +170,6 @@ export default function MapScreen({ navigation }) {
         } else {
           setItineraries(data.buddies);
           setBuddyModalVisible(true);
-          console.log(data.buddies);
         }
       });
   };
