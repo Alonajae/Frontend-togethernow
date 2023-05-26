@@ -164,7 +164,7 @@ function MapScreen({ navigation }) {
     fetch(`https://api-adresse.data.gouv.fr/search/?q=${formattedPlace}`)
       .then((response) => response.json())
       .then(({ features }) => {
-        const suggestions = features.map((data, i) => {
+        const suggestions = features?.map((data, i) => {
           if (data.properties.context.length > 40) {
             data.properties.context =
               data.properties.context.slice(0, 40) + "...";
@@ -237,7 +237,7 @@ function MapScreen({ navigation }) {
     setDataSet([]); // Clear the dataset to close the autocomplete dropdown
   };
 
-  const cities = dataSet.map((data, i) => {
+  const cities = dataSet?.map((data, i) => {
     return (
       <TouchableOpacity key={i} onPress={() => handleAddSearchMarker(data)}>
         <View style={styles.resultContainer}>
@@ -340,7 +340,7 @@ function MapScreen({ navigation }) {
 
   // create markers for buddies, safe places and alerts
 
-  const buddiesMarkers = buddies.map((buddy, i) => {
+  const buddiesMarkers = buddies?.map((buddy, i) => {
     if (
       buddy.currentLocation.latitude === 0 &&
       buddy.currentLocation.longitude === 0
@@ -381,7 +381,7 @@ function MapScreen({ navigation }) {
     );
   });
 
-  const alertsMarkers = alerts.map((alert, i) => {
+  const alertsMarkers = alerts?.map((alert, i) => {
     return (
       <Marker
         key={i}
@@ -394,7 +394,7 @@ function MapScreen({ navigation }) {
     );
   });
 
-  const safePlacesMarkers = safePlaces.map((safePlace, i) => {
+  const safePlacesMarkers = safePlaces?.map((safePlace, i) => {
     return (
       <Marker
         key={i}
@@ -782,7 +782,7 @@ function MapScreen({ navigation }) {
 
   // ...
   const handleContact = (infos) => {
-    const buddyPolyline = infos.user.itinerary.map((point) => {
+    const buddyPolyline = infos.user.itinerary?.map((point) => {
       const formatted = point.split(",");
       return {
         latitude: parseFloat(formatted[0]),
