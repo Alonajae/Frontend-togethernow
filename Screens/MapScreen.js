@@ -70,8 +70,8 @@ export default function MapScreen({ navigation }) {
     },
   });
 
-  // const backendAdress = "https://backend-together-mvp.vercel.app";
-  const backendAdress = 'http://192.168.10.142:4000';
+  const backendAdress = "https://backend-together-mvp.vercel.app";
+  // const backendAdress = 'http://192.168.10.142:4000';
   const [dataSet, setDataSet] = useState([]);
 
   // Socket.io

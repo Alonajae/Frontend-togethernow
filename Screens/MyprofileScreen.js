@@ -21,8 +21,8 @@ import { logout } from "../reducers/user";
 
 export default function MyProfileScreen({ navigation }) {
 
-  // const backendAdress = "https://backend-together-mvp.vercel.app";
-  const backendAdress = 'http://192.168.10.142:4000';
+  const backendAdress = "https://backend-together-mvp.vercel.app";
+  // const backendAdress = 'http://192.168.10.142:4000';
 
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.value);
@@ -87,10 +87,10 @@ export default function MyProfileScreen({ navigation }) {
   };
 
   const handleBackToMap = () => {
-    if(user.accessGranted){
+    if (user.accessGranted) {
       navigation.navigate("Map");
     } else {
-    navigation.navigate("Video");
+      navigation.navigate("Video");
     }
   };
 
@@ -146,10 +146,10 @@ export default function MyProfileScreen({ navigation }) {
       <Portal>
         <View style={styles.container}>
           <Button
-          title="Back"
-          mode="outlined" 
-          style={styles.backBtn} 
-          onPress={handleBackToMap}>
+            title="Back"
+            mode="outlined"
+            style={styles.backBtn}
+            onPress={handleBackToMap}>
             <Text style={styles.textBackBtn}>Back</Text>
           </Button>
           <Text style={styles.title}>My Profile</Text>
