@@ -17,8 +17,6 @@ export default function MapScreen({ navigation }) {
   const user = useSelector((state) => state.user.value);
   const buddy = useSelector((state) => state.map.value.buddy);
 
-  console.log('buddy', buddy);
-
   const dispatch = useDispatch();
 
   // state for the current position
