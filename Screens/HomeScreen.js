@@ -42,7 +42,7 @@ export default function HomeScreen({ navigation }) {
   // Get to the first step of the registration
   const handlePressSignup = () => {
     setStep('signup1');
-    dispatch(clean());
+    dispatch(logout());
   };
 
   // Get to the second step of the registration
