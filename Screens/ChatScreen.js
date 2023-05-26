@@ -198,11 +198,10 @@ const styles = StyleSheet.create({
   },
   styleBtn: {
     width: 100,
-    height: 40,
     borderWidth: 1,
     borderColor: "#350040",
     borderRadius: 8,
-    height: "45%",
+    height: "60%",
     marginRight: "7%",
     alignItems: "center",
     justifyContent: "center",
