@@ -20,6 +20,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../reducers/user";
 
 export default function MyProfileScreen({ navigation }) {
+
+  // const backendAdress = "https://backend-together-mvp.vercel.app";
+  const backendAdress = 'http://192.168.10.142:4000';
+
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.value);
   const containerStyle = {
@@ -59,7 +63,7 @@ export default function MyProfileScreen({ navigation }) {
 
   const toggleSwitch = () => {
     setSharePositions((previousState) => !previousState);
-    fetch("https://backend-together-mvp.vercel.app/users/visibleOnMap", {
+    fetch(`${backendAdress}/users/visibleOnMap`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

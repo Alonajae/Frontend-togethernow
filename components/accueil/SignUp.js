@@ -15,6 +15,9 @@ import { registerStep1, registerStep2 } from "../../reducers/user";
 export default function SignUp(props) {
   const dispatch = useDispatch();
 
+  const backendAdress = 'http://192.168.10.142:4000';
+  // const backendAdress = "https://backend-together-mvp.vercel.app";
+
   const [signUpEmail, setsignUpEmail] = useState("");
   const [signUpPassword, setSignUpPassword] = useState("");
   const [passwordShown, setPasswordShown] = useState(false);
@@ -41,7 +44,7 @@ export default function SignUp(props) {
       return;
     }
 
-    fetch("https://backend-together-mvp.vercel.app/verify", {
+    fetch(`${backendAdress}/verify`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

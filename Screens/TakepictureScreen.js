@@ -11,7 +11,8 @@ import { Modal, PaperProvider, Button, Text, Portal } from 'react-native-paper';
 
 export default function TakepictureScreen({ navigation }) {
 
-  const backendAdress = 'https://backend-together-mvp.vercel.app';
+  const backendAdress = 'http://192.168.10.142:4000';
+  // const backendAdress = "https://backend-together-mvp.vercel.app";
 
   const user = useSelector((state) => state.user.value);
 
