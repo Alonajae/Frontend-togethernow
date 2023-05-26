@@ -382,12 +382,13 @@ export default function MapScreen({ navigation }) {
   });
 
   const alertsMarkers = alerts?.map((alert, i) => {
+    const description = alert.description + " " + alert.date;
     return (
       <Marker
         key={i}
         coordinate={alert.coordinate}
         title={alert.type}
-        description={alert.description}
+        description={description}
       >
         <Text style={styles.iconMap}>🚨</Text>
       </Marker>
@@ -540,13 +541,13 @@ export default function MapScreen({ navigation }) {
           title="Create"
           onPress={handleCreateAlert}
 
-    > Create </Button>
-    <Button
-      title="Cancel"
-      onPress={handleCancelAlert}
-    > Cancel </Button>
-  </View>
-</Modal>
+        > Create </Button>
+        <Button
+          title="Cancel"
+          onPress={handleCancelAlert}
+        > Cancel </Button>
+      </View>
+    </Modal>
   )
 
   const travelProfile = () => {
@@ -608,7 +609,7 @@ export default function MapScreen({ navigation }) {
                 setSafePlacesIsSelected(false);
               }}
               mode="contained"
-              style={{ backgroundColor: "#FB8C7C", alignContent: "center",}}
+              style={{ backgroundColor: "#FB8C7C", alignContent: "center", }}
             >
               <Text style={styles.closeStyle}>Close</Text>
             </Button>
@@ -637,21 +638,21 @@ export default function MapScreen({ navigation }) {
         <View style={styles.modalView}>
           <View style={styles.headerModal}>
             <Text style={styles.modalTextTittle}>Alerts</Text>
-              <Button
-                title="Close"
-                onPress={() => {
-                  setInfoModalVisible(false);
-                  setAlertsIsSelected(false);
-                }}
-                mode="contained"
-                style={{
-                  backgroundColor: "#FB8C7C",
-                  alignContent: "center",
-                  height: 40,
-                }}
-              >
-                <Text style={styles.closeStyle}>Close</Text>
-              </Button>
+            <Button
+              title="Close"
+              onPress={() => {
+                setInfoModalVisible(false);
+                setAlertsIsSelected(false);
+              }}
+              mode="contained"
+              style={{
+                backgroundColor: "#FB8C7C",
+                alignContent: "center",
+                height: 40,
+              }}
+            >
+              <Text style={styles.closeStyle}>Close</Text>
+            </Button>
           </View>
           <FlatList
             style={styles.flatList}
@@ -692,8 +693,9 @@ export default function MapScreen({ navigation }) {
                 setItineraryIsSelected(false);
               }}
               mode="contained"
-              style={{ backgroundColor: "#FB8C7C", alignContent: "center",
-            }}
+              style={{
+                backgroundColor: "#FB8C7C", alignContent: "center",
+              }}
             >
               <Text style={styles.closeStyle}>Close</Text>
             </Button>
@@ -701,8 +703,9 @@ export default function MapScreen({ navigation }) {
               title="Track"
               onPress={() => handleItinerarySubmit(itinerary)}
               mode="contained"
-              style={{ backgroundColor: "#9E15B8", alignContent: "center",
-            }}
+              style={{
+                backgroundColor: "#9E15B8", alignContent: "center",
+              }}
             >
               <Text style={styles.findStyle}>Find a Buddy</Text>
             </Button>
@@ -759,8 +762,9 @@ export default function MapScreen({ navigation }) {
               setBuddyModalVisible(false);
             }}
             mode="contained"
-            style={{ backgroundColor: "#FB8C7C", alignContent: "center",
-          }}
+            style={{
+              backgroundColor: "#FB8C7C", alignContent: "center",
+            }}
           >
             <Text>Close</Text>
           </Button>
@@ -890,8 +894,8 @@ export default function MapScreen({ navigation }) {
                   i === 0
                     ? "Start of your buddy's itinerary"
                     : i === wayPoints.length - 1
-                    ? "End of your buddy's itinerary"
-                    : "Waypoint"
+                      ? "End of your buddy's itinerary"
+                      : "Waypoint"
                 }
                 description="Meeting point with your buddy"
               />
