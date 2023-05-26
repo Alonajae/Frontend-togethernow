@@ -20,7 +20,7 @@ import { Svg, Circle } from "react-native-svg";
 import { setBuddy } from "../reducers/map";
 // import io from 'socket.io-client';
 
-export default function MapScreen({ navigation }) {
+function MapScreen({ navigation }) {
   const token = useSelector((state) => state.user.value.token);
   const user = useSelector((state) => state.user.value);
   const buddy = useSelector((state) => state.map.value.buddy);
