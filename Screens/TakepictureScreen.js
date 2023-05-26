@@ -14,6 +14,9 @@ export default function TakepictureScreen({ navigation }) {
   const backendAdress = 'https://backend-together-mvp.vercel.app';
 
   const user = useSelector((state) => state.user.value);
+
+  console.log(user)
+
   // camera states
   const [hasPermission, setHasPermission] = useState(null)
   const [type, setType] = useState(CameraType.back);
