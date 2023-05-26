@@ -119,7 +119,6 @@ export default function VideoScreen({ navigation }) {
       </Text>
       <View style={styles.modalBtn}>
         <Button onPress={handleNo} style={styles.noBtn}>
-          {" "}
           <Text style={styles.textBtn}>Later</Text>
         </Button>
         <Button
