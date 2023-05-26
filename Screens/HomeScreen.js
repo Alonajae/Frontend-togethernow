@@ -14,7 +14,7 @@ import Signin from '../components/accueil/Signin';
 import SignUp from '../components/accueil/SignUp';
 import { Button } from 'react-native-paper';
 import { useSelector, useDispatch } from 'react-redux';
-import { logout, clean } from '../reducers/user';
+import { logout, clean2 } from '../reducers/user';
 import { cleanMap } from '../reducers/map';
 
 export default function HomeScreen({ navigation }) {
@@ -29,7 +29,7 @@ export default function HomeScreen({ navigation }) {
   useEffect(() => {
     setStep('landing');
     if (!user.token) {
-      dispatch(logout());
+      dispatch(clean2());
     }
     dispatch(cleanMap());
   }, []);
