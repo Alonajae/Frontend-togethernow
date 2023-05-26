@@ -197,7 +197,8 @@ const styles = StyleSheet.create({
     marginTop: 50,
   },
   styleBtn: {
-    width: "18%",
+    width: 100,
+    height: 40,
     borderWidth: 1,
     borderColor: "#350040",
     borderRadius: 8,
