@@ -137,24 +137,29 @@ export default function VideoScreen({ navigation }) {
   // if the user took a video and want to leave the app waiting for the admin to validate his identity
 
   const handleLogOut = () => {
-    fetch(`${backendAdress}/users/grantAccess`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        token: user.token,
-        validationVideo: user.validationVideo,
-      }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("data", data);
-        if (data.result) {
-          dispatch(logout());
-          navigation.navigate("Home");
-        } else {
-          alert(data.error);
-        }
-      });
+    if (!user.validationVideo) {
+      dispatch(logout());
+      navigation.navigate("Home");
+    } else {
+      fetch(`${backendAdress}/users/grantAccess`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          token: user.token,
+          validationVideo: user.validationVideo,
+        }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("data", data);
+          if (data.result) {
+            dispatch(logout());
+            navigation.navigate("Home");
+          } else {
+            alert(data.error);
+          }
+        });
+    }
   };
 
   // if the user took a video and want to go to the profile
@@ -172,7 +177,6 @@ export default function VideoScreen({ navigation }) {
       .then((data) => {
         console.log("data", data);
         if (data.result) {
-          dispatch(clean());
           navigation.navigate("MyProfile");
         } else {
           alert(data.error);
