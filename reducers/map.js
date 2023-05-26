@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
     value: {
-        buddy: null,
+        buddy: {},
         address: null,
         polyline: [],
         waypoints: [],
@@ -24,9 +24,17 @@ export const mapSlice = createSlice({
         },
         setAddress: (state, action) => {
             state.value.address = action.payload;
+        },
+        cleanMap: (state) => {
+            state.value = {
+                buddy: {},
+                address: null,
+                polyline: [],
+                waypoints: [],
+            };
         }
     },
 });
 
-export const { setBuddy, setAddress, setPolyline, setWaypoints } = mapSlice.actions;
+export const { setBuddy, setAddress, setPolyline, setWaypoints, cleanMap } = mapSlice.actions;
 export default mapSlice.reducer;

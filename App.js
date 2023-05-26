@@ -38,7 +38,7 @@ const reducers = combineReducers({
 const store = configureStore({
   reducer: persistReducer(persistConfig, reducers),
   middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false }),
-  blacklist: ['user'],
+  blacklist: ['user','map'],
 });
 
 const persistor = persistStore(store);
