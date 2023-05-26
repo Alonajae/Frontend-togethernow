@@ -77,8 +77,13 @@ export const userSlice = createSlice({
       state.value.photoId = null;
       state.value.password = null;
     },
+    clean2: (state) => { 
+      state.value.validationVideo = null;
+      state.value.photoId = null;
+      state.value.profilePicture = null;
+    }
   },
 });
 
-export const { login, registerStep1, registerStep2, registerStep3, registerStep4, registerStep5, logout, clean } = userSlice.actions;
+export const { login, registerStep1, registerStep2, registerStep3, registerStep4, registerStep5, logout, clean, clean2 } = userSlice.actions;
 export default userSlice.reducer;
