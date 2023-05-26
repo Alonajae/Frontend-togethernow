@@ -787,6 +787,7 @@ export default function MapScreen({ navigation }) {
 
   // ...
   const handleContact = (infos) => {
+    console.log("infos", infos.waypoints);
     const buddyPolyline = infos.user.itinerary?.map((point) => {
       const formatted = point.split(",");
       return {
