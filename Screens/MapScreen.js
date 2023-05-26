@@ -742,7 +742,7 @@ export default function MapScreen({ navigation }) {
                   </View>
                   <Text
                     onPress={() => {
-                      navigation.navigate("Chat");
+                      handleContact(infos);
                     }}
                     style={styles.textMessage}
                   >
