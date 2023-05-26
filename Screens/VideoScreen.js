@@ -12,6 +12,8 @@ import { Modal, PaperProvider, Button, Text, Portal } from "react-native-paper";
 export default function VideoScreen({ navigation }) {
 
   const backendAdress = "https://backend-together-mvp.vercel.app";
+  // const backendAdress = 'http://192.168.10.142:4000';
+
   const dispatch = useDispatch();
   const formData = new FormData();
   const user = useSelector((state) => state.user.value);
@@ -119,7 +121,6 @@ export default function VideoScreen({ navigation }) {
       </Text>
       <View style={styles.modalBtn}>
         <Button onPress={handleNo} style={styles.noBtn}>
-          {" "}
           <Text style={styles.textBtn}>Later</Text>
         </Button>
         <Button

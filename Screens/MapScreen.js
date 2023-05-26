@@ -71,6 +71,7 @@ export default function MapScreen({ navigation }) {
   });
 
   const backendAdress = "https://backend-together-mvp.vercel.app";
+  // const backendAdress = 'http://192.168.10.142:4000';
   const [dataSet, setDataSet] = useState([]);
 
   // Socket.io
@@ -741,7 +742,7 @@ export default function MapScreen({ navigation }) {
                   </View>
                   <Text
                     onPress={() => {
-                      navigation.navigate("Chat");
+                      handleContact(infos);
                     }}
                     style={styles.textMessage}
                   >
